@@ -8,10 +8,10 @@
         <name>all_realestates</name>
         <uri>all_realestates</uri>
     </function> -->
-    <!-- <function>
+    <function>
         <name>details_realestate</name>
         <uri>details_realestate</uri>
-    </function> -->
+    </function>
     <!-- <function>
         <name>load_filters</name>
         <uri>load_filters</uri>
