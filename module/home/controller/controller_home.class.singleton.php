@@ -34,16 +34,16 @@
             echo json_encode(common::load_model('home_model', 'get_carouselCity'));
         }
 
-        // function carouselRecomendations() {
-        //     echo json_encode(common::load_model('home_model', 'get_carouselRecomendations'));
-        // }
+        function carouselLastsearch() {
+            echo json_encode(common::load_model('home_model', 'get_carouselLastsearch', $_POST['filters']));
+        }
 
         // function carouselMostvisited() {
         //     echo json_encode(common::load_model('home_model', 'get_carouselMostvisited'));
         // }
 
-        // function carouselLastsearch() {
-        //     echo json_encode(common::load_model('home_model', 'get_carouselLastsearch', $_POST['filters']));
+        // function carouselRecomendations() {
+        //     echo json_encode(common::load_model('home_model', 'get_carouselRecomendations'));
         // }
     }
 ?>

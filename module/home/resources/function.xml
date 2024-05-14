@@ -24,16 +24,16 @@
         <name>carouselCity</name>
         <uri>carouselCity</uri>
     </function>
-    <!-- <function>
-        <name>carouselRecomendations</name>
-        <uri>carouselRecomendations</uri>
-    </function> -->
+    <function>
+        <name>carouselLastsearch</name>
+        <uri>carouselLastsearch</uri>
+    </function>
     <!-- <function>
         <name>carouselMostvisited</name>
         <uri>carouselMostvisited</uri>
     </function> -->
     <!-- <function>
-        <name>carouselLastsearch</name>
-        <uri>carouselLastsearch</uri>
+        <name>carouselRecomendations</name>
+        <uri>carouselRecomendations</uri>
     </function> -->
 </functions>

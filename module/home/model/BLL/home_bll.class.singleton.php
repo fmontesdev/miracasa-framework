@@ -36,5 +36,9 @@
 			return $this -> dao -> select_city($this -> db);
 		}
 
+		public function get_carouselLastsearch_BLL($filters) {
+			return $this -> dao -> select_lastsearch($this -> db, $filters);
+		}
+
 	}
 ?>

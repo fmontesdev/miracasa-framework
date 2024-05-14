@@ -36,5 +36,9 @@
             return $this -> bll -> get_carouselCity_BLL();
         }
 
+        public function get_carouselLastsearch($filters) {
+            return $this -> bll -> get_carouselLastsearch_BLL($filters);
+        }
+
     }
 ?>
