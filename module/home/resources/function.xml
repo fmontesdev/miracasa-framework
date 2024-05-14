@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<functions>
+    <function>
+        <name>view</name>
+        <uri>view</uri>
+    </function>
+    <!-- <function>
+        <name>carouselTouristcat</name>
+        <uri>carouselTouristcat</uri>
+    </function> -->
+    <!-- <function>
+        <name>carouselType</name>
+        <uri>carouselType</uri>
+    </function> -->
+    <!-- <function>
+        <name>carouselCategory</name>
+        <uri>carouselCategory</uri>
+    </function> -->
+    <!-- <function>
+        <name>carouselOperation</name>
+        <uri>carouselOperation</uri>
+    </function> -->
+    <!-- <function>
+        <name>carouselCity</name>
+        <uri>carouselCity</uri>
+    </function> -->
+    <!-- <function>
+        <name>carouselRecomendations</name>
+        <uri>carouselRecomendations</uri>
+    </function> -->
+    <!-- <function>
+        <name>carouselMostvisited</name>
+        <uri>carouselMostvisited</uri>
+    </function> -->
+    <!-- <function>
+        <name>carouselLastsearch</name>
+        <uri>carouselLastsearch</uri>
+    </function> -->
+</functions>
