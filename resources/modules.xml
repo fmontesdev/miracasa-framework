@@ -4,10 +4,10 @@
         <name>home</name><!-- ruta interna -->
         <uri>home</uri><!-- ruta externa para usuario -->
     </module>
-    <!-- <module>
+    <module>
         <name>shop</name>
         <uri>shop</uri>
-    </module> -->
+    </module>
     <!-- <module>
         <name>search</name>
         <uri>search</uri>

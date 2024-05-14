@@ -50,11 +50,11 @@
 
     //MODEL_SHOP
     // define('UTILS_SHOP', SITE_ROOT . 'module/shop/utils/');
-    // define('DAO_SHOP', SITE_ROOT . 'module/shop/model/DAO/');
-    // define('BLL_SHOP', SITE_ROOT . 'module/shop/model/BLL/');
-    // define('MODEL_SHOP', SITE_ROOT . 'module/shop/model/model/');
-    // define('JS_VIEW_SHOP', SITE_PATH . 'module/shop/view/js/');
-    // define ('VIEW_PATH_SHOP', SITE_ROOT . 'module/shop/view/');
+    define('DAO_SHOP', SITE_ROOT . 'module/shop/model/DAO/');
+    define('BLL_SHOP', SITE_ROOT . 'module/shop/model/BLL/');
+    define('MODEL_SHOP', SITE_ROOT . 'module/shop/model/model/');
+    define('JS_VIEW_SHOP', SITE_PATH . 'module/shop/view/js/');
+    define ('VIEW_PATH_SHOP', SITE_ROOT . 'module/shop/view/');
 
     //MODEL_LOGIN
     // define('UTILS_LOGIN', SITE_ROOT . 'module/login/utils/');

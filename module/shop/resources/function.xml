@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<functions>
+    <function>
+        <name>view</name>
+        <uri>view</uri>
+    </function>
+    <!-- <function>
+        <name>all_realestates</name>
+        <uri>all_realestates</uri>
+    </function> -->
+    <!-- <function>
+        <name>details_realestate</name>
+        <uri>details_realestate</uri>
+    </function> -->
+    <!-- <function>
+        <name>load_filters</name>
+        <uri>load_filters</uri>
+    </function> -->
+    <!-- <function>
+        <name>filters_shop</name>
+        <uri>filters_shop</uri>
+    </function> -->
+    <!-- <function>
+        <name>realestates_related</name>
+        <uri>realestates_related</uri>
+    </function> -->
+    <!-- <function>
+        <name>count_all</name>
+        <uri>count_all</uri>
+    </function> -->
+    <!-- <function>
+        <name>count_filtersShop</name>
+        <uri>count_filtersShop</uri>
+    </function> -->
+    <!-- <function>
+        <name>count_realestates_related</name>
+        <uri>count_realestates_related</uri>
+    </function> -->
+    <!-- <function>
+        <name>likes</name>
+        <uri>likes</uri>
+    </function> -->
+</functions>
