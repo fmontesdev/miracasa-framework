@@ -195,7 +195,7 @@ function ajaxForSearch(url, type, dataType, sData=undefined) {
                 });
             }
 
-            // load_mapboxList(data);
+            load_mapboxList(data);
             // load_pagination();
         }
     }).catch(function() {
@@ -215,6 +215,62 @@ function ajaxForSearch(url, type, dataType, sData=undefined) {
                 </div>`
             )
     });
+}
+
+function load_mapboxList(data) {
+    mapboxgl.accessToken = 'pk.eyJ1IjoiMjBqdWFuMTUiLCJhIjoiY2t6eWhubW90MDBnYTNlbzdhdTRtb3BkbyJ9.uR4BNyaxVosPVFt8ePxW1g';
+    const map = new mapboxgl.Map({
+        container: 'list_map', // container ID
+        style: 'mapbox://styles/mapbox/streets-v12', // style URL
+        center: [-2.5, 40], // starting position [lng, lat]
+        zoom: 5.25 // starting zoom
+    });
+    map.addControl(new mapboxgl.NavigationControl());
+    map.addControl(new mapboxgl.FullscreenControl());
+
+    for (row in data) {
+        const popup = new mapboxgl.Popup({ offset: 15 })
+            .setHTML(`
+                <div id='${data[row].id_realestate}' class='containerMap toDetails'>
+                    <div class='map_img'>
+                        <img src='${data[row].img_realestate[0]}' alt='' class='img-b img-fluid'>
+                    </div>
+                    <div class='mapInfo_header'>
+                        <span class='mapInfo_title'>${data[row].name_type} en ${data[row].name_city}</span>
+                    </div>
+                    <div class='mapInfo_trading'>
+                        <span class='mapInfo_price'>${new Intl.NumberFormat("es-ES").format(data[row].price)} €&nbsp;&nbsp;|&nbsp;&nbsp;${data[row].name_op}</span>
+                    </div>
+                    <div class='mapInfo_specs'>
+                        <div class='mapInfoSpecs_contents'>
+                            <span class='mapInfoSpecs-txt'>
+                                ${(data[row].rooms != 0 ? (`${data[row].rooms} habs.&nbsp;&nbsp;·&nbsp;&nbsp;`) : "")}
+                            </span>
+                        </div>
+                        <div class='mapInfoSpecs_contents'>
+                            <span class='mapInfoSpecs-txt'>
+                                ${(data[row].bathrooms != 0 ? (`${data[row].bathrooms} baños&nbsp;&nbsp;·&nbsp;&nbsp;`) : "")}
+                            </span>
+                        </div>
+                        <div class='mapInfoSpecs_contents'>
+                            <span class='mapInfoSpecs-txt'>
+                                ${(data[row].floor != 0 ? (`${data[row].floor}&nbsp;&nbsp;·&nbsp;&nbsp;`) : "")}
+                            </span>
+                        </div>
+                        <div class='mapInfoSpecs_contents'>
+                            <span class='mapInfoSpecs-txt'>
+                                ${data[row].area} m<sup>2</sup>
+                            </span>
+                        </div>
+                    </div>
+                </div>`
+            );
+
+        const marker = new mapboxgl.Marker({ color: '#2eca6a' })
+            .setPopup(popup)
+            .setLngLat([data[row].lng, data[row].lat])
+            .addTo(map);
+    }
 }
 
 function loadDetails(id_realestate) {
