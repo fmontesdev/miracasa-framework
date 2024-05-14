@@ -26,5 +26,9 @@
             echo json_encode(common::load_model('shop_model', 'get_load_filters'));
         }
 
+        function filters_shop() {
+            echo json_encode(common::load_model('shop_model', 'get_filters_shop', [$_POST['filters'], $_POST['limit'],$_POST['offset'], $_POST['token']]));
+        }
+
     }
 ?>

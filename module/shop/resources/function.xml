@@ -16,10 +16,10 @@
         <name>load_filters</name>
         <uri>load_filters</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>filters_shop</name>
         <uri>filters_shop</uri>
-    </function> -->
+    </function>
     <!-- <function>
         <name>realestates_related</name>
         <uri>realestates_related</uri>

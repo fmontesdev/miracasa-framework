@@ -658,6 +658,163 @@ function loadFilters() {
     });
 }
 
+function saveFilters() {
+    $(".section-filters").on("change",".filter_city",function(){
+        // filter_city.splice(0, 2, 'name_city', this.value);
+        localStorage.setItem('filter_city', this.value);
+        applyFilters('shop');
+    });
+
+    $(".section-filters").on("change",".filter_cat",function(){
+        localStorage.setItem('filter_cat', this.value);
+        applyFilters('shop');
+    });
+        
+    $(".section-filters").on("change",".filter_type",function(){
+        localStorage.setItem('filter_type', this.value);
+        applyFilters('shop');
+    });
+
+    $(".section-filters").on("change",".filter_type_all",function(){
+        localStorage.setItem('filter_type', this.value);
+        applyFilters('shop');
+    });
+
+    $(".section-filters").on("change",".filter_op",function(){
+        localStorage.setItem('filter_op', this.value);
+        applyFilters('shop');
+    });
+
+    // checkbox
+    $(".section-filters").on("change",".filter_extras",function(){
+        var filter_extras = JSON.parse(localStorage.getItem('filter_extras')) || [];
+
+        if (filter_extras.includes(this.value)) {
+            var index = filter_extras.indexOf(this.value); // obtenemos la posición del valor en el array
+            filter_extras.splice(index, 1); // 1 es la cantidad de elemento a eliminar
+        } else {
+            filter_extras.push(this.value);
+        }
+
+        localStorage.setItem('filter_extras', JSON.stringify(filter_extras));
+        applyFilters('shop');
+    });
+
+    $(".section-filters").on("click","#filterRooms_buttons",function(){
+        localStorage.setItem('filter_rooms', this.value);
+        applyFilters('shop');
+    });
+
+    $(".section-filters").on("click","#filterBathrooms_buttons",function(){
+        localStorage.setItem('filter_bathrooms', this.value);
+        applyFilters('shop');
+    });
+
+    // rango
+    $(".section-filters").on("change",".filter_priceSince",function(){
+        var filter_priceSince = [];
+        filter_priceSince.push('price_since', this.value);
+        localStorage.setItem('filter_priceSince', JSON.stringify(filter_priceSince));
+        applyFilters('shop');
+    });
+
+    $(".section-filters").on("change",".filter_priceTo",function(){
+        var filter_priceTo = [];
+        filter_priceTo.push('price_to', this.value);
+        localStorage.setItem('filter_priceTo', JSON.stringify(filter_priceTo));
+        applyFilters('shop');
+    });
+
+    $(".section-filters").on("change",".filter_touristcat",function(){
+        localStorage.setItem('filter_touristcat', this.value);
+        applyFilters('shop');
+    });
+
+    $(".section-filters").on("change",".filter_order",function(){
+        localStorage.setItem('filter_order', this.value);
+        applyFilters('shop');
+    });
+}
+
+function applyFilters(filters) {
+    var filter_priceSince = [];
+    var filter_priceTo = [];
+    var filters_shop = [];
+
+    if (localStorage.getItem('filter_city')) {
+        filters_shop.push(['name_city', (localStorage.getItem('filter_city'))]);
+    }
+
+    if (localStorage.getItem('filter_cat')) {
+        filters_shop.push(['name_cat', (localStorage.getItem('filter_cat'))]);
+    }
+
+    if (localStorage.getItem('filter_type')) {
+        filters_shop.push(['name_type', (localStorage.getItem('filter_type'))]);
+    }
+
+    if (localStorage.getItem('filter_op')) {
+        filters_shop.push(['name_op', (localStorage.getItem('filter_op'))]);
+    }
+
+    // checkbox
+    if (localStorage.getItem('filter_extras')) {
+        var filter_extras = JSON.parse(localStorage.getItem('filter_extras'));
+        console.log(filter_extras);
+        if (filter_extras.length > 0) {
+            filters_shop.push(['name_extras', filter_extras]);
+        } else {
+            localStorage.removeItem('filter_extras');
+            localStorage.removeItem('filters_shop');
+        }
+    }
+
+    if (localStorage.getItem('filter_rooms')) {
+        filters_shop.push(['rooms', (localStorage.getItem('filter_rooms'))]);
+    }
+
+    if (localStorage.getItem('filter_bathrooms')) {
+        filters_shop.push(['bathrooms', (localStorage.getItem('filter_bathrooms'))]);
+    }
+
+    // rango
+    if (localStorage.getItem('filter_priceSince')) {
+        filter_priceSince = JSON.parse(localStorage.getItem('filter_priceSince'));
+        if (localStorage.getItem('filter_priceTo')) {
+            filter_priceTo = JSON.parse(localStorage.getItem('filter_priceTo'));
+            filters_shop.push(['price', filter_priceSince, filter_priceTo]);
+        } else {
+            filter_priceTo.push('price_to', "100000000");
+            filters_shop.push(['price', filter_priceSince, filter_priceTo]);
+        }
+    } 
+    else  {
+        if (localStorage.getItem('filter_priceTo')) {
+            filter_priceSince.push('price_since', "0");
+            filter_priceTo = JSON.parse(localStorage.getItem('filter_priceTo'));
+            filters_shop.push(['price', filter_priceSince, filter_priceTo]);
+        }
+    }
+
+    if (localStorage.getItem('filter_touristcat')) {
+        filters_shop.push(['name_touristcat', (localStorage.getItem('filter_touristcat'))]);
+    }
+
+    if (localStorage.getItem('filter_order')) {
+        filters_shop.push(['order', (localStorage.getItem('filter_order'))]);
+    }
+    
+    if (filters_shop.length != 0) {
+        localStorage.setItem('filters_shop', JSON.stringify(filters_shop));
+        localStorage.setItem('last_search', JSON.stringify(filters_shop)); // Última busqueda para Carousel Last Search en el Home
+        localStorage.setItem('page', 1);
+    }
+    
+    if (filters == 'shop') {
+        location.reload();
+    }
+}
+
 function loadDetails(id_realestate) {
     localStorage.setItem("location", id_realestate); // guarda en localStorage localización
     var accessToken = localStorage.getItem('access_token') || null;
@@ -823,6 +980,6 @@ $(document).ready(function() {
     setTimeout(function(){ 
         loadFilters();
     }, 20);
-    // saveFilters();
+    saveFilters();
     // clicks();
 });

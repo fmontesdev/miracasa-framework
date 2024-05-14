@@ -77,5 +77,16 @@
 			return $rdo;
 		}
 
+		public function get_filters_shop_BLL($args) {
+			if ($args[3] != null) {
+				$accessToken_dec = middleware_auth::decode_token('access', $args[3]);
+				$id_user = $accessToken_dec['id_user'];
+			} else {
+				$id_user = 'null';
+			}
+			
+			return $this -> dao -> filters_shop($this->db, $args[0], $args[1], $args[2], $id_user);
+		}
+
 	}
 ?>

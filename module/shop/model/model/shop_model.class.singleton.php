@@ -26,5 +26,9 @@
             return $this -> bll -> get_load_filters_BLL();
         }
 
+        public function get_filters_shop($args) {
+            return $this -> bll -> get_filters_shop_BLL($args);
+        }
+
     }
 ?>
