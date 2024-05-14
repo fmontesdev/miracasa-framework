@@ -133,5 +133,29 @@
             return $db -> listar_array_img($stmt);
         }
 
+		public function select_mostvisited($db) {
+
+            $sql= "SELECT r.id_realestate, t.name_type, o.name_op, s.price, c.name_city, r.area, r.rooms, r.bathrooms, i.img_realestate
+						FROM `real_estate` r
+						INNER JOIN `type` t
+						INNER JOIN `belong_to_type` bt
+						INNER JOIN `is_traded` s
+						INNER JOIN `operation` o
+						INNER JOIN `img_realestate` i
+						INNER JOIN `city` c
+						ON  r.id_realestate=bt.id_realestate
+						AND t.id_type=BT.id_type
+						AND r.id_realestate=s.id_realestate
+						AND o.id_op=s.id_op
+						AND r.id_realestate=i.id_realestate
+						AND r.id_city=c.id_city
+						GROUP BY r.id_realestate
+						ORDER BY r.visited DESC
+						LIMIT 5";
+
+            $stmt = $db -> ejecutar($sql);
+            return $db -> listar_array($stmt);
+        }
+
     }
 ?>

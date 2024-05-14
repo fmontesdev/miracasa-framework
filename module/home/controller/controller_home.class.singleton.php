@@ -38,9 +38,9 @@
             echo json_encode(common::load_model('home_model', 'get_carouselLastsearch', $_POST['filters']));
         }
 
-        // function carouselMostvisited() {
-        //     echo json_encode(common::load_model('home_model', 'get_carouselMostvisited'));
-        // }
+        function carouselMostvisited() {
+            echo json_encode(common::load_model('home_model', 'get_carouselMostvisited'));
+        }
 
         // function carouselRecomendations() {
         //     echo json_encode(common::load_model('home_model', 'get_carouselRecomendations'));

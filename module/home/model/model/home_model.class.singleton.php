@@ -40,5 +40,9 @@
             return $this -> bll -> get_carouselLastsearch_BLL($filters);
         }
 
+        public function get_carouselMostvisited() {
+            return $this -> bll -> get_carouselMostvisited_BLL();
+        }
+
     }
 ?>

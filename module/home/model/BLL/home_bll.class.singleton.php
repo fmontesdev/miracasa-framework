@@ -40,5 +40,9 @@
 			return $this -> dao -> select_lastsearch($this -> db, $filters);
 		}
 
+		public function get_carouselMostvisited_BLL() {
+			return $this -> dao -> select_mostvisited($this -> db);
+		}
+
 	}
 ?>

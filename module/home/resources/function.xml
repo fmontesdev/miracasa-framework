@@ -28,10 +28,10 @@
         <name>carouselLastsearch</name>
         <uri>carouselLastsearch</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>carouselMostvisited</name>
         <uri>carouselMostvisited</uri>
-    </function> -->
+    </function>
     <!-- <function>
         <name>carouselRecomendations</name>
         <uri>carouselRecomendations</uri>
