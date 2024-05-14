@@ -88,5 +88,13 @@
 			return $this -> dao -> filters_shop($this->db, $args[0], $args[1], $args[2], $id_user);
 		}
 
+		public function get_count_all_BLL() {
+			return $this -> dao -> select_count_all($this->db);
+		}
+
+		public function get_count_filtersShop_BLL($filters) {
+			return $this -> dao -> select_count_filtersShop($this->db, $filters);
+		}
+
 	}
 ?>

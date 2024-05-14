@@ -30,5 +30,13 @@
             echo json_encode(common::load_model('shop_model', 'get_filters_shop', [$_POST['filters'], $_POST['limit'],$_POST['offset'], $_POST['token']]));
         }
 
+        function count_all() {
+            echo json_encode(common::load_model('shop_model', 'get_count_all'));
+        }
+
+        function count_filtersShop() {
+            echo json_encode(common::load_model('shop_model', 'get_count_filtersShop', $_POST['filters']));
+        }
+
     }
 ?>

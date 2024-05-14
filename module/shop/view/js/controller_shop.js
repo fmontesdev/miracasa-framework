@@ -196,7 +196,7 @@ function ajaxForSearch(url, type, dataType, sData=undefined) {
             }
 
             load_mapboxList(data);
-            // load_pagination();
+            load_pagination();
         }
     }).catch(function() {
         localStorage.setItem('count', 0);
@@ -271,6 +271,58 @@ function load_mapboxList(data) {
             .setLngLat([data[row].lng, data[row].lat])
             .addTo(map);
     }
+}
+
+function clicks() {
+    // click list
+    $(document).on("click", ".toDetails", function() {
+        var id_realestate = this.getAttribute('id');
+        // console.log(id_realestate);
+        loadDetails(id_realestate);
+    });
+
+    // click related
+    $(document).on("click", ".detailsRelated_re", function() {
+        var id_realestate = this.getAttribute('id');
+        // console.log(id_realestate);
+        loadDetails(id_realestate);
+    });
+
+    // click pagination
+    $(document).on('click', '.page-link', function() {
+        var page = this.getAttribute('id');
+        console.log(page);
+
+        if (page !== 'prev' && page !== 'next') {
+            localStorage.setItem('page', page);
+        }
+        if (page === 'prev') {
+            var prev = parseInt(localStorage.getItem('page')) - 1;
+            if (prev > 0){
+                localStorage.setItem('page', prev);
+            }
+        }
+        if (page === 'next') {
+            var next = parseInt(localStorage.getItem('page')) + 1;
+            var total_pages = Math.ceil(localStorage.getItem('count') / 4);
+            if (next <= total_pages){
+                localStorage.setItem('page', next);
+            }
+        }
+        loadAllRealestates();
+    });
+
+    // click like
+    $(document).on("click", ".listLike_container", function() {
+        var id_realestate = this.getAttribute('id');
+        var count_like = this.getAttribute('like');
+        likes(id_realestate, count_like, 'list');
+    });
+    $(document).on("click", ".detailsLike_container", function() {
+        var id_realestate = this.getAttribute('id');
+        var count_like = this.getAttribute('like');
+        likes(id_realestate, count_like, 'details');
+    });
 }
 
 function loadDetails(id_realestate) {
@@ -1220,6 +1272,97 @@ function remove_filtersShop() {
     applyFilters('shop');
 }
 
+function load_pagination() {
+    var filtersShop = [];
+    var url = "";
+    var validate_filtersShop = localStorage.getItem('filters_shop') || undefined;
+
+    if (validate_filtersShop != undefined) {
+        filtersShop = JSON.parse(validate_filtersShop)
+        info_data = { 'op': 'count_filtersShop', 'filters': filtersShop }
+        url = friendlyURL('?module=shop');
+    } else {
+        info_data = { 'op': 'count_all' }
+        url = friendlyURL('?module=shop');
+    }
+
+    ajaxPromise(url, 'POST', 'JSON', info_data)
+        .then(function(data) {
+            // console.log(data);
+
+            // el valor de page se guarda en la función clicks al seleccionar la página
+            var page = localStorage.getItem('page') || undefined;
+            var total_pages = "";
+
+            var count_realEstates = data.count;
+            localStorage.setItem('count', count_realEstates);
+
+            if (count_realEstates >= 4) {
+                total_pages = Math.ceil(count_realEstates / 4)
+            } else {
+                total_pages = 1;
+            }
+   
+            $('<div></div>').attr('id', 'pagination_container').attr('class', 'row').appendTo('.list_realestates')
+                .html(`
+                    <div class='col-sm-12'>
+                        <nav class='pagination-a'>
+                            <ul class='pagination'></ul>
+                        </nav>
+                    </div>`
+                );
+            
+            if (total_pages > 1) {
+                if (page != undefined && page == total_pages) {
+                    $('<li></li>').attr('class', 'page-item').appendTo('.pagination')
+                        .html(`<span id='prev' class='page-link bi bi-chevron-left'></span>`);
+    
+                    for (i=1; i<=total_pages; i++) {
+                        $('<li></li>').attr('class', 'page-item').appendTo('.pagination')
+                        .html(`
+                            <span id='${i}' class='page-link'>${i}</span>`
+                        );
+                    }    
+                } else if (page != undefined && page == 1) {
+                    for (i=1; i<=total_pages; i++) {
+                        $('<li></li>').attr('class', 'page-item').appendTo('.pagination')
+                        .html(`
+                            <span id='${i}' class='page-link'>${i}</span>`
+                        );
+                    }
+    
+                    $('<li></li>').attr('class', 'page-item').appendTo('.pagination')
+                        .html(`<span id='next' class='page-link bi bi-chevron-right'></span>`);    
+                } else {
+                    $('<li></li>').attr('class', 'page-item').appendTo('.pagination')
+                        .html(`<span id='prev' class='page-link bi bi-chevron-left'></span>`);
+
+                    for (i=1; i<=total_pages; i++) {
+                        $('<li></li>').attr('class', 'page-item').appendTo('.pagination')
+                        .html(`
+                            <span id='${i}' class='page-link'>${i}</span>`
+                        );
+                    }
+
+                    $('<li></li>').attr('class', 'page-item').appendTo('.pagination')
+                        .html(`<span id='next' class='page-link bi bi-chevron-right'></span>`);
+                }
+            }
+            
+            // highlight pagination
+            if (page != undefined) {
+                $('span.page-link').filter(function() {
+                    return $(this).text() === page;
+                }).css({
+                    "background-color": "#2eca6a",
+                });
+            }
+            
+        }).catch(function() {
+            window.location.href='index.php?page=503';
+        });
+}
+
 $(document).ready(function() {
     // console.log('Hola JS document ready');
     loadAllRealestates();
@@ -1227,5 +1370,5 @@ $(document).ready(function() {
         loadFilters();
     }, 20);
     saveFilters();
-    // clicks();
+    clicks();
 });
