@@ -10,13 +10,12 @@
             return self::$_instance;
         }
         function view() {
-            echo 'Hola Home';
-            // common::load_view('top_page_home.html', VIEW_PATH_HOME . 'home.html');
+            common::load_view('top_page_home.html', VIEW_PATH_HOME . 'home.html');
         }
 
-        // function carouselTouristcat() {
-        //     echo json_encode(common::load_model('home_model', 'get_carouselTouristcat'));
-        // }
+        function carouselTouristcat() {
+            echo json_encode(common::load_model('home_model', 'get_carouselTouristcat'));
+        }
 
         // function carouselType() {
         //     echo json_encode(common::load_model('home_model', 'get_carouselType'));

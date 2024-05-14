@@ -4,10 +4,10 @@
         <name>view</name>
         <uri>view</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>carouselTouristcat</name>
         <uri>carouselTouristcat</uri>
-    </function> -->
+    </function>
     <!-- <function>
         <name>carouselType</name>
         <uri>carouselType</uri>
