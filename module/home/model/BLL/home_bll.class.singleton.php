@@ -44,5 +44,8 @@
 			return $this -> dao -> select_mostvisited($this -> db);
 		}
 
+		public function get_carouselRecomendations_BLL() {
+			return $this -> dao -> select_recomendations($this -> db);
+		}
 	}
 ?>

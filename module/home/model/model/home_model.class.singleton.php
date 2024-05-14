@@ -44,5 +44,8 @@
             return $this -> bll -> get_carouselMostvisited_BLL();
         }
 
+        public function get_carouselRecomendations() {
+            return $this -> bll -> get_carouselRecomendations_BLL();
+        }
     }
 ?>

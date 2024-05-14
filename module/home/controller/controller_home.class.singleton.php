@@ -42,8 +42,8 @@
             echo json_encode(common::load_model('home_model', 'get_carouselMostvisited'));
         }
 
-        // function carouselRecomendations() {
-        //     echo json_encode(common::load_model('home_model', 'get_carouselRecomendations'));
-        // }
+        function carouselRecomendations() {
+            echo json_encode(common::load_model('home_model', 'get_carouselRecomendations'));
+        }
     }
 ?>

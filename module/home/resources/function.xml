@@ -32,8 +32,8 @@
         <name>carouselMostvisited</name>
         <uri>carouselMostvisited</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>carouselRecomendations</name>
         <uri>carouselRecomendations</uri>
-    </function> -->
+    </function>
 </functions>
