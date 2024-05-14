@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<functions>
+    <function>
+        <name>search_operation</name>
+        <uri>search_operation</uri>
+    </function>
+    <!-- <function>
+        <name>search_touristCategory</name>
+        <uri>search_touristCategory</uri>
+    </function> -->
+    <!-- <function>
+        <name>search_autocomplete</name>
+        <uri>search_autocomplete</uri>
+    </function> -->
+</functions>

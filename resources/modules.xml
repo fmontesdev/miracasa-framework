@@ -8,10 +8,10 @@
         <name>shop</name>
         <uri>shop</uri>
     </module>
-    <!-- <module>
+    <module>
         <name>search</name>
         <uri>search</uri>
-    </module> -->
+    </module>
     <!-- <module>
         <name>login</name>
         <uri>login</uri>
