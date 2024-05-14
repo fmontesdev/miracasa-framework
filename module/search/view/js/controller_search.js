@@ -170,8 +170,42 @@ function autocomplete() {
     });
 }
 
+function button_search() {
+    $('#search_button').on('click', function () {
+        applySearch();
+    });
+}
+
+function applySearch() {
+    var filters_search = [];
+
+    if ($('#filter_search_op_select').val() != 'Transacción') {
+        filters_search.push(['name_op', $('#filter_search_op_select').val()]);
+    }
+    if (($('#filter_search_touristcat_select').val() != 'Zona turística') && ($('#filter_search_touristcat_select').val() != null)) {
+        filters_search.push(['name_touristcat', $('#filter_search_touristcat_select').val()]);
+    } else {
+        localStorage.removeItem('filter_touristcat');
+    }
+    if ($("#filter_search_city_auto").val()) {
+        filters_search.push(['name_city', $("#filter_search_city_auto").val()]);
+    } else {
+        localStorage.removeItem('filter_city');
+    }
+    if ( ($('#filter_search_op_select').val() == 'Transacción') && ($('#filter_search_touristcat_select').val() == 'Zona turística') && (!$("#filter_search_city_auto").val()) ) {
+        localStorage.removeItem('filters_search');
+    }
+
+    if (filters_search.length != 0) {
+        localStorage.setItem('filters_search', JSON.stringify(filters_search));
+    }
+
+    localStorage.setItem('page', 1);
+    window.location.href = friendlyURL('?module=shop');      
+}
+
 $(document).ready(function () {
     launch_search();
     autocomplete();
-    // button_search();
+    button_search();
 });
