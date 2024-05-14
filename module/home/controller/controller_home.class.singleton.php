@@ -30,9 +30,9 @@
             echo json_encode(common::load_model('home_model', 'get_carouselOperation'));
         }
 
-        // function carouselCity() {
-        //     echo json_encode(common::load_model('home_model', 'get_carouselCity'));
-        // }
+        function carouselCity() {
+            echo json_encode(common::load_model('home_model', 'get_carouselCity'));
+        }
 
         // function carouselRecomendations() {
         //     echo json_encode(common::load_model('home_model', 'get_carouselRecomendations'));

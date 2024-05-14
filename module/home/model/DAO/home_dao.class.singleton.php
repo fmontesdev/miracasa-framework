@@ -44,5 +44,13 @@
             return $db -> listar_array($stmt);
         }
 
+		public function select_city($db) {
+
+            $sql= "SELECT * FROM `city` ORDER BY id_city LIMIT 25";
+
+            $stmt = $db -> ejecutar($sql);
+            return $db -> listar_array($stmt);
+        }
+
     }
 ?>

@@ -20,10 +20,10 @@
         <name>carouselOperation</name>
         <uri>carouselOperation</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>carouselCity</name>
         <uri>carouselCity</uri>
-    </function> -->
+    </function>
     <!-- <function>
         <name>carouselRecomendations</name>
         <uri>carouselRecomendations</uri>

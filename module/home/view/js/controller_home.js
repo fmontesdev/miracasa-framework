@@ -108,7 +108,7 @@ function carouselTypes() {
         // window.location.href='index.php?page=503';
         console.log('Error: CarouselTypes error');
     });
-  }
+}
 
 function carouselCategories() { 
     ajaxPromise(friendlyURL('?module=home'), 'POST', 'JSON', { 'op': 'carouselCategory' })
@@ -212,7 +212,59 @@ function carouselOperations() {
         // window.location.href='index.php?page=503';
         console.log('Error: CarouselOperations error');
     });
-  }
+}
+
+function carouselCities() {
+    ajaxPromise(friendlyURL('?module=home'), 'POST', 'JSON', { 'op': 'carouselCity' })
+    .then(function(data) {
+        for (row in data) {
+            $('<div></div>').attr('class', 'citySlide carousel-item-c swiper-slide').attr('id', data[row].name_city).appendTo('#cities-carousel .containerCities')
+                .html(`
+                    <div class='card-box-b card-shadow news-box border_radius'>
+                        <div class='img-box-b'>
+                            <img src='${data[row].img_city}' alt='' class='img-b img-fluid'>
+                        </div>
+                        <div class='card-overlay'>
+                            <div class='card-header-e'>
+                                <span class='title-3'>
+                                    ${data[row].name_city}
+                                </span>
+                            </div>
+                        </div>
+                    </div>`
+                )     
+        }
+  
+        new Swiper('#cities-carousel', {
+            speed: 500,
+            loop: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false
+            },
+            slidesPerView: 'auto',
+            pagination: {
+                el: '.cities-carousel-pagination',
+                type: 'bullets',
+                clickable: true
+            },
+            breakpoints: {
+                320: {
+                    slidesPerView: 3,
+                    spaceBetween: 14
+                },
+        
+                1200: {
+                    slidesPerView: 6,
+                    spaceBetween: 14
+                }
+            }
+        });
+    }).catch(function() {
+        // window.location.href='index.php?page=503';
+        console.log('Error: CarouselTouristcat error');
+    });
+}
 
 $(document).ready(function() {
   //$data = 'hola JS function';
@@ -223,7 +275,7 @@ $(document).ready(function() {
   carouselTypes();
   carouselCategories();
   carouselOperations();
-//   carouselCities();
+  carouselCities();
 //   carouselLastsearch();
 //   carouselRecomendations();
 //   carouselMostvisited();

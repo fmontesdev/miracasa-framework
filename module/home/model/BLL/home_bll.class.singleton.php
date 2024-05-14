@@ -32,5 +32,9 @@
 			return $this -> dao -> select_operation($this -> db);
 		}
 
+		public function get_carouselCity_BLL() {
+			return $this -> dao -> select_city($this -> db);
+		}
+
 	}
 ?>

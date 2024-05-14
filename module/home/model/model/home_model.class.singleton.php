@@ -32,5 +32,9 @@
             return $this -> bll -> get_carouselOperation_BLL();
         }
 
+        public function get_carouselCity() {
+            return $this -> bll -> get_carouselCity_BLL();
+        }
+
     }
 ?>
