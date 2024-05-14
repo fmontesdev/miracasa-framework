@@ -12,10 +12,10 @@
         <name>carouselType</name>
         <uri>carouselType</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>carouselCategory</name>
         <uri>carouselCategory</uri>
-    </function> -->
+    </function>
     <!-- <function>
         <name>carouselOperation</name>
         <uri>carouselOperation</uri>

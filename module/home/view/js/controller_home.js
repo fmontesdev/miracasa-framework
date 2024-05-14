@@ -110,6 +110,58 @@ function carouselTypes() {
     });
   }
 
+function carouselCategories() { 
+    ajaxPromise(friendlyURL('?module=home'), 'POST', 'JSON', { 'op': 'carouselCategory' })
+    .then(function(data) {
+        for (row in data) {
+            $('<div></div>').attr('class', 'categorySlide carousel-item-c swiper-slide').attr('id', data[row].name_cat).appendTo('#categories-carousel .containerCategories')
+                .html(`
+                    <div class='card-box-b card-shadow news-box border_radius'>
+                        <div class='img-box-b'>
+                            <img src='${data[row].img_cat}' alt='' class='img-b img-fluid'>
+                        </div>
+                        <div class='card-overlay'>
+                            <div class='card-header-e'>
+                                <span class='title-1'>
+                                    ${data[row].name_cat}
+                                </span>
+                            </div>
+                        </div>
+                    </div>`
+                )     
+        }
+  
+        new Swiper('#categories-carousel', {
+            speed: 600,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false
+            },
+            slidesPerView: 'auto',
+            pagination: {
+                el: '.categories-carousel-pagination',
+                type: 'bullets',
+                clickable: true
+            },
+            breakpoints: {
+                320: {
+                    slidesPerView: 2,
+                    spaceBetween: 18
+                },
+            
+                1200: {
+                    slidesPerView: 4,
+                    spaceBetween: 18
+                }
+            }
+        });
+    }).catch(function() {
+        // window.location.href='index.php?page=503';
+        console.log('Error: CarouselCategories error');
+    });
+}
+
 $(document).ready(function() {
   //$data = 'hola JS function';
   //die("<script>console.log('.json_encode( $data ).');</script>");
@@ -117,7 +169,7 @@ $(document).ready(function() {
 //   location_home();
   carouselTouristcat();
   carouselTypes();
-//   carouselCategories();
+  carouselCategories();
 //   carouselOperations();
 //   carouselCities();
 //   carouselLastsearch();

@@ -28,5 +28,13 @@
             return $db -> listar_array($stmt);
         }
 
+		public function select_category($db) {
+
+            $sql= "SELECT * FROM `category` ORDER BY id_cat";
+
+            $stmt = $db -> ejecutar($sql);
+            return $db -> listar_array($stmt);
+        }
+
     }
 ?>

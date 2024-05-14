@@ -23,5 +23,10 @@
             return $this -> bll -> get_carouselType_BLL();
         }
 
+        public function get_carouselCategory() {
+            // return 'hola car type';
+            return $this -> bll -> get_carouselCategory_BLL();
+        }
+
     }
 ?>

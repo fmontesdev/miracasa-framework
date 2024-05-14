@@ -21,10 +21,10 @@
             echo json_encode(common::load_model('home_model', 'get_carouselType'));
         }
         
-        // function carouselCategory() {
-        //     // echo json_encode('Hola');
-        //     echo json_encode(common::load_model('home_model', 'get_carouselCategory'));
-        // }
+        function carouselCategory() {
+            // echo json_encode('Hola');
+            echo json_encode(common::load_model('home_model', 'get_carouselCategory'));
+        }
 
         // function carouselOperation() {
         //     echo json_encode(common::load_model('home_model', 'get_carouselOperation'));
