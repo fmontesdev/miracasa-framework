@@ -208,12 +208,26 @@ function loadDetails(id_realestate) {
                 <div id='details_map'></div>`
             )
 
-        // load_mapboxDetails(data);
+        load_mapboxDetails(data);
         // realestates_related(data);
 
     }).catch(function() {
         window.location.href='index.php?page=503';
     });
+}
+
+function load_mapboxDetails(data) {
+    mapboxgl.accessToken = 'pk.eyJ1IjoiMjBqdWFuMTUiLCJhIjoiY2t6eWhubW90MDBnYTNlbzdhdTRtb3BkbyJ9.uR4BNyaxVosPVFt8ePxW1g';
+    const map = new mapboxgl.Map({
+        container: 'details_map', // container ID
+        style: 'mapbox://styles/mapbox/streets-v12', // style URL
+        center: [data[0].lng, data[0].lat], // starting position [lng, lat]
+        zoom: 15 // starting zoom
+    });
+    map.addControl(new mapboxgl.NavigationControl());
+    const marker = new mapboxgl.Marker({ color: '#2eca6a' })
+        .setLngLat([data[0].lng, data[0].lat])
+        .addTo(map);
 }
 
 $(document).ready(function() {
