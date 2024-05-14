@@ -19,6 +19,10 @@
 		public function get_search_operation_BLL() {
 			return $this -> dao -> search_operation($this->db);
 		}
+
+		public function get_search_touristCategory_BLL($operation) {
+			return $this -> dao -> search_touristCategory($this->db, $operation);
+		}
 	
 	}
 ?>

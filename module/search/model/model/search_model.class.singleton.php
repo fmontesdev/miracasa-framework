@@ -18,4 +18,8 @@
             return $this -> bll -> get_search_operation_BLL();
         }
 
+        public function get_search_touristCategory($operation) {
+            return $this -> bll -> get_search_touristCategory_BLL($operation);
+        }
+
     }
