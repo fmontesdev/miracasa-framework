@@ -13,7 +13,6 @@
         }
 
         public function select_touristcat($db) {
-			return 'Hola DAO';
 
             $sql= "SELECT * FROM `tourist_cat` ORDER BY id_touristcat";
 

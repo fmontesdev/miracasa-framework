@@ -2,8 +2,8 @@ function carouselTouristcat() {
     //die("<script>console.log('Hola loadCategories');</script>");
     ajaxPromise(friendlyURL('?module=home'), 'POST', 'JSON', { 'op': 'carouselTouristcat' })
     .then(function(data) {
-        console.log(data);
-        return;
+        // console.log(data);
+        // return;
         for (row in data) {
             $('<div></div>').attr('class', 'touristcatSlide carousel-item-c swiper-slide').attr('id', data[row].name_touristcat).appendTo('#touristcat-carousel .containerTouristcat')
                 .html(`
