@@ -12,6 +12,27 @@
             return self::$_instance;
         }
 
+        public function select_all_realEstates($db, $limit, $offset, $id_user) {
+
+            $sql = "SELECT r.id_realestate, r.lat, r.lng, t.name_type, o.name_op, s.price, c.name_city, c.province, r.area, r.rooms, r.bathrooms, r.floor, r.description,
+                    GROUP_CONCAT(DISTINCT i.img_realestate SEPARATOR ':') AS img_realestate, GROUP_CONCAT(DISTINCT l.id_user SEPARATOR ':') AS 'like'
+                        FROM `real_estate` r
+                        INNER JOIN `belong_to_type` bt ON  r.id_realestate = bt.id_realestate 
+                        INNER JOIN `type` t ON t.id_type = bt.id_type
+                        INNER JOIN `is_traded` s ON r.id_realestate = s.id_realestate 
+                        INNER JOIN `operation` o ON o.id_op = s.id_op
+                        INNER JOIN `img_realestate` i ON r.id_realestate = i.id_realestate
+                        INNER JOIN `city` c ON r.id_city = c.id_city
+                        LEFT JOIN `like` l ON r.id_realestate = l.id_realestate
+                        WHERE t.name_type != 'Vivienda'	
+                        GROUP BY r.id_realestate
+                        LIMIT $limit OFFSET $offset";
+                        //GROUP BY r.id_realestate, o.id_op";
+
+            $stmt = $db -> ejecutar($sql);
+            return $db -> listar_array_img_like($stmt, $id_user);
+        }
+
         public function insert_visited($db, $id_re){
 
             $sql = "UPDATE `real_estate` r 

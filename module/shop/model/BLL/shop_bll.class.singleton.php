@@ -16,6 +16,17 @@
 			return self::$_instance;
 		}
 
+		public function get_all_realestates_BLL($args) {
+			if ($args[2] != null) {
+				$accessToken_dec = middleware_auth::decode_token('access', $args[2]);
+				$id_user = $accessToken_dec['id_user'];
+			} else {
+				$id_user = 'null';
+			}
+
+			return $this -> dao -> select_all_realEstates($this->db, $args[0], $args[1], $id_user);
+		}
+
 		public function get_details_realestate_BLL($args) {
 			if ($args[1] != null) {
 				$accessToken_dec = middleware_auth::decode_token('access', $args[1]);

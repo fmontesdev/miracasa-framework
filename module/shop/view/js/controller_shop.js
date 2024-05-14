@@ -71,6 +71,152 @@ function loadAllRealestates(limit=4, offset=0) {
     }
 }
 
+function ajaxForSearch(url, type, dataType, sData=undefined) {
+    // console.log(url, type, dataType, sData);
+    // return;
+    // die("<script>console.log('Hola ajaxForSearch');</script>");
+    localStorage.setItem("location", "shop"); // guarda en localStorage localización
+    ajaxPromise(url, type, dataType, sData)
+    .then(function(data) {
+        console.log(data);   
+        // return;
+
+        $('.section-detailsCarousel').empty(); // antes de iniciar borramos el contenedor de details
+        $('.container_detailsRealestate').empty();
+        $('.list_realestates').empty(); // antes de iniciar borramos el contenedor de list
+        $('#list_map').empty();
+        $('#pagination_container').empty();
+
+        setTimeout(function(){
+            $('html, body').animate({ scrollTop: $(".list_realestates") }); // cuando carga posiciona el list al inicio
+        }, 50);
+
+        // Mejora para que cuando no hayan resultados en los filtros aplicados
+        if (data == "error") {
+            $('<div></div>').attr('class', 'intro-single2').appendTo('.section-catch')
+                .html(`
+                    <div class='container'>
+                        <div class='row'>
+                            <div class='col-md-12 col-lg-8'>
+                                <div class='title-single-box'>
+                                    <h1 class='title-single'>Sin resultados</h1>
+                                    <span class='color-text-a'>¡No se encontaron resultados con los filtros aplicados!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+                );
+        } else {
+            // Bucle para cada una de las viviendas    
+            for (row in data) {
+                $('<div></div>').attr('class', 'containerList').attr('id', data[row].id_realestate).appendTo('.list_realestates')
+                    .html(`
+                        <div class='containerList_img'>
+                            <div id='list-carousel-${data[row].id_realestate}' class='swiper'>
+                                <div class='container_listCarousel swiper-wrapper'></div>
+                                <div class='swiper-button-prev'></div>
+                                <div class='swiper-button-next'></div>
+                            </div>
+                        </div>
+                        <div id='${data[row].id_realestate}' class='containerList_info more_info'>
+                            <div class='listInfo_header'>
+                                <span id='${data[row].id_realestate}' class='listInfo_title toDetails'>${data[row].name_type} en ${data[row].name_city}</span>
+                                <div id='${data[row].id_realestate}' class='listLike_container' like='${data[row].like}'>
+                                    ${(data[row].like != 0 ?
+                                    (`<img src='view/img/icons/like.png' id='${data[row].id_realestate}' class='listLike_icon'>
+                                    <span class='list_countLikes'>${(data[row].like > 1 ? (`${data[row].like}`) : "")}</span>`) :
+                                    (`<img src='view/img/icons/dislike.png' id='${data[row].id_realestate}' class='listLike_icon'>`))}
+                                </div>
+                            </div>
+                            <div id='${data[row].id_realestate}' class='toDetails'>
+                                <div class='listInfo_trading'>
+                                    <span class='listInfo_price'>${new Intl.NumberFormat("es-ES").format(data[row].price)} €&nbsp;&nbsp;|&nbsp;&nbsp;${data[row].name_op}</span>
+                                </div>
+                                <div class='listInfo_specs'>
+                                    <div class="listInfoSpecs_contents">
+                                        <img src='view/img/specs/area.png' class='listInfoSpecs-img'>
+                                        <span class='listInfoSpecs-txt'>
+                                            ${data[row].area} m<sup>2</sup>
+                                        </span>
+                                    </div>
+                                    ${(data[row].rooms != 0 ? (`
+                                        <div class="listInfoSpecs_contents">
+                                            <img src='view/img/specs/rooms.png' class='listInfoSpecs-img'>
+                                            <span class='listInfoSpecs-txt'>
+                                            ${data[row].rooms} habs.
+                                            </span>
+                                        </div>
+                                    `) : "")}
+                                    ${(data[row].bathrooms != 0 ? (`
+                                        <div class="listInfoSpecs_contents">
+                                            <img src='view/img/specs/bathrooms.png' class='listInfoSpecs-img'>
+                                            <span class='listInfoSpecs-txt'>
+                                                ${data[row].bathrooms} baños
+                                            </span>
+                                        </div>
+                                    `) : "")}
+                                    ${(data[row].floor != 0 ? (`
+                                        <div class="listInfoSpecs_contents">
+                                            <img src='view/img/specs/floor.png' class='listInfoSpecs-img'>
+                                            <span class='listInfoSpecs-txt'>
+                                                ${data[row].floor}
+                                            </span>
+                                        </div>
+                                    `) : "")}
+                                </div>
+                                <p class='listInfo_desc'>${data[row].description}</p>
+                            </div>
+                        </div>`
+                    );
+
+                // Recorremos las imágenes de cada vivienda y las agregamos al carrusel
+                // Para apuntar al div donde creamos los slides, indicamos div del carrousel + div slide
+                for (img in data[row].img_realestate) {
+                    $('<div></div>').attr('class', 'carousel-item-c swiper-slide').attr('id', data[row].img_realestate[img]).appendTo(`#list-carousel-${data[row].id_realestate} .container_listCarousel`)
+                        .html(`
+                            <div class='card-box-b card-shadow news-box'>
+                                <div class='img-box-b'>
+                                    <img src='${data[row].img_realestate[img]}' alt='' class='img-b img-fluid'>
+                                </div>
+                            </div>`
+                        );
+                }
+
+                // Inicializar el carrusel después de agregar todas las imágenes
+                // El div del carrousel necesita un id único
+                new Swiper(`#list-carousel-${data[row].id_realestate}`, {
+                    speed: 600,
+                    loop: true,
+                    slidesPerView: 1,
+                    navigation: {
+                        prevEl: '.swiper-button-prev',
+                        nextEl: '.swiper-button-next',
+                    },
+                });
+            }
+
+            // load_mapboxList(data);
+            // load_pagination();
+        }
+    }).catch(function() {
+        localStorage.setItem('count', 0);
+        localStorage.removeItem('filters_home'); // eliminamos de localStorage filters_home para no interferir en próximas busquedas
+        $('<div></div>').attr('class', 'intro-single3').appendTo('.list_realestates')
+            .html(`
+                <div class='container'>
+                    <div class='row'>
+                        <div class='col-md-12 col-lg-8'>
+                            <div class='title-single-box'>
+                                <h1 class='title-single'>Sin resultados</h1>
+                                <span class='color-text-a'>¡No se encontaron resultados con los filtros aplicados!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+            )
+    });
+}
+
 function loadDetails(id_realestate) {
     localStorage.setItem("location", id_realestate); // guarda en localStorage localización
     var accessToken = localStorage.getItem('access_token') || null;
