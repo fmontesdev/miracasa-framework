@@ -100,6 +100,32 @@
             return $like;
         }
 
+        public function select_realestates_related($db, $id, $operation, $limit, $offset) {
+
+            $sql_whereFilter = "";
+            if ($operation != null) {
+                $sql_whereFilter .= " AND o.name_op = '$operation'";
+            }
+    
+            $sql = "SELECT r.id_realestate, r.lat, r.lng, t.name_type, o.name_op, s.price, c.name_city, c.province, r.area,
+                    r.rooms, r.bathrooms, r.floor, r.description, GROUP_CONCAT(i.img_realestate SEPARATOR ':') AS img_realestate
+                        FROM `real_estate` r
+                        INNER JOIN `belong_to_type` bt ON  r.id_realestate = bt.id_realestate 
+                        INNER JOIN `type` t ON t.id_type = bt.id_type
+                        INNER JOIN `is_traded` s ON r.id_realestate = s.id_realestate 
+                        INNER JOIN `operation` o ON o.id_op = s.id_op
+                        INNER JOIN `img_realestate` i ON r.id_realestate = i.id_realestate
+                        INNER JOIN `city` c ON r.id_city = c.id_city
+                        WHERE t.name_type != 'Vivienda' AND r.id_realestate NOT IN($id)"
+                        . $sql_whereFilter .
+                        " GROUP BY r.id_realestate
+                        LIMIT $limit OFFSET $offset";
+                        //GROUP BY r.id_realestate, o.id_op";
+            
+            $stmt = $db -> ejecutar($sql);
+            return $db -> listar_array_img($stmt);
+        }
+
         public function select_filter_city($db){
 
             $sql = "SELECT c.id_city, c.name_city
@@ -353,6 +379,23 @@
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);
+        }
+
+        public function select_count_related($db, $id, $operation){
+
+            $sql = "SELECT r.id_realestate
+                        FROM `real_estate` r
+                        INNER JOIN `belong_to_type` bt ON  r.id_realestate = bt.id_realestate 
+                        INNER JOIN `type` t ON t.id_type = bt.id_type
+                        INNER JOIN `is_traded` s ON r.id_realestate = s.id_realestate 
+                        INNER JOIN `operation` o ON o.id_op = s.id_op
+                        INNER JOIN `img_realestate` i ON r.id_realestate = i.id_realestate
+                        INNER JOIN `city` c ON r.id_city = c.id_city
+                        WHERE t.name_type != 'Vivienda' AND r.id_realestate != $id AND o.name_op = '$operation'
+                        GROUP BY r.id_realestate";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_indexed_array($stmt);
         }
 
     }

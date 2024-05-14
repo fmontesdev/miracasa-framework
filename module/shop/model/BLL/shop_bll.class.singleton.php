@@ -88,12 +88,20 @@
 			return $this -> dao -> filters_shop($this->db, $args[0], $args[1], $args[2], $id_user);
 		}
 
+		public function get_realestates_related_BLL($args) {
+			return $this -> dao -> select_realestates_related($this->db, $args[0], $args[1], $args[2], $args[3]);
+		}
+
 		public function get_count_all_BLL() {
 			return $this -> dao -> select_count_all($this->db);
 		}
 
 		public function get_count_filtersShop_BLL($filters) {
 			return $this -> dao -> select_count_filtersShop($this->db, $filters);
+		}
+
+		public function get_count_realestates_related_BLL($args) {
+			return $this -> dao -> select_count_related($this->db, $args[0], $args[1]);
 		}
 
 	}

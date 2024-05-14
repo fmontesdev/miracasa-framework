@@ -20,10 +20,10 @@
         <name>filters_shop</name>
         <uri>filters_shop</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>realestates_related</name>
         <uri>realestates_related</uri>
-    </function> -->
+    </function>
     <function>
         <name>count_all</name>
         <uri>count_all</uri>
@@ -32,10 +32,10 @@
         <name>count_filtersShop</name>
         <uri>count_filtersShop</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>count_realestates_related</name>
         <uri>count_realestates_related</uri>
-    </function> -->
+    </function>
     <!-- <function>
         <name>likes</name>
         <uri>likes</uri>

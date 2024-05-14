@@ -30,12 +30,20 @@
             return $this -> bll -> get_filters_shop_BLL($args);
         }
 
+        public function get_realestates_related($args) {
+            return $this -> bll -> get_realestates_related_BLL($args);
+        }
+
         public function get_count_all() {
             return $this -> bll -> get_count_all_BLL();
         }
 
         public function get_count_filtersShop($args) {
             return $this -> bll -> get_count_filtersShop_BLL($args);
+        }
+
+        public function get_count_realestates_related($args) {
+            return $this -> bll -> get_count_realestates_related_BLL($args);
         }
 
     }

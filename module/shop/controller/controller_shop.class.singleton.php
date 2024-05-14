@@ -30,12 +30,21 @@
             echo json_encode(common::load_model('shop_model', 'get_filters_shop', [$_POST['filters'], $_POST['limit'],$_POST['offset'], $_POST['token']]));
         }
 
+        function realestates_related() {
+            echo json_encode(common::load_model('shop_model', 'get_realestates_related', [$_POST['id'], $_POST['operation'],$_POST['limit'], $_POST['offset']]));
+        }
+
         function count_all() {
             echo json_encode(common::load_model('shop_model', 'get_count_all'));
         }
 
         function count_filtersShop() {
             echo json_encode(common::load_model('shop_model', 'get_count_filtersShop', $_POST['filters']));
+        }
+
+        function count_realestates_related() {
+            // echo json_encode('Hola');
+            echo json_encode(common::load_model('shop_model', 'get_count_realestates_related', [$_POST['id'], $_POST['operation']]));
         }
 
     }
