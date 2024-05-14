@@ -533,11 +533,110 @@ function carouselRecomendations() {
     });
 }
 
+function clicks(){
+    $(document).on('click','div.touristcatSlide', function (){
+        var filters_home = []; // creamos array donde capturaremos todos los clicks del home
+        filters_home.push(['name_touristcat', this.getAttribute('id')]); // introducimos en la primera posición del array el id del div que indicamos (id_type)
+        localStorage.removeItem('filters_home'); // borramos el contenido previo de localStorage
+        localStorage.setItem('filters_home', JSON.stringify(filters_home)); // seteamos localStorge serializando el array filters_home con JSON (pasamos de un array a un string)
+            setTimeout(function(){ 
+            window.location.href = friendlyURL('?module=shop'); // cargaremos crtl_shop.js a través del controller_shop.php al darnos acceso a shop.html 
+            }, 500);  
+    });
+  
+    $(document).on('click','div.typeSlide', function (){
+        var filters_home = []; // creamos array donde capturaremos todos los clicks del home
+        filters_home.push(['name_type', this.getAttribute('id')]); // introducimos en la primera posición del array el id del div que indicamos (id_type)
+        localStorage.removeItem('filters_home'); // borramos el contenido previo de localStorage
+        localStorage.setItem('filters_home', JSON.stringify(filters_home)); // seteamos localStorge serializando el array filters_home con JSON (pasamos de un array a un string)
+            setTimeout(function(){ 
+              window.location.href = friendlyURL('?module=shop'); // cargaremos crtl_shop.js a través del controller_shop.php al darnos acceso a shop.html 
+            }, 500);  
+    });
+  
+    $(document).on('click','div.categorySlide', function (){
+        var filters_home = [];
+        filters_home.push(['name_cat', this.getAttribute('id')]);
+        localStorage.removeItem('filters_home');
+        localStorage.setItem('filters_home', JSON.stringify(filters_home)); 
+            setTimeout(function(){ 
+              window.location.href = friendlyURL('?module=shop');
+            }, 500);  
+    });
+  
+    $(document).on('click','div.operationSlide', function (){
+        var filters_home = [];
+        filters_home.push(['name_op', this.getAttribute('id')]);
+        localStorage.removeItem('filters_home');
+        localStorage.setItem('filters_home', JSON.stringify(filters_home)); 
+          setTimeout(function(){ 
+              window.location.href = friendlyURL('?module=shop');
+          }, 500);  
+      });
+  
+    $(document).on('click','div.citySlide', function (){
+        var filters_home = [];
+        filters_home.push(['name_city', this.getAttribute('id')]);
+        localStorage.removeItem('filters_home');
+        localStorage.setItem('filters_home', JSON.stringify(filters_home)); 
+            setTimeout(function(){ 
+              window.location.href = friendlyURL('?module=shop');
+            }, 500);
+    });
+  
+    $(document).on("click",'div.lastsearchSlide', function (){
+        localStorage.removeItem('filtersHome_details');
+        localStorage.setItem('filtersHome_details', this.getAttribute('id'));
+            setTimeout(function(){ 
+              window.location.href = friendlyURL('?module=shop');
+            }, 500);
+    });
+  
+    $(document).on('click','div.mostvisitedSlide', function (){
+        localStorage.removeItem('filtersHome_details');
+        localStorage.setItem('filtersHome_details', this.getAttribute('id'));
+            setTimeout(function(){ 
+              window.location.href = friendlyURL('?module=shop');
+            }, 500);
+    });
+  
+    $(document).on('click','div.recomendationSlide', function (){
+        localStorage.removeItem('filtersHome_details');
+        localStorage.setItem('filtersHome_details', this.getAttribute('id'));
+            setTimeout(function(){
+              // alert(friendlyURL('?module=shop'));
+              // return;
+              window.location.href = friendlyURL('?module=shop');
+            }, 500);
+    });
+}
+
+function remove_filtersShop() {
+    localStorage.setItem('page', 1);
+    localStorage.removeItem('count');
+    localStorage.removeItem('filters_shop');
+    localStorage.removeItem('filter_city');
+    localStorage.removeItem('filter_cat');
+    localStorage.removeItem('filter_type');
+    localStorage.removeItem('filter_op');
+    localStorage.removeItem('filter_extras');
+    localStorage.removeItem('filter_rooms');
+    localStorage.removeItem('filter_bathrooms');
+    localStorage.removeItem('filter_priceSince');
+    localStorage.removeItem('filter_priceTo');
+    localStorage.removeItem('filter_touristcat');
+    localStorage.removeItem('filter_order');
+}
+  
+function location_home() {
+    localStorage.setItem("location", "home"); // guarda en localStorage localización
+}
+
 $(document).ready(function() {
   //$data = 'hola JS function';
   //die("<script>console.log('.json_encode( $data ).');</script>");
-//   remove_filtersShop();
-//   location_home();
+  remove_filtersShop();
+  location_home();
   carouselTouristcat();
   carouselTypes();
   carouselCategories();
@@ -546,5 +645,5 @@ $(document).ready(function() {
   carouselLastsearch();
   carouselMostvisited();
   carouselRecomendations();
-//   clicks();
+  clicks();
 });
