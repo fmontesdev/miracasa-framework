@@ -104,5 +104,17 @@
 			return $this -> dao -> select_count_related($this->db, $args[0], $args[1]);
 		}
 
+		public function get_likes_BLL($args) {
+			if ($args[1] != null) {
+				$accessToken_dec = middleware_auth::decode_token('access', $args[1]);
+				$id_user = $accessToken_dec['id_user'];
+			} else {
+				$id_user = 'null';
+			}
+
+			$this -> dao -> update_like($this->db, $args[0], $id_user, $args[2]);
+			return $this -> dao -> select_likes_realEstate($this->db, $args[0], $id_user);
+		}
+
 	}
 ?>

@@ -398,6 +398,30 @@
             return $db->listar_indexed_array($stmt);
         }
 
+        public function update_like($db, $id_re, $id_user, $count_like){
+
+            if ($count_like > 0) {
+                $sql = "DELETE
+                            FROM `like` l
+                            WHERE l.id_realestate = $id_re AND l.id_user = $id_user";
+            } else {
+                $sql = "INSERT INTO `like`(`id_realestate`, `id_user`) 
+                    VALUES ('$id_re','$id_user')";
+            }
+
+            $stmt = $db->ejecutar($sql);
+            // return $db->listar_array($stmt);
+        }
+
+        public function updateLike_procedure($db, $id_re, $id_user){
+
+            $sql = "CALL update_like ($id_re, $id_user, @countLike);";
+		    $sql.= "SELECT @countLike);";
+
+            // Ojo mysqli_multi_query($conexion, $sql)
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
     }
 
 ?>

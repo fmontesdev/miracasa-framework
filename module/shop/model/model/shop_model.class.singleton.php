@@ -46,5 +46,9 @@
             return $this -> bll -> get_count_realestates_related_BLL($args);
         }
 
+        public function get_likes($args) {
+            return $this -> bll -> get_likes_BLL($args);
+        }
+
     }
 ?>

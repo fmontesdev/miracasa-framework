@@ -36,8 +36,8 @@
         <name>count_realestates_related</name>
         <uri>count_realestates_related</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>likes</name>
         <uri>likes</uri>
-    </function> -->
+    </function>
 </functions>

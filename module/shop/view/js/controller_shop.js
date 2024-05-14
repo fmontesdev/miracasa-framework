@@ -1502,6 +1502,47 @@ function load_realestates_related(id, operation, limit, offset, countRelated, is
         });
 }
 
+function likes(id_realestate, count_like, origin) {
+    var accessToken = localStorage.getItem('access_token') || null;
+    if (accessToken != null) {
+        ajaxPromise(friendlyURL('?module=shop'), 'POST', 'JSON', { 'op': 'likes', 'id_re': id_realestate, 'token': accessToken, 'countLike': count_like })
+            .then(function(data) {
+                if (origin == 'list') {
+                    console.log(data);
+                    $(`#${id_realestate} .listLike_container`).attr('like', data.like); // actualiza contador de likes como atributo en el div
+                    $(`#${id_realestate} .listLike_icon`).remove();
+                    if (data.like != 0) {
+                        $('<img>').attr('id', id_realestate).attr('class', 'listLike_icon').attr('src', 'view/img/icons/like.png').appendTo(`#${id_realestate} .listLike_container`);
+                        if (data.like > 1) {
+                            $('<span></span>').attr('class', 'list_countLikes').appendTo(`#${id_realestate} .listLike_container`).html(data.like);
+                        }
+                    } else {
+                        $('<img>').attr('id', id_realestate).attr('class', 'listLike_icon').attr('src', 'view/img/icons/dislike.png').appendTo(`#${id_realestate} .listLike_container`);
+                    }
+                } else if (origin == 'details') {
+                    console.log(data);
+                    $('.detailsLike_container').attr('like', data.like);  // actualiza contador de likes como atributo en el div
+                    $('.detailsLike_icon').remove();
+                    if (data.like != 0) {
+                        $('<img>').attr('class', 'detailsLike_icon').attr('src', 'view/img/icons/like.png').appendTo('.detailsLike_container');
+                        if (data.like > 1) {
+                            $('<span></span>').attr('class', 'details_countLikes').appendTo(`.detailsLike_container`).html(data.like);
+                        }
+                    } else {
+                        $('<img>').attr('class', 'detailsLike_icon').attr('src', 'view/img/icons/dislike.png').appendTo('.detailsLike_container');
+                    }
+                }
+            }).catch(function(textStatus) {
+                if (console && console.log) {
+                    console.log("La solicitud ha fallado: " + textStatus);
+                }
+            });
+    } else {
+        window.location.href=friendlyURL('?module=login');
+    }
+
+}
+
 $(document).ready(function() {
     // console.log('Hola JS document ready');
     loadAllRealestates();

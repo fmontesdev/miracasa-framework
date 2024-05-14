@@ -47,5 +47,10 @@
             echo json_encode(common::load_model('shop_model', 'get_count_realestates_related', [$_POST['id'], $_POST['operation']]));
         }
 
+        function likes() {
+            // echo json_encode($_POST['token']);
+            echo json_encode(common::load_model('shop_model', 'get_likes', [$_POST['id_re'], $_POST['token'], $_POST['countLike']]));
+        }
+
     }
 ?>
