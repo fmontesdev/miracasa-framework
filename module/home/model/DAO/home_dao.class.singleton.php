@@ -36,5 +36,13 @@
             return $db -> listar_array($stmt);
         }
 
+		public function select_operation($db) {
+
+            $sql= "SELECT * FROM `operation` ORDER BY id_op";
+
+            $stmt = $db -> ejecutar($sql);
+            return $db -> listar_array($stmt);
+        }
+
     }
 ?>

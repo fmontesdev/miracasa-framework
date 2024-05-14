@@ -28,5 +28,9 @@
             return $this -> bll -> get_carouselCategory_BLL();
         }
 
+        public function get_carouselOperation() {
+            return $this -> bll -> get_carouselOperation_BLL();
+        }
+
     }
 ?>

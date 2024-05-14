@@ -28,5 +28,9 @@
 			return $this -> dao -> select_category($this -> db);
 		}
 
+		public function get_carouselOperation_BLL() {
+			return $this -> dao -> select_operation($this -> db);
+		}
+
 	}
 ?>

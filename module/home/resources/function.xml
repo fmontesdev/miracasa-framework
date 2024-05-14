@@ -16,10 +16,10 @@
         <name>carouselCategory</name>
         <uri>carouselCategory</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>carouselOperation</name>
         <uri>carouselOperation</uri>
-    </function> -->
+    </function>
     <!-- <function>
         <name>carouselCity</name>
         <uri>carouselCity</uri>

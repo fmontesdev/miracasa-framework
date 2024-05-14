@@ -26,9 +26,9 @@
             echo json_encode(common::load_model('home_model', 'get_carouselCategory'));
         }
 
-        // function carouselOperation() {
-        //     echo json_encode(common::load_model('home_model', 'get_carouselOperation'));
-        // }
+        function carouselOperation() {
+            echo json_encode(common::load_model('home_model', 'get_carouselOperation'));
+        }
 
         // function carouselCity() {
         //     echo json_encode(common::load_model('home_model', 'get_carouselCity'));
