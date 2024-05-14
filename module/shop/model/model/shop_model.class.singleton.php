@@ -22,5 +22,9 @@
             return $this -> bll -> get_details_realestate_BLL($args);
         }
 
+        public function get_load_filters() {
+            return $this -> bll -> get_load_filters_BLL();
+        }
+
     }
 ?>

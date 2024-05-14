@@ -100,6 +100,89 @@
             return $like;
         }
 
+        public function select_filter_city($db){
+
+            $sql = "SELECT c.id_city, c.name_city
+                    FROM `city` c
+                    ORDER BY c.name_city";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_indexed_array($stmt);
+        }
+
+        public function select_filter_cat($db){
+
+            $sql = "SELECT c.id_cat, c.name_cat
+                    FROM `category` c
+                    ORDER BY c.id_cat";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_indexed_array($stmt);
+        }
+
+        public function select_filter_type($db){
+
+            $sql = "SELECT t.id_type, t.name_type, t.subtype
+                    FROM `type` t
+                    WHERE t.subtype = 'Inmueble'
+                    ORDER BY t.id_type";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_indexed_array($stmt);
+        }
+
+        public function select_filter_flat($db){
+
+            $sql = "SELECT t.id_type, t.name_type, t.subtype
+                    FROM `type` t
+                    WHERE t.subtype = 'Piso'
+                    ORDER BY t.id_type";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_indexed_array($stmt);
+        }
+
+        public function select_filter_house($db){
+
+            $sql = "SELECT t.id_type, t.name_type, t.subtype
+                    FROM `type` t
+                    WHERE t.subtype = 'Casa'
+                    ORDER BY t.id_type";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_indexed_array($stmt);
+        }
+
+        public function select_filter_op($db){
+
+            $sql = "SELECT o.id_op, o.name_op
+                    FROM `operation` o
+                    ORDER BY o.id_op";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_indexed_array($stmt);
+        }
+
+        public function select_filter_extras($db){
+
+            $sql = "SELECT e.id_extras, e.name_extras
+                    FROM `extras` e
+                    ORDER BY e.id_extras";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_indexed_array($stmt);
+        }
+
+        public function select_filter_touristcat($db){
+
+            $sql = "SELECT c.id_touristcat, c.name_touristcat
+                    FROM `tourist_cat` c
+                    ORDER BY c.id_touristcat";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_indexed_array($stmt);
+        }
+
     }
 
 ?>

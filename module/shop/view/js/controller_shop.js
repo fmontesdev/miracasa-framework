@@ -273,6 +273,391 @@ function load_mapboxList(data) {
     }
 }
 
+function loadFilters() {
+    ajaxPromise(friendlyURL('?module=shop'), 'POST', 'JSON', { 'op': 'load_filters' })
+    .then(function(data) {
+        console.log(data);
+
+        $('<div></div>').attr('class', 'container').appendTo('.section-filters')
+        .html(`
+            <div class='filters_container container'>
+                <div id='modal_all_filters'>
+                    <a href='#modalAllFilters' class='open'>
+                        <img src='view/img/icons/filtrar.png' alt='Todos los filtros'>
+                    </a>
+                    <div id='modalAllFilters' class='modal container'>
+                        <a href='#' class='modal-bg container'></a>
+                        <div class='modal-content filterAll_container_main'>
+                            <div class='filterAll-title_main'>
+                                <span>Filtros</span>
+                            </div>
+
+                            <div class='filterTouristcatCityAll_container filterAll_container'>
+                                <div class='filterTouristcatAll_container'>
+                                    <div class='filterAll-title'>
+                                        <span>Zona turística</span>
+                                    </div>
+                                    <select id='filter_touristcat_select' name='filter_touristcat' class='filter_touristcat'>
+                                        <option hidden selected>Selecciona zona turística</option>
+                                    </select>
+                                </div>
+
+                                <div class='filterCityAll_container'>
+                                    <div class='filterAll-title'>
+                                        <span>Ciudad</span>
+                                    </div>
+                                    <select id='filter_city_select' name='filter_city' class='filter_city'>
+                                        <option hidden selected>Selecciona una ciudad</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class='filterTypeAll_container filterAll_container'>
+                                <div class='filterAll-title'>
+                                    <span>Tipo de inmuebles</span>
+                                </div>
+                                <div class='filterTypeCont_data'>
+                                    <div class='filterTypeCont_col1'>
+                                        <label><em>General</em></label>
+                                        <ul class='filterTypeAllCont_general'></ul>
+                                    </div>
+
+                                    <div class='filterTypeCont_col2'>
+                                        <label><em>Piso</em></label>
+                                        <ul class='filterTypeAllCont_piso'></ul>
+                                        <label><em>Casa</em></label>
+                                        <ul class='filterTypeAllCont_casa'></ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class='filterCatOpAll_container filterAll_container'>
+                                <div class='filterCatAll_container'>
+                                    <div class='filterAll-title'>
+                                        <span>Categoria</span>
+                                    </div>
+                                    <select id='filter_cat_select' name='filter_cat' class='filter_cat'>
+                                        <option hidden selected>Selecciona una categoria</option>
+                                    </select>
+                                </div>
+
+                                <div class='filterOpAll_container'>
+                                    <div class='filterAll-title'>
+                                        <span>Transacción</span>
+                                    </div>
+                                    <select id='filter_op_select' name='filter_op' class='filter_op'>
+                                        <option hidden selected>Selecciona transacción</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class='filterPrice_container filterAll_container'>
+                                <div class='filterAll-title filterAll-doubleTitle'>
+                                    <span>Precio</span>
+                                </div>
+
+                                <div class='filterPriceSince_container'>
+                                    <div class='filterAll-title'>
+                                        <span>Mínimo</span>
+                                    </div>
+                                    <select id='filter_priceSince_select' name='filter_priceSince' class='filter_priceSince'>
+                                        <option hidden selected>Indiferente</option>
+                                        <option value='50000'>50.000 €</option>
+                                        <option value='75000'>75.000 €</option>
+                                        <option value='100000'>100.000 €</option>
+                                        <option value='125000'>125.000 €</option>
+                                        <option value='150000'>150.000 €</option>
+                                        <option value='200000'>200.000 €</option>
+                                        <option value='250000'>250.000 €</option>
+                                        <option value='300000'>300.000 €</option>
+                                        <option value='400000'>400.000 €</option>
+                                        <option value='500000'>500.000 €</option>
+                                        <option value='750000'>750.000 €</option>
+                                        <option value='1000000'>1.000.000 €</option>
+                                        <option value='1500000'>1.500.000 €</option>
+                                        <option value='2000000'>2.000.000 €</option>
+                                    </select>
+                                </div>
+
+                                <div class='filterPriceTo_container'>
+                                    <div class='filterAll-title'>
+                                        <span>Máximo</span>
+                                    </div>
+                                    <select id='filter_priceTo_select' name='filter_priceTo' class='filter_priceTo'>
+                                        <option hidden selected>Indiferente</option>
+                                        <option value='50000'>50.000 €</option>
+                                        <option value='75000'>75.000 €</option>
+                                        <option value='100000'>100.000 €</option>
+                                        <option value='125000'>125.000 €</option>
+                                        <option value='150000'>150.000 €</option>
+                                        <option value='200000'>200.000 €</option>
+                                        <option value='250000'>250.000 €</option>
+                                        <option value='300000'>300.000 €</option>
+                                        <option value='400000'>400.000 €</option>
+                                        <option value='500000'>500.000 €</option>
+                                        <option value='750000'>750.000 €</option>
+                                        <option value='1000000'>1.000.000 €</option>
+                                        <option value='1500000'>1.500.000 €</option>
+                                        <option value='2000000'>2.000.000 €</option>
+                                    </select>
+                                </div>
+                            </div>  
+
+                            <div class='filterRooms_container filterAll_container'>
+                                <div class='filterAll-title'>
+                                    <span>Habitaciones</span>
+                                </div>
+                                <div id='filter_rooms_cont'>
+                                    <input type='button' name='filterRooms_buttons' id='filterRooms_buttons' class='filter_button' value='1'>
+                                    <input type='button' name='filterRooms_buttons' id='filterRooms_buttons' class='filter_button' value='2'>
+                                    <input type='button' name='filterRooms_buttons' id='filterRooms_buttons' class='filter_button' value='3'>
+                                    <input type='button' name='filterRooms_buttons' id='filterRooms_buttons' class='filter_button' value='4'>
+                                    <input type='button' name='filterRooms_buttons' id='filterRooms_buttons' class='filter_button' value='+5'>
+                                </div>
+
+                            </div>
+
+                            <div class='filterBathrooms_container filterAll_container'>
+                                <div class='filterAll-title'>
+                                    <span>Baños</span>
+                                </div>
+                                <div id='filter_bathrooms_cont'>
+                                    <input type='button' name='filterBathrooms_buttons' id='filterBathrooms_buttons' class='filter_button' value='1'>
+                                    <input type='button' name='filterBathrooms_buttons' id='filterBathrooms_buttons' class='filter_button' value='2'>
+                                    <input type='button' name='filterBathrooms_buttons' id='filterBathrooms_buttons' class='filter_button' value='3'>
+                                    <input type='button' name='filterBathrooms_buttons' id='filterBathrooms_buttons' class='filter_button' value='4'>
+                                    <input type='button' name='filterBathrooms_buttons' id='filterBathrooms_buttons' class='filter_button' value='+5'>
+                                </div>
+                            </div>
+
+                            <div class='filterExtras_container filterAll_container'>
+                                <div class='filterAll-title'>
+                                    <span>Extras</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id='modal_type'>
+                    <a href='#modalType' class='open'>
+                        <button id='type_button' class='modal-button'>Tipo de inmueble</button>
+                    </a>
+                    <div id='modalType' class='modal container'>
+                        <a href='#' class='modal-bg container'></a>
+                        <div class='modal-content filterType_container'>
+                            <div class='modal-title'>
+                                <span>Tipo de inmueble</span>
+                                <img src='view/img/icons/eliminar.png' alt='Eliminar filtro' onclick='remove_filterType()'>
+                            </div>
+                            <div class='filterTypeCont_data'>
+                                <div class='filterTypeCont_col1'>
+                                    <label><em>General</em></label>
+                                    <ul class='filterTypeCont_general'></ul>
+                                </div>
+                                
+                                <div class='filterTypeCont_col2'>
+                                    <label><em>Piso</em></label>
+                                    <ul class='filterTypeCont_piso'></ul>
+                                    <label><em>Casa</em></label>
+                                    <ul class='filterTypeCont_casa'></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id='modal_cat'>
+                    <a href='#modalCat' class='open'>
+                        <button id='cat_button' class='modal-button'>Categoría</button>
+                    </a>
+                    <div id='modalCat' class='modal container'>
+                        <a href='#' class='modal-bg container'></a>
+                        <div class='modal-content filterCat_container'>
+                            <div class='modal-title'>
+                                <span>Categoría</span>
+                                <img src='view/img/icons/eliminar.png' alt='Eliminar filtro' onclick='remove_filterCat()'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id='modal_extras'>
+                    <a href='#modalExtras' class='open'>
+                        <button id='extras_button' class='modal-button'>Extras</button>
+                    </a>
+                    <div id='modalExtras' class='modal container'>
+                        <a href='#' class='modal-bg container'></a>
+                        <div class='modal-content filterExtras_container'>
+                            <div class='modal-title'>
+                                <span>Extras</span>
+                                <img src='view/img/icons/eliminar.png' alt='Eliminar filtro' onclick='remove_filterExtras()'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id='modal_order'>
+                    <a href='#modalOrder' class='open'>
+                        <button id='order_button' class='modal-button'>Ordenar por</button>
+                    </a>
+                    <div id='modalOrder' class='modal container'>
+                        <a href='#' class='modal-bg container'></a>
+                        <div class='modal-content filterOrder_container'>
+                            <div class='modal-title'>
+                                <span>Ordenar por</span>
+                                <img src='view/img/icons/eliminar.png' alt='Eliminar filtro' onclick='remove_filterOrder()'>
+                            </div>
+                            <div class="filter_container">
+                                <input type='radio' id='filter_order_cheaper' name='filter_order' class='filter_order' value='Más baratos'>
+                                <label for='filter_order_cheaper'>Más baratos</label>
+                            </div>
+                            <div class="filter_container">
+                                <input type='radio' id='filter_order_expensive' name='filter_order' class='filter_order' value='Más caros'>
+                                <label for='filter_order_expensive'>Más caros</label>
+                            </div>
+                            <div class="filter_container">
+                                <input type='radio' id='filter_order_bigger' name='filter_order' class='filter_order' value='Más grandes'>
+                                <label for='filter_order_bigger'>Más grandes</label>
+                            </div>
+                            <div class="filter_container">
+                                <input type='radio' id='filter_order_smaller' name='filter_order' class='filter_order' value='Más pequeños'>
+                                <label for='filter_order_smaller'>Más pequeños</label>
+                            </div>
+                            <div class="filter_container">
+                                <input type='radio' id='filter_order_visited' name='filter_order' class='filter_order' value='Más visitados'>
+                                <label for='filter_order_visited'>Más visitados</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id='modal_remove'>
+                    <img src='view/img/icons/eliminar.png' alt='Eliminar todos los filtros' onclick='remove_filters()'>
+                </div>
+            </div>`
+        )
+
+        setTimeout(function(){
+            $('<div></div>').attr('id', 'modal_results').appendTo('.filters_container')       
+                .html(`<span class='results'>${localStorage.getItem('count')} Inmuebles</span>`);
+        }, 100);
+
+        // filters all
+        for (row in data[0]) {
+            $('<option></option>').attr('value', `${data[0][row].name_city}`).html(`${data[0][row].name_city}`).appendTo('#filter_city_select')
+            };
+        for (row in data[1]) {
+            $('<option></option>').attr('value', `${data[1][row].name_cat}`).html(`${data[1][row].name_cat}`).appendTo('#filter_cat_select')
+            };
+        for (row in data[2]) {
+            for (i=0; i<data[2][row].length; i++ ) {
+                if (data[2][row][i].subtype == 'Inmueble') {
+                    $('<li></li>').attr('class', 'filter_container').appendTo('.filterTypeAllCont_general')       
+                        .html(`
+                            <input type='radio' id='filter_type_${data[2][row][i].id_type}' name='filter_type_all' class='filter_type_all' value='${data[2][row][i].name_type}'>
+                            <label for='filter_type_${data[2][row][i].id_type}'>${data[2][row][i].name_type}</label>`
+                    );
+                };
+                if (data[2][row][i].subtype == 'Piso') {
+                    $('<li></li>').attr('class', 'filter_container').appendTo('.filterTypeAllCont_piso')       
+                        .html(`
+                            <input type='radio' id='filter_type_${data[2][row][i].id_type}' name='filter_type_all' class='filter_type_all' value='${data[2][row][i].name_type}'>
+                            <label for='filter_type_${data[2][row][i].id_type}'>${data[2][row][i].name_type}</label>`
+                    ); 
+                };
+                if (data[2][row][i].subtype == 'Casa') {
+                    $('<li></li>').attr('class', 'filter_container').appendTo('.filterTypeAllCont_casa')       
+                        .html(`
+                            <input type='radio' id='filter_type_${data[2][row][i].id_type}' name='filter_type_all' class='filter_type_all' value='${data[2][row][i].name_type}'>
+                            <label for='filter_type_${data[2][row][i].id_type}'>${data[2][row][i].name_type}</label>`
+                    ); 
+                };
+            };
+        };
+        for (row in data[3]) {
+            $('<option></option>').attr('value', `${data[3][row].name_op}`).html(`${data[3][row].name_op}`).appendTo('#filter_op_select')
+            };
+        for (row in data[5]) {
+            $('<option></option>').attr('value', `${data[5][row].name_touristcat}`).html(`${data[5][row].name_touristcat}`).appendTo('#filter_touristcat_select')
+            };
+
+        // // filter city
+        // for (row in data[0][0]) {
+        //     $('<div></div>').attr('class', 'filter_container').appendTo('.filterCity_container')       
+        //         .html(`
+        //             <input type='radio' id='filter_city_${data[0][0][row].id_city}' name='filter_city' class='filter_city' value='${data[0][0][row].name_city}'>
+        //             <label for='filter_city_${data[0][0][row].id_city}'>${data[0][0][row].name_city}</label>`
+        //     )};
+
+        // filter type
+        for (row in data[2]) {
+            for (i=0; i<data[2][row].length; i++ ) {
+                if (data[2][row][i].subtype == 'Inmueble') {
+                    $('<li></li>').attr('class', 'filter_container').appendTo('.filterTypeCont_general')       
+                        .html(`
+                            <input type='radio' id='filter_type_${data[2][row][i].id_type}' name='filter_type' class='filter_type' value='${data[2][row][i].name_type}'>
+                            <label for='filter_type_${data[2][row][i].id_type}'>${data[2][row][i].name_type}</label>`
+                    );
+                };
+                if (data[2][row][i].subtype == 'Piso') {
+                    $('<li></li>').attr('class', 'filter_container').appendTo('.filterTypeCont_piso')       
+                        .html(`
+                            <input type='radio' id='filter_type_${data[2][row][i].id_type}' name='filter_type' class='filter_type' value='${data[2][row][i].name_type}'>
+                            <label for='filter_type_${data[2][row][i].id_type}'>${data[2][row][i].name_type}</label>`
+                    ); 
+                };
+                if (data[2][row][i].subtype == 'Casa') {
+                    $('<li></li>').attr('class', 'filter_container').appendTo('.filterTypeCont_casa')       
+                        .html(`
+                            <input type='radio' id='filter_type_${data[2][row][i].id_type}' name='filter_type' class='filter_type' value='${data[2][row][i].name_type}'>
+                            <label for='filter_type_${data[2][row][i].id_type}'>${data[2][row][i].name_type}</label>`
+                    ); 
+                };
+            };
+        };
+
+        // filter category
+        for (row in data[1]) {
+            $('<div></div>').attr('class', 'filter_container').appendTo('.filterCat_container')       
+                .html(`
+                    <input type='radio' id='filter_cat_${data[1][row].id_cat}' name='filter_cat' class='filter_cat' value='${data[1][row].name_cat}'>
+                    <label for='filter_cat_${data[1][row].id_cat}'>${data[1][row].name_cat}</label>`
+            )};
+        
+        // // filter operation
+        // for (row in data[3][0]) {
+        //     $('<div></div>').attr('class', 'filter_container').appendTo('.filterOp_container')       
+        //         .html(`
+        //             <input type='radio' id='filter_op_${data[3][0][row].id_op}' name='filter_op' class='filter_op' value='${data[3][0][row].name_op}'>
+        //             <label for='filter_op_${data[3][0][row].id_op}'>${data[3][0][row].name_op}</label>`
+        //     )};
+
+        // filter extras
+        for (row in data[4]) {
+            $('<div></div>').attr('class', 'filter_container').appendTo('.filterExtras_container')       
+                .html(`
+                    <input type='checkbox' id='filter_extras_${data[4][row].id_extras}' name='filter_extras' class='filter_extras' value='${data[4][row].name_extras}'>
+                    <label for='filter_extras_${data[4][row].id_extras}'>${data[4][row].name_extras}</label>`
+            )};
+        
+        // // filter tourist category
+        // for (row in data[5][0]) {
+        //     $('<div></div>').attr('class', 'filter_container').appendTo('.filterTouristcat_container')       
+        //         .html(`
+        //             <input type='radio' id='filter_touristcat_${data[5][0][row].id_touristcat}' name='filter_touristcat' class='filter_touristcat' value='${data[5][0][row].name_touristcat}'>
+        //             <label for='filter_touristcat_${data[5][0][row].id_touristcat}'>${data[5][0][row].name_touristcat}</label>`
+        //     )};
+        
+        highlight();
+        
+    }).catch(function() {
+        window.location.href='index.php?page=503';
+    });
+}
+
 function loadDetails(id_realestate) {
     localStorage.setItem("location", id_realestate); // guarda en localStorage localización
     var accessToken = localStorage.getItem('access_token') || null;
@@ -435,9 +820,9 @@ function load_mapboxDetails(data) {
 $(document).ready(function() {
     // console.log('Hola JS document ready');
     loadAllRealestates();
-    // setTimeout(function(){ 
-    //     loadFilters();
-    // }, 20);
+    setTimeout(function(){ 
+        loadFilters();
+    }, 20);
     // saveFilters();
     // clicks();
 });

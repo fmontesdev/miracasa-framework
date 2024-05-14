@@ -12,10 +12,10 @@
         <name>details_realestate</name>
         <uri>details_realestate</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>load_filters</name>
         <uri>load_filters</uri>
-    </function> -->
+    </function>
     <!-- <function>
         <name>filters_shop</name>
         <uri>filters_shop</uri>

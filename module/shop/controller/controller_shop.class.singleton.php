@@ -22,5 +22,9 @@
             echo json_encode(common::load_model('shop_model', 'get_details_realestate', [$_POST['id_re'], $_POST['token']]));
         }
 
+        function load_filters() {
+            echo json_encode(common::load_model('shop_model', 'get_load_filters'));
+        }
+
     }
 ?>

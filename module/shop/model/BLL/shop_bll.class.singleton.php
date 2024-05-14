@@ -52,5 +52,30 @@
 			return $rdo;
 		}
 
+		public function get_load_filters_BLL() {
+			$dates_city = $this -> dao -> select_filter_city($this->db);
+			$dates_cat = $this -> dao -> select_filter_cat($this->db);
+			$dates_type = $this -> dao -> select_filter_type($this->db);
+			$dates_type_flat = $this -> dao -> select_filter_flat($this->db);
+			$dates_type_house = $this -> dao -> select_filter_house($this->db);
+			$dates_op = $this -> dao -> select_filter_op($this->db);
+			$dates_extras = $this -> dao -> select_filter_extras($this->db);
+			$dates_touristcat = $this -> dao -> select_filter_touristcat($this->db);
+
+			if (!empty($dates_city || $dates_cat || $dates_type || $dates_type_flat || $dates_type_house || $dates_op || $dates_extras || $dates_touristcat)) {
+				$rdo = array();
+				$rdo[0] = $dates_city;
+				$rdo[1] = $dates_cat;
+				$rdo[2][0] = $dates_type;
+				$rdo[2][1] = $dates_type_flat;
+				$rdo[2][2] = $dates_type_house;
+				$rdo[3] = $dates_op;
+				$rdo[4] = $dates_extras;
+				$rdo[5] = $dates_touristcat;
+			}
+
+			return $rdo;
+		}
+
 	}
 ?>
