@@ -8,10 +8,10 @@
         <name>carouselTouristcat</name>
         <uri>carouselTouristcat</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>carouselType</name>
         <uri>carouselType</uri>
-    </function> -->
+    </function>
     <!-- <function>
         <name>carouselCategory</name>
         <uri>carouselCategory</uri>

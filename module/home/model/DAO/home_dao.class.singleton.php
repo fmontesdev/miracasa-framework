@@ -20,5 +20,13 @@
             return $db -> listar_array($stmt);
         }
 
+		public function select_type($db) {
+
+            $sql= "SELECT * FROM `type` WHERE subtype = 'Inmueble' ORDER BY id_type";
+
+            $stmt = $db -> ejecutar($sql);
+            return $db -> listar_array($stmt);
+        }
+
     }
 ?>

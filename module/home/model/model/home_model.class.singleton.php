@@ -19,5 +19,9 @@
             return $this -> bll -> get_carouselTouristcat_BLL();
         }
 
+        public function get_carouselType() {
+            return $this -> bll -> get_carouselType_BLL();
+        }
+
     }
 ?>

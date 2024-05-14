@@ -20,5 +20,9 @@
 			return $this -> dao -> select_touristcat($this -> db);
 		}
 
+		public function get_carouselType_BLL() {
+			return $this -> dao -> select_type($this -> db);
+		}
+
 	}
 ?>

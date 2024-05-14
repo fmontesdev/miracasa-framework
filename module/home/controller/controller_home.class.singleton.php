@@ -17,9 +17,9 @@
             echo json_encode(common::load_model('home_model', 'get_carouselTouristcat'));
         }
 
-        // function carouselType() {
-        //     echo json_encode(common::load_model('home_model', 'get_carouselType'));
-        // }
+        function carouselType() {
+            echo json_encode(common::load_model('home_model', 'get_carouselType'));
+        }
         
         // function carouselCategory() {
         //     // echo json_encode('Hola');
