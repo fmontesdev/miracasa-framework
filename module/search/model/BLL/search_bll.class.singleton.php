@@ -23,6 +23,9 @@
 		public function get_search_touristCategory_BLL($operation) {
 			return $this -> dao -> search_touristCategory($this->db, $operation);
 		}
-	
+
+		public function get_search_autocomplete_BLL($args) {
+			return $this -> dao -> search_autocomplete($this->db, $args[0], $args[1], $args[2]);
+		}
 	}
 ?>

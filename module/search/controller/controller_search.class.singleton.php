@@ -18,5 +18,8 @@
             echo json_encode(common::load_model('search_model', 'get_search_touristCategory', $_POST['operation']));
         }
 
+        function search_autocomplete() {
+            echo json_encode(common::load_model('search_model', 'get_search_autocomplete', [$_POST['complete'], $_POST['operation'], $_POST['touristcat']]));
+        }
     }
 ?>

@@ -45,6 +45,32 @@
             return $db -> listar_indexed_array($stmt);
         }
 
+        function search_autocomplete($db, $complete, $operation, $touristcat){
+
+            $sql_innerFilter = "";
+            $sql_whereFilter = "";
+    
+            if (!empty($operation)) {
+                $sql_innerFilter .= " INNER JOIN `is_traded` s ON r.id_realestate = s.id_realestate 
+                                    INNER JOIN `operation` o ON o.id_op = s.id_op";
+                $sql_whereFilter .= " AND o.name_op LIKE '$operation'";
+            }
+            if (!empty($touristcat)) {
+                $sql_innerFilter .= " INNER JOIN `tourist_cat` t ON t.id_touristcat = c.id_touristcat";
+                $sql_whereFilter .= " AND t.name_touristcat LIKE '$touristcat'";
+            }
+    
+            $sql = "SELECT c.id_city, c.name_city
+                    FROM `real_estate` r
+                    INNER JOIN `city` c ON r.id_city = c.id_city"
+                    . $sql_innerFilter .
+                    " WHERE c.name_city LIKE '$complete%'"
+                    . $sql_whereFilter .
+                    " ORDER BY c.name_city";
+			
+            $stmt = $db -> ejecutar($sql);
+            return $db -> listar_indexed_array($stmt);
+        }
     }
 
 ?>

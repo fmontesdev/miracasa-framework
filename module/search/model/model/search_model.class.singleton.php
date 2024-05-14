@@ -22,4 +22,7 @@
             return $this -> bll -> get_search_touristCategory_BLL($operation);
         }
 
+        public function get_search_autocomplete($args) {
+            return $this -> bll -> get_search_autocomplete_BLL($args);
+        }
     }

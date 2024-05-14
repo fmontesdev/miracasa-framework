@@ -8,8 +8,8 @@
         <name>search_touristCategory</name>
         <uri>search_touristCategory</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>search_autocomplete</name>
         <uri>search_autocomplete</uri>
-    </function> -->
+    </function>
 </functions>

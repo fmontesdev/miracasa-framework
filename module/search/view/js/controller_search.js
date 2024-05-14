@@ -54,8 +54,124 @@ function launch_search() {
     });
 }
 
+function autocomplete() {
+    // $('#filter_search_op_select').on('click', function () {
+    //     $('#filter_search_city_auto').empty();
+    // });
+
+    // ------------------------- evento click ------------------------- //
+    $('#filter_search_city_auto').on('click', function () {
+        var complete = "%";
+        var operation = null;
+        var touristcat = null;
+
+        if ($('#filter_search_op_select').val() != 'Transacción') {
+            operation = $('#filter_search_op_select').val();
+            if ($('#filter_search_touristcat_select').val() != 'Zona turística') {
+                touristcat = $('#filter_search_touristcat_select').val();
+            }
+        } else if ($('#filter_search_touristcat_select').val() != 'Zona turística') {
+            touristcat = $('#filter_search_touristcat_select').val();
+        }
+
+        console.log([complete, operation, touristcat]);
+
+        ajaxPromise(friendlyURL('?module=search'), 'POST', 'JSON', { 'op': 'search_autocomplete', 'complete': complete, 'operation': operation, 'touristcat': touristcat })
+            .then(function (data) {
+                console.log(data);
+                if (data != 'error') { // para gestionar la falta de resultados
+                    $('#search_auto').empty();
+                    $('#search_auto').fadeIn(100);
+                    for (row in data) {
+                        $('<div></div>').attr('class', 'search_element').attr('id', `${data[row].name_city}`).html(`${data[row].name_city}`).appendTo('#search_auto');
+                    }
+                    $(document).on('click', '.search_element', function () {
+                        $('#filter_search_city_auto').val(this.getAttribute('id'));
+                        $('#search_auto').fadeOut(100);
+                    });
+                    $(document).on('click scroll', function (event) {
+                        if (event.target.id !== 'filter_search_city_auto') {
+                            $('#search_auto').fadeOut(100);
+                        }
+                    });
+                } else {
+                    $('#search_auto').empty();
+                    $('#search_auto').fadeIn(100);
+                    $('<div></div>').attr('class', 'search_element').html('Sin resultados').appendTo('#search_auto');
+                    $(document).on('click', '.search_element', function () {
+                        $('#filter_search_city_auto').val(this.getAttribute('id'));
+                        $('#search_auto').fadeOut(100);
+                    });
+                    $(document).on('click scroll', function (event) {
+                        if (event.target.id !== 'filter_search_city_auto') {
+                            $('#search_auto').fadeOut(100);
+                        }
+                    });
+                }
+            }).catch(function () {
+                $('#search_auto').fadeOut(100);
+            })
+        
+        // ------------------------- evento keyup ------------------------- //
+        $('#filter_search_city_auto').on('keyup', function () {
+            var complete = $(this).val();
+            var operation = null;
+            var touristcat = null;
+            
+            if ($('#filter_search_op_select').val() != 'Transacción') {
+                operation = $('#filter_search_op_select').val();
+                if ($('#filter_search_touristcat_select').val() != 'Zona turística') {
+                    touristcat = $('#filter_search_touristcat_select').val();
+                }
+            } else if ($('#filter_search_touristcat_select').val() != 'Zona turística') {
+                touristcat = $('#filter_search_touristcat_select').val();
+            }
+
+            console.log([complete, operation, touristcat]);
+            // return;
+        
+            ajaxPromise(friendlyURL('?module=search'), 'POST', 'JSON', { 'op': 'search_autocomplete', 'complete': complete, 'operation': operation, 'touristcat': touristcat })
+                .then(function (data) {
+                    console.log(data);
+                    if (data != 'error') { // para gestionar la falta de resultados
+                        $('#search_auto').empty();
+                        $('#search_auto').fadeIn(100);
+                        for (row in data) {
+                            $('<div></div>').attr('class', 'search_element').attr('id', `${data[row].name_city}`).html(`${data[row].name_city}`).appendTo('#search_auto');
+                        }
+                        $(document).on('click', '.search_element', function () {
+                            $('#filter_search_city_auto').val(this.getAttribute('id'));
+                            $('#search_auto').fadeOut(100);
+                        });
+                        $(document).on('click scroll', function (event) {
+                            if (event.target.id !== 'filter_search_city_auto') {
+                                $('#search_auto').fadeOut(100);
+                            }
+                        });
+                    } else {
+                        $('#search_auto').empty();
+                        $('#search_auto').fadeIn(100);
+                        $('<div></div>').attr('class', 'search_element').html('Sin resultados').appendTo('#search_auto');
+                        $(document).on('click', '.search_element', function () {
+                            $('#filter_search_city_auto').val(this.getAttribute('id'));
+                            $('#search_auto').fadeOut(100);
+                        });
+                        $(document).on('click scroll', function (event) {
+                            if (event.target.id !== 'filter_search_city_auto') {
+                                $('#search_auto').fadeOut(100);
+                            }
+                        });
+                    }
+                }).catch(function () {
+                    $('#search_auto').fadeOut(100);
+                });
+        });
+        
+    });
+}
+
 $(document).ready(function () {
     launch_search();
-    // autocomplete();
+    autocomplete();
     // button_search();
 });
