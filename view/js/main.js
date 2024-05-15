@@ -131,8 +131,51 @@ function logout() {
     });
 }
 
+/* LOAD CONTENT */
+function load_content() {
+    let path = window.location.pathname.split('/');
+    // console.log(path);
+    
+    if (path[2] === 'verify') {
+        ajaxPromise(friendlyURL("?module=login"), 'POST', 'JSON', { 'op': 'verify_email', 'token_email': path[3] })
+        .then(function(data) {
+            console.log(data);
+
+            if (data == "verify") {
+                //SweetAlert2
+                Swal.fire({
+                    // position: "top-end",
+                    icon: "success",
+                    title: "Validación de registro",
+                    text: "Email verificado. Ya puede utilizar su cuenta",
+                    showConfirmButton: false,
+                    // confirmButtonColor: "#2eca6a",
+                    // timer: 3000
+                });
+            } else if (data == "fail") {
+                //SweetAlert2
+                Swal.fire({
+                    // position: "top-end",
+                    icon: "error",
+                    title: "Validación de registro",
+                    text: "Verificación de email fallida",
+                    showConfirmButton: false,
+                    // confirmButtonColor: "#2eca6a",
+                    // timer: 3000
+                });
+            }
+
+            setTimeout(function(){window.location.href = friendlyURL('?module=login');}, 3000); // redirigimos al home
+        })
+        .catch(function() {
+          console.log('Error: verify email error');
+        });
+    }
+}
+
 $(document).ready(function() {
     load_menu();
+    load_content();
     modal_login();
     logout();
 });

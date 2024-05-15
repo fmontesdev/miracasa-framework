@@ -34,23 +34,38 @@
             return $db->listar_object($stmt);
         } 
 
-        public function insert_user($db, $username, $password, $email) {
+        public function insert_user($db, $username, $password, $email, $avatar, $token) {
 
-            $hashed_pass = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]); // password_hash() función para encriptar password muy segura
-            // $hashavatar = md5(strtolower(trim($email))); // md5() función para encriptar con menos seguridad
-            // $avatar = "https://i.pravatar.cc/500?u=$hashavatar";
-            $avatar = "https://api.dicebear.com/8.x/initials/svg?backgroundColor=2eca6a&size=40&scale=110&radius=50&seed=$username";
-            $sql = "INSERT INTO `user`(`username`, `password`, `email`, `type_user`, `avatar`) 
-                    VALUES ('$username','$hashed_pass','$email','client','$avatar')";
+            $sql = "INSERT INTO `user`(`username`, `password`, `email`, `type_user`, `avatar`, `token_email`, `isActive`) 
+                    VALUES ('$username','$password','$email','client','$avatar','$token', 'false')";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+        public function select_verify_email($db, $token_email){
+
+			$sql = "SELECT u.token_email
+                        FROM `user` u
+                        WHERE u.token_email = '$token_email'";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_object($stmt);
+        }
+
+        public function update_verify_email($db, $token_email){
+
+            $sql = "UPDATE `user` u
+                        SET u.isActive = 'true'
+                        WHERE u.token_email = '$token_email'";
 
             return $stmt = $db->ejecutar($sql);
         }
 
         public function select_userLogin($db, $username){
 
-			$sql = "SELECT u.id_user, u.username, u.password
-                    FROM `user` u
-                    WHERE u.username = '$username'";
+			$sql = "SELECT u.id_user, u.username, u.password, u.isActive
+                        FROM `user` u
+                        WHERE u.username = '$username'";
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);

@@ -12,6 +12,8 @@ function login() {
                     document.getElementById('error_username_log').innerHTML = "El usuario no existe, asegúrese de haberlo escrito corréctamente"
                 } else if (data == 'error_passwd') {
                     document.getElementById('error_passwd_log').innerHTML = "La contraseña es incorrecta"
+                } else if (data == 'user_inactive') {
+                    document.getElementById('error_passwd_log').innerHTML = "Tu cuenta ha sido deshabilitada"
                 } else {
                     localStorage.setItem("access_token", data.access);
                     localStorage.setItem("refresh_token", data.refresh);
@@ -20,11 +22,11 @@ function login() {
                     Swal.fire({
                         // position: "top-end",
                         icon: "success",
-                        // title: "Your work has been saved",
-                        text: "Sesión iniciada",
+                        title: "Sesión iniciada",
+                        // text: "Your work has been saved",
                         showConfirmButton: false,
-                        timer: 1250
-                      });
+                        // timer: 1500
+                    });
 
                     var location = localStorage.getItem("location");
                     if (location == 'home')  {

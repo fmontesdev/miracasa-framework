@@ -37,11 +37,21 @@
 
 			// Si no existe ni el username ni el email creará el usuario
 			if ($check) {
-				$rdo = $this -> dao -> insert_user($this->db, $args[0], $args[1], $args[2]);
+				$hashed_pass = password_hash($args[1], PASSWORD_DEFAULT, ['cost' => 12]); // password_hash() función para encriptar password muy segura
+				// $hashavatar = md5(strtolower(trim($email))); // md5() función para encriptar con menos seguridad
+				// $avatar = "https://i.pravatar.cc/500?u=$hashavatar";
+				$avatar = "https://api.dicebear.com/8.x/initials/svg?backgroundColor=2eca6a&size=40&scale=110&radius=50&seed=$args[0]";
+				$token_email = common::generate_Token_secure(20); // genera token para registro y recover email
+
+				$rdo = $this -> dao -> insert_user($this->db, $args[0], $hashed_pass, $args[2], $avatar, $token_email);
 
 				if (!$rdo) {
 					return "error";
 				} else {
+					$message = [ 'type' => 'validate', 
+								'token' => $token_email, 
+								'toEmail' =>  $args[2]];
+					$email = json_decode(mail::send_email($message), true);
 					return "done";
 				}
 			}
@@ -61,7 +71,7 @@
 
             if ($rdo == "error_user") {
                 return "error_user";
-            } else if (password_verify($args[1], $value['password'])) { //compara el password introducido con el password de base de datos
+            } else if (password_verify($args[1], $value['password']) && $value['isActive'] == 'true') { //compara el password introducido con el password de base de datos
 				// return $data = [$value['id_user'], $value['username']];
                 $accessToken = middleware_auth::create_token("access", $value['id_user'], $value['username']);
 				// return $accessToken;
@@ -70,9 +80,22 @@
                 $_SESSION['username'] = $value['username']; //guardamos usuario en cookie (servidor)
                 $_SESSION['tiempo'] = time(); //guardamos momento exacto del login en cookie (servidor)
                 return $token;
-            } else {
+            } else if (password_verify($args[1], $value['password']) && $value['isActive'] == 'false') {
+                return "user_inactive";
+			} else {
                 return "error_passwd";
             }
+		}
+
+		public function get_verify_email_BLL($token_email) {
+			$rdo = $this -> dao -> select_verify_email($this->db, $token_email);
+
+			if(!$rdo){
+				return "fail";
+			} else {
+				$this -> dao -> update_verify_email($this->db, $token_email);
+				return "verify";
+			}
 		}
 
 		public function get_data_user_BLL($token) {

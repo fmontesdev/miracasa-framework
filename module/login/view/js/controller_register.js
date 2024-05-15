@@ -17,12 +17,12 @@ function register() {
                     Swal.fire({
                         // position: "top-end",
                         icon: "success",
-                        // title: "Your work has been saved",
-                        text: "Registro completado",
+                        title: "Verificación de email",
+                        text: "Verifica el email desde el correo electrónico enviado",
                         showConfirmButton: false,
-                        timer: 1250
+                        // timer: 2000
                       });
-                    setTimeout(function(){window.location.href = friendlyURL('?module=login');}, 1500); // volvemos al formulario para esta vez logearse
+                    setTimeout(function(){window.location.href = friendlyURL('?module=home');}, 3000);
                 }
             }).catch(function(textStatus) {
                 if (console && console.log) {
@@ -134,8 +134,8 @@ function validate_register() {
 // pinta el formulario de login desde el formulario de registro
 function button_toLogin() {
     $('#to_login').on('click', function() {
-        $('#register_container').hide();
         $('#login_container').show();
+        $('#register_container').hide();
     });
 }
 
