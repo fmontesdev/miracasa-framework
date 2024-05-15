@@ -30,4 +30,8 @@ class login_model {
         return $this -> bll -> get_logout_BLL();
     }
 
+    public function get_control_user($args) {
+        return $this -> bll -> get_control_user_BBL($args);
+    }
+
 }

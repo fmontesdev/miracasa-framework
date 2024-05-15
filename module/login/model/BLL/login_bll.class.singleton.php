@@ -88,4 +88,28 @@
 			return "logout done";
 		}
 
+		public function get_control_user_BBL($args) {
+			$accessToken_dec = middleware_auth::decode_token('access', $args[0]);
+			$refreshToken_dec = middleware_auth::decode_token('refresh', $args[1]);
+
+			if ($accessToken_dec['exp'] < time() && $refreshToken_dec['exp'] > time()) { // accessToken expirado y refreshToken activo -> actualizamos accessToken
+				$new_accessToken = middleware_auth::create_token('access', $accessToken_dec['id_user'], $accessToken_dec['username']);
+				$new_accessToken_dec = middleware_auth::decode_token('access', $new_accessToken);
+				if (isset($_SESSION['username']) && ($_SESSION['username'] == $new_accessToken_dec['username']) && ($_SESSION['username'] == $refreshToken_dec['username'])) {
+					return $new_accessToken;
+				} else {
+					return "Wrong_User";
+				}
+			} else if ( ($accessToken_dec['exp'] > time() && $refreshToken_dec['exp'] < time())) { // accessToken activo y refreshToken expirado -> logout
+				return "ExpirationTime_Token";
+			} else if (($accessToken_dec['exp'] < time()) && ($refreshToken_dec['exp'] < time())) { // accessToken expirado y refreshToken expirado -> logout
+				return "ExpirationTime_Token";
+			} else if (isset($_SESSION['username']) && ($_SESSION['username'] == $accessToken_dec['username']) && ($_SESSION['username'] == $refreshToken_dec['username'])) {
+				// accessToken activo - refreshToken activo, y username de cookie y tokens valido
+				return "Correct_User";
+			} else { // username de cookie y tokens inválido
+				return "Wrong_User";
+			}
+		}
+
 	}

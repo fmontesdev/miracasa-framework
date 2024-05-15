@@ -20,10 +20,10 @@
         <name>logout</name>
         <uri>logout</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>control_user</name>
         <uri>control_user</uri>
-    </function> -->
+    </function>
     <!-- <function>
         <name>control_activity</name>
         <uri>control_activity</uri>
