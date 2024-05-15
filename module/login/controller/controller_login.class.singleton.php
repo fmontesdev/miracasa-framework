@@ -22,6 +22,10 @@
             echo json_encode(common::load_model('login_model', 'get_login', [$_POST['username'], $_POST['password']]));
         }
 
+        function data_user() {
+            echo json_encode(common::load_model('login_model', 'get_data_user', $_POST['token']));
+        }
+
     }
     
 ?>

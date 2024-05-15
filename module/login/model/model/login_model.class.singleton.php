@@ -22,4 +22,8 @@ class login_model {
         return $this -> bll -> get_login_BLL($args);
     }
 
+    public function get_data_user($token) {
+        return $this -> bll -> get_data_user_BLL($token);
+    }
+
 }

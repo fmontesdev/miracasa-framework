@@ -75,4 +75,10 @@
             }
 		}
 
+		public function get_data_user_BLL($token) {
+			$accessToken_dec = middleware_auth::decode_token('access', $token);
+			$rdo = $this -> dao -> select_data_user($this->db, $accessToken_dec['username']);
+			return $rdo;
+		}
+
 	}

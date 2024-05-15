@@ -56,6 +56,17 @@
             return $db->listar_object($stmt);
         }
 
+        // SIMPLIFICAR LOS DOS ÚLTIMOS DAOS EN UNO ???
+
+        public function select_data_user($db, $username){
+
+            $sql = "SELECT u.username, u.password, u.email, u.type_user, u.avatar
+                    FROM `user` u
+                    WHERE u.username = '$username'";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_object($stmt);
+        }
     }
 
 ?>
