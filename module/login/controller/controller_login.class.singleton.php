@@ -11,8 +11,7 @@
         }
 
         function view() {
-            echo 'Hola login';
-            // common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'login_register.html');
+            common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'login_register.html');
         }
  
     }
