@@ -34,4 +34,11 @@ class login_model {
         return $this -> bll -> get_control_user_BBL($args);
     }
 
+    public function get_control_activity() {
+        return $this -> bll -> get_control_activity_BLL();
+    }
+
+    public function get_refresh_cookie() {
+        return $this -> bll -> get_refresh_cookie_BLL();
+    }
 }

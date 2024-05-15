@@ -34,6 +34,13 @@
             echo json_encode(common::load_model('login_model', 'get_control_user', [$_POST['accessToken'], $_POST['refreshToken']]));
         }
 
+        function control_activity() {
+            echo json_encode(common::load_model('login_model', 'get_control_activity'));
+        }
+
+        function refresh_cookie() {
+            echo json_encode(common::load_model('login_model', 'get_refresh_cookie'));
+        } 
     }
     
 ?>

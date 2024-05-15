@@ -112,4 +112,21 @@
 			}
 		}
 
+		public function get_control_activity_BLL() {
+			if (!isset($_SESSION['tiempo'])) {
+				return "inactivo";
+			} else {
+				if ((time() - $_SESSION['tiempo']) >= 30*60) { //1800s=30min
+					return "inactivo";
+				} else {
+					return "activo";
+				}
+			}
+		}
+
+		public function get_refresh_cookie_BLL() {
+			session_regenerate_id();
+        	return "Refresh cookie correctly";
+		}
+
 	}

@@ -24,12 +24,12 @@
         <name>control_user</name>
         <uri>control_user</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>control_activity</name>
         <uri>control_activity</uri>
-    </function> -->
-    <!-- <function>
+    </function>
+    <function>
         <name>refresh_cookie</name>
         <uri>refresh_cookie</uri>
-    </function> -->
+    </function>
 </functions>
