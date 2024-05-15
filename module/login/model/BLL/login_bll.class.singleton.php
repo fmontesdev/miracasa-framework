@@ -47,4 +47,32 @@
 			}
 		}
 
+		public function get_login_BLL($args) {
+			$rdo = $this -> dao -> select_userLogin($this->db, $args[0]);
+
+			$value = "";
+			if ($rdo) {
+				$value = get_object_vars($rdo); //serializa objeto
+			}else {
+				return "error_user";
+			}
+
+			// return json_encode($value['username']);
+
+            if ($rdo == "error_user") {
+                return "error_user";
+            } else if (password_verify($args[1], $value['password'])) { //compara el password introducido con el password de base de datos
+				// return $data = [$value['id_user'], $value['username']];
+                $accessToken = middleware_auth::create_token("access", $value['id_user'], $value['username']);
+				// return $accessToken;
+                $refreshToken = middleware_auth::create_token("refresh", $value['id_user'], $value['username']);
+                $token = array("access" => $accessToken, "refresh" => $refreshToken); // array asociativo
+                $_SESSION['username'] = $value['username']; //guardamos usuario en cookie (servidor)
+                $_SESSION['tiempo'] = time(); //guardamos momento exacto del login en cookie (servidor)
+                return $token;
+            } else {
+                return "error_passwd";
+            }
+		}
+
 	}

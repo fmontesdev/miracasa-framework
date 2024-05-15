@@ -17,7 +17,11 @@
         function register() {
             echo json_encode(common::load_model('login_model', 'get_register', [$_POST['username'], $_POST['password'], $_POST['email']]));
         }
-        
+
+        function login() {
+            echo json_encode(common::load_model('login_model', 'get_login', [$_POST['username'], $_POST['password']]));
+        }
+
     }
     
 ?>

@@ -139,16 +139,8 @@ function button_toLogin() {
     });
 }
 
-function button_toRegister() {
-    $('#to_register').on('click', function() {
-        $('#login_container').hide();
-        $('#register_container').show();
-    });
-}
-
 $(document).ready(function() {
     key_register();
     button_register();
     button_toLogin();
-    button_toRegister();
 });

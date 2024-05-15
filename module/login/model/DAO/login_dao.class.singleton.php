@@ -46,6 +46,16 @@
             return $stmt = $db->ejecutar($sql);
         }
 
+        public function select_userLogin($db, $username){
+
+			$sql = "SELECT u.id_user, u.username, u.password
+                    FROM `user` u
+                    WHERE u.username = '$username'";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_object($stmt);
+        }
+
     }
 
 ?>
