@@ -12,11 +12,11 @@
         <name>search</name>
         <uri>search</uri>
     </module>
-    <!-- <module>
+    <module>
         <name>login</name>
         <uri>login</uri>
         <uri>register</uri>
-    </module> -->
+    </module>
     <!-- <module>
         <name>errors</name>
         <uri>errors</uri>

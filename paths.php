@@ -58,11 +58,11 @@
 
     //MODEL_LOGIN
     // define('UTILS_LOGIN', SITE_ROOT . 'module/login/utils/');
-    // define('DAO_LOGIN', SITE_ROOT . 'module/login/model/DAO/');
-    // define('BLL_LOGIN', SITE_ROOT . 'module/login/model/BLL/');
-    // define('MODEL_LOGIN', SITE_ROOT . 'module/login/model/model/');
-    // define('JS_VIEW_LOGIN', SITE_PATH . 'module/login/view/js/');
-    // define ('VIEW_PATH_LOGIN', SITE_ROOT . 'module/login/view/');
+    define('DAO_LOGIN', SITE_ROOT . 'module/login/model/DAO/');
+    define('BLL_LOGIN', SITE_ROOT . 'module/login/model/BLL/');
+    define('MODEL_LOGIN', SITE_ROOT . 'module/login/model/model/');
+    define('JS_VIEW_LOGIN', SITE_PATH . 'module/login/view/js/');
+    define ('VIEW_PATH_LOGIN', SITE_ROOT . 'module/login/view/');
 
     //MODEL_ERRORS
     // define('UTILS_ERRORS', SITE_ROOT . 'module/errors/utils/');
