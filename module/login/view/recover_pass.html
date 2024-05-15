@@ -1,0 +1,46 @@
+<main id="main">
+
+    <section class="section-login section-t8">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div id="login_register" class="col-sm-4">
+
+                    <!-- ======= Recover password ======= -->
+                    <div id="recoverPass_container" class="row">
+                        <div class="col-sm-12">
+                            <h4 class="title-single title_log">Recupera tu cuenta</h4>
+                        </div>
+
+                        <form autocomplete="on" method="post" id="recover_form" class="php-email-form">
+                            <div class="row">
+                                <div class="col-sm-12 mb-2">
+                                    <input type="password" id="passwd1_recover" name="passwd1_recover" class="form-control form-control-lg form-control-a" placeholder="Introduce la contraseña">
+                                    <span id="error_passwd1_recover" class="error_form"></span>
+                                </div>
+                                <div class="col-sm-12 mb-4">
+                                    <input type="password" id="passwd2_recover" name="passwd2_recover" class="form-control form-control-lg form-control-a" placeholder="Repite la contraseña">
+                                    <span id="error_passwd2_recover" class="error_form"></span>
+                                </div>
+                                <div class="col-sm-12 recover_submit">
+                                    <button type="submit" id="recover_pass" class="btn btn-c btn_login">Continúa</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<div id="preloader"></div>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<!-- <script src="view/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+<!-- <script src="view/vendor/swiper/swiper-bundle.min.js"></script> -->
+
+<!-- Template Main JS File -->
+<script src="<?php echo SITE_PATH ?>view/js/main_template.js"></script>

@@ -80,6 +80,15 @@
             return $stmt = $db->ejecutar($sql);
         }
 
+        public function update_new_passwoord($db, $token_email, $password){
+
+            $sql = "UPDATE `user` u
+                        SET u.password = '$password', u.isActive = 'true', u.token_email = ''
+                        WHERE u.token_email = '$token_email'";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
         public function select_userLogin($db, $username){
 
 			$sql = "SELECT u.id_user, u.username, u.password, u.isActive

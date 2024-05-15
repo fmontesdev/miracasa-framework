@@ -114,6 +114,27 @@
             }
 		}
 
+		public function get_verify_token_BLL($token_email) {
+			$rdo = $this -> dao -> select_verify_email($this->db, $token_email);
+
+			if(!$rdo){
+				return "fail";
+			} else {
+				return "verify";
+			}
+		}
+
+		public function get_new_password_BLL($args) {
+			$hashed_pass = password_hash($args[1], PASSWORD_DEFAULT, ['cost' => 12]);
+			$rdo = $this -> dao -> update_new_passwoord($this->db, $args[0], $hashed_pass);
+			
+			if (!$rdo) {
+				return "fail";
+			} else {
+				return "done";
+			}
+		}
+
 		public function get_data_user_BLL($token) {
 			$accessToken_dec = middleware_auth::decode_token('access', $token);
 			$rdo = $this -> dao -> select_data_user($this->db, $accessToken_dec['username']);
