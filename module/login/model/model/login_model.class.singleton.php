@@ -26,6 +26,10 @@ class login_model {
         return $this -> bll -> get_verify_email_BLL($token_email);
     }
 
+    public function get_send_recover_email($email_recover) {
+        return $this -> bll -> get_send_recover_email_BBL($email_recover);
+    }
+
     public function get_data_user($token) {
         return $this -> bll -> get_data_user_BLL($token);
     }

@@ -99,6 +99,7 @@ function button_toRegister() {
     $('#to_register').on('click', function() {
         $('#login_container').hide();
         $('#register_container').show();
+        $('#recoverEmail_container').hide();
     });
 }
 

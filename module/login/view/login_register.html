@@ -1,81 +1,108 @@
 <main id="main">
 
-    <!-- ======= Login ======= -->
     <section class="section-login section-t8">
         <div class="container">
             <div class="row justify-content-center">
                 <div id="login_register" class="col-sm-4">
-                    
-                        <div id="login_container" class="row">
-                            <div class="col-sm-12">
-                                <h4 class="title-single title_log">Entra en miracasa</h4>
+
+                    <!-- ======= Login ======= -->
+                    <div id="login_container" class="row">
+                        <div class="col-sm-12">
+                            <h4 class="title-single title_log">Entra en miracasa</h4>
+                        </div>
+
+                        <form autocomplete="on" method="post" id="login_form" class="php-email-form">
+                            <div class="row">
+                                <div class="col-sm-12 mb-2">
+                                    <input type="text" id="username_log" name="username_log" class="form-control form-control-lg form-control-a" placeholder="Introduce el nombre de usuario">
+                                    <span id="error_username_log" class="error_form"></span>
+                                </div>
+                                <div class="col-sm-12 mb-4">
+                                    <input type="password" id="passwd_log" name="passwd_log" class="form-control form-control-lg form-control-a" placeholder="Introduce la contraseña">
+                                    <span id="error_passwd_log" class="error_form"></span>
+                                </div>
+                                <div class="col-sm-12 log_submit">
+                                    <button type="submit" id="login" class="btn btn-c btn_login">Continúa</button>
+                                </div>
                             </div>
+                        </form>
 
-                            <form autocomplete="on" method="post" id="login_form" class="php-email-form">
-                                <div class="row">
-                                    <div class="col-sm-12 mb-2">
-                                        <input type="text" id="username_log" name="username_log" class="form-control form-control-lg form-control-a" placeholder="Introduce el nombre de usuario">
-                                        <span id="error_username_log" class="error_form"></span>
-                                    </div>
-                                    <div class="col-sm-12 mb-4">
-                                        <input type="password" id="passwd_log" name="passwd_log" class="form-control form-control-lg form-control-a" placeholder="Introduce la contraseña">
-                                        <span id="error_passwd_log" class="error_form"></span>
-                                    </div>
-                                    <div class="col-sm-12 log_submit">
-                                        <button type="submit" id="login" class="btn btn-c btn_login">Continúa</button>
-                                    </div>
-                                </div>
-                            </form>
-
-                            <div id="toRegister_container">
-                                <div class="row col-sm-12">
-                                    <span class="title-center">¿Eres nuevo en miracasa?</span>
-                                    <button id="to_register" class="btn btn-c btn_toLogin">Crea tu cuenta en miracasa</button>
-                                </div>
+                        <div id="toRecover_container">
+                            <div class="row col-sm-12">
+                                <span class="title-center">¿Has olvidado tu contraseña?</span>
+                                <button id="to_recover" class="btn btn-c btn_toLogin">Recupera tu cuenta</button>
                             </div>
                         </div>
 
-                        <div id="register_container" class="row">
-                            <div class="col-sm-12">
-                                <h4 class="title-single title_log">Regístrate en miracasa</h4>
-                            </div>
-
-                            <form autocomplete="on" method="post" id="register_form" class="php-email-form">
-                                <div class="row">
-                                    <div class="col-sm-12 mb-2">
-                                        <input type="text" id="username_reg" name="username_reg" class="form-control form-control-lg form-control-a" placeholder="Introduce el nombre de usuario">
-                                        <span id="error_username_reg" class="error_form"></span>
-                                    </div>
-                                    <div class="col-sm-12 mb-2">
-                                        <input type="password" id="passwd1_reg" name="passwd1_reg" class="form-control form-control-lg form-control-a" placeholder="Introduce la contraseña">
-                                        <span id="error_passwd1_reg" class="error_form"></span>
-                                    </div>
-                                    <div class="col-sm-12 mb-2">
-                                        <input type="password" id="passwd2_reg" name="passwd2_reg" class="form-control form-control-lg form-control-a" placeholder="Repite la contraseña">
-                                        <span id="error_passwd2_reg" class="error_form"></span>
-                                    </div>
-                                    <div class="col-sm-12 mb-4">
-                                        <input type="email" id="email_reg" name="email_reg" class="form-control form-control-lg form-control-a" placeholder="Introduce el email">
-                                        <span id="error_email_reg" class="error_form"></span>
-                                    </div>
-                                    <div class="col-sm-12 log_submit">
-                                        <button type="submit" id="register" class="btn btn-c btn_login">Continúa</button>
-                                    </div>
-                                </div>
-                            </form>
-
-                            <div id="toLogin_container">
-                                <div class="row col-sm-12">
-                                    <span class="title-center">¿Ya tienes una cuenta?</span>
-                                    <button id="to_login" class="btn btn-c btn_toLogin">Inicia sesión</button>
-                                </div>
+                        <div id="toRegister_container">
+                            <div class="row col-sm-12">
+                                <span class="title-center">¿Eres nuevo en miracasa?</span>
+                                <button id="to_register" class="btn btn-c btn_toLogin">Crea tu cuenta</button>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- ======= Register ======= -->
+                    <div id="register_container" class="row">
+                        <div class="col-sm-12">
+                            <h4 class="title-single title_log">Regístrate en miracasa</h4>
+                        </div>
+
+                        <form autocomplete="on" method="post" id="register_form" class="php-email-form">
+                            <div class="row">
+                                <div class="col-sm-12 mb-2">
+                                    <input type="text" id="username_reg" name="username_reg" class="form-control form-control-lg form-control-a" placeholder="Introduce el nombre de usuario">
+                                    <span id="error_username_reg" class="error_form"></span>
+                                </div>
+                                <div class="col-sm-12 mb-2">
+                                    <input type="password" id="passwd1_reg" name="passwd1_reg" class="form-control form-control-lg form-control-a" placeholder="Introduce la contraseña">
+                                    <span id="error_passwd1_reg" class="error_form"></span>
+                                </div>
+                                <div class="col-sm-12 mb-2">
+                                    <input type="password" id="passwd2_reg" name="passwd2_reg" class="form-control form-control-lg form-control-a" placeholder="Repite la contraseña">
+                                    <span id="error_passwd2_reg" class="error_form"></span>
+                                </div>
+                                <div class="col-sm-12 mb-4">
+                                    <input type="email" id="email_reg" name="email_reg" class="form-control form-control-lg form-control-a" placeholder="Introduce el email">
+                                    <span id="error_email_reg" class="error_form"></span>
+                                </div>
+                                <div class="col-sm-12 log_submit">
+                                    <button type="submit" id="register" class="btn btn-c btn_login">Continúa</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div id="toLogin_container">
+                            <div class="row col-sm-12">
+                                <span class="title-center">¿Ya tienes una cuenta?</span>
+                                <button id="to_login" class="btn btn-c btn_toLogin">Inicia sesión</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ======= Recover email ======= -->
+                    <div id="recoverEmail_container" class="row">
+                        <div class="col-sm-12">
+                            <h4 class="title-single title_log">Recupera tu cuenta</h4>
+                        </div>
+
+                        <form autocomplete="on" method="post" id="recover_form" class="php-email-form">
+                            <div class="row">
+                                <div class="col-sm-12 mb-4">
+                                    <input type="email" id="email_recover" name="email_recover" class="form-control form-control-lg form-control-a" placeholder="Introduce el email">
+                                    <span id="error_email_recover" class="error_form"></span>
+                                </div>
+                                <div class="col-sm-12 recover_submit">
+                                    <button type="submit" id="recover_email" class="btn btn-c btn_login">Continúa</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     
                 </div>
             </div>
         </div>
-    </section><!-- End Login -->
+    </section>
 
 </main>
 

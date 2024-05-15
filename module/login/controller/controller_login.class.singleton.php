@@ -26,6 +26,10 @@
             echo json_encode(common::load_model('login_model', 'get_verify_email', $_POST['token_email']));
         }
 
+        function send_recover_email() {
+            echo json_encode(common::load_model('login_model', 'get_send_recover_email', $_POST['email_recover']));
+        }
+
         function data_user() {
             echo json_encode(common::load_model('login_model', 'get_data_user', $_POST['token']));
         }

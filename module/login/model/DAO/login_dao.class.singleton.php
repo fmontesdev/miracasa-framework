@@ -55,8 +55,27 @@
         public function update_verify_email($db, $token_email){
 
             $sql = "UPDATE `user` u
-                        SET u.isActive = 'true'
+                        SET u.isActive = 'true', u.token_email = ''
                         WHERE u.token_email = '$token_email'";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+        public function select_recover_email($db, $email){
+
+			$sql = "SELECT u.email
+                        FROM `user` u
+                        WHERE u.email = '$email' AND u.password NOT LIKE ('')";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_object($stmt);
+        }
+
+        public function update_recover_email($db, $email, $token_email){
+
+			$sql = "UPDATE `user` u
+                        SET u.token_email = '$token_email', u.isActive = 'false'
+                        WHERE u.email = '$email'";
 
             return $stmt = $db->ejecutar($sql);
         }

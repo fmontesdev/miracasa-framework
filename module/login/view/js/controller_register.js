@@ -18,7 +18,7 @@ function register() {
                         // position: "top-end",
                         icon: "success",
                         title: "Verificación de email",
-                        text: "Verifica el email desde el correo electrónico enviado",
+                        text: "Haz clic en el enlace del correo electrónico enviado",
                         showConfirmButton: false,
                         // timer: 2000
                       });
@@ -136,6 +136,7 @@ function button_toLogin() {
     $('#to_login').on('click', function() {
         $('#login_container').show();
         $('#register_container').hide();
+        $('#recoverEmail_container').hide();
     });
 }
 

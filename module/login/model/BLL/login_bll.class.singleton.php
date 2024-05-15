@@ -98,6 +98,22 @@
 			}
 		}
 
+		public function get_send_recover_email_BBL($email_recover) {
+			$email_user = $this -> dao -> select_recover_email($this->db, $email_recover);
+			$token_email = common::generate_Token_secure(20);
+
+			if (!empty($email_user)) {
+				$this -> dao -> update_recover_email($this->db, $email_recover, $token_email);
+                $message = ['type' => 'recover', 
+                            'token' => $token_email, 
+                            'toEmail' => $email_recover];
+                $email = json_decode(mail::send_email($message), true);
+				return "done";   
+            }else {
+                return "error";
+            }
+		}
+
 		public function get_data_user_BLL($token) {
 			$accessToken_dec = middleware_auth::decode_token('access', $token);
 			$rdo = $this -> dao -> select_data_user($this->db, $accessToken_dec['username']);
