@@ -81,4 +81,11 @@
 			return $rdo;
 		}
 
+		public function get_logout_BLL() {
+			unset($_SESSION['username']); //elimina valor de $_SESSION
+			unset($_SESSION['tiempo']); //elimina valor de $_SESSION
+			session_destroy();
+			return "logout done";
+		}
+
 	}

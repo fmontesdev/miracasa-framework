@@ -16,10 +16,10 @@
         <name>data_user</name>
         <uri>data_user</uri>
     </function>
-    <!-- <function>
+    <function>
         <name>logout</name>
         <uri>logout</uri>
-    </function> -->
+    </function>
     <!-- <function>
         <name>control_user</name>
         <uri>control_user</uri>
