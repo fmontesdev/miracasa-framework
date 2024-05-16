@@ -135,6 +135,7 @@ function logout() {
 function load_content() {
     let path = window.location.pathname.split('/');
     // console.log(path);
+    // return;
     
     if (path[2] === 'verify') {
         ajaxPromise(friendlyURL("?module=login"), 'POST', 'JSON', { 'op': 'verify_email', 'token_email': path[3] })
@@ -146,8 +147,8 @@ function load_content() {
                 Swal.fire({
                     // position: "top-end",
                     icon: "success",
-                    title: "Validación de registro",
-                    text: "Email verificado. Ya puede utilizar su cuenta",
+                    title: "Email verificado",
+                    text: "Ya puede utilizar su cuenta",
                     showConfirmButton: false,
                     // confirmButtonColor: "#2eca6a",
                     // timer: 3000
@@ -157,15 +158,15 @@ function load_content() {
                 Swal.fire({
                     // position: "top-end",
                     icon: "error",
-                    title: "Validación de registro",
-                    text: "Verificación de email fallida",
+                    title: "Verificación fallida",
+                    text: "El email de verificación ha caducado. Vuelva ha intentarlo",
                     showConfirmButton: false,
                     // confirmButtonColor: "#2eca6a",
                     // timer: 3000
                 });
             }
 
-            setTimeout(function(){window.location.href = friendlyURL('?module=login');}, 3000); // redirigimos al home
+            setTimeout(function(){window.location.href = friendlyURL('?module=login');}, 2500); // redirigimos al home
         })
         .catch(function() {
           console.log('Error: verify email error');

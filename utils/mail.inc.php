@@ -36,8 +36,6 @@
             }
 
             // Show the response of the sent email to be saved in a log...
-            echo $result->toJson();
-            
-            return $result;
+            return $result->toJson();
         }
     }

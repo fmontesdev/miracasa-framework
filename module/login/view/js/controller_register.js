@@ -3,10 +3,14 @@ function register() {
         var userForm = document.getElementById('username_reg').value;
         var pswdForm = document.getElementById('passwd1_reg').value;
         var emailForm = document.getElementById('email_reg').value;
+
+        // console.log([userForm, pswdForm, emailForm]);
+        // return;
         
         ajaxPromise(friendlyURL('?module=login'), 'POST', 'JSON', { 'op': 'register', 'username': userForm, 'password': pswdForm, 'email': emailForm })
             .then(function(data) {
                 // console.log(data);
+                // return;
 
                 if (data == 'error_user') {
                     document.getElementById('error_username_reg').innerHTML = "El usuario ya esta en uso, inténtalo con otro"
@@ -17,12 +21,12 @@ function register() {
                     Swal.fire({
                         // position: "top-end",
                         icon: "success",
-                        title: "Verificación de email",
-                        text: "Haz clic en el enlace del correo electrónico enviado",
+                        title: "Correo electrónico enviado",
+                        text: "Verifica tu email desde el correo electrónico enviado",
                         showConfirmButton: false,
                         // timer: 2000
                       });
-                    setTimeout(function(){window.location.href = friendlyURL('?module=home');}, 3000);
+                    setTimeout(function(){window.location.href = friendlyURL('?module=home');}, 2500);
                 }
             }).catch(function(textStatus) {
                 if (console && console.log) {

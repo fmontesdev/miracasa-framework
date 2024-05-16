@@ -15,7 +15,7 @@ class login_model {
     }
 
     public function get_register($args) {
-        $res = $this -> bll -> get_register_BLL($args);
+        return $this -> bll -> get_register_BLL($args);
     }
 
     public function get_login($args) {

@@ -18,7 +18,6 @@
 
 		public function get_register_BLL($args) {
 			$checkUsername = $this -> dao -> select_userReg($this->db, $args[0]);
-			// return $checkUsername;
 
 			// Comprobar que el usuario no existe
 			if ($checkUsername) {
@@ -42,14 +41,14 @@
 				// $hashavatar = md5(strtolower(trim($email))); // md5() función para encriptar con menos seguridad
 				// $avatar = "https://i.pravatar.cc/500?u=$hashavatar";
 				$avatar = "https://api.dicebear.com/8.x/initials/svg?backgroundColor=2eca6a&size=40&scale=110&radius=50&seed=$args[0]";
-				$token_email = middleware_auth::create_token("verify", null, $args[0]); // creamos token JWT con tiempo de expiración
+				$token_email = common::generate_Token_secure(20); // genera token para registro y recover email
 
-				$rdo = $this -> dao -> insert_user($this->db, $args[0], $hashed_pass, $args[2], $avatar);
+				$rdo = $this -> dao -> insert_user($this->db, $args[0], $hashed_pass, $args[2], $avatar, $token_email);
 
 				if (!$rdo) {
 					return "error";
 				} else {
-					$message = [ 'type' => 'validate',
+					$message = [ 'type' => 'validate', 
 								'token' => $token_email, 
 								'toEmail' =>  $args[2]];
 					$email = json_decode(mail::send_email($message), true);
@@ -89,15 +88,13 @@
 		}
 
 		public function get_verify_email_BLL($token_email) {
-			// $rdo = $this -> dao -> select_verify_email($this->db, $token_email);
-			$tokenEmail_dec = middleware_auth::decode_token('verify', $token_email);
+			$rdo = $this -> dao -> select_verify_email($this->db, $token_email);
 
-			if($tokenEmail_dec['exp'] > time()){
-				$this -> dao -> update_verify_email($this->db, $tokenEmail_dec['username']);
-				return "verify";
-			} else {
-				$this -> dao -> delete_verify_email($this->db, $tokenEmail_dec['username']);
+			if(!$rdo){
 				return "fail";
+			} else {
+				$this -> dao -> update_verify_email($this->db, $token_email);
+				return "verify";
 			}
 		}
 

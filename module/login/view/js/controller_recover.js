@@ -36,14 +36,14 @@ function send_recover_email(){
                     Swal.fire({
                         // position: "top-end",
                         icon: "success",
-                        title: "Recuperación de cuenta",
-                        text: "Email enviado",
+                        title: "Email enviado",
+                        text: "Haz clic en el enlace del email enviado para restablecer tu contraseña",
                         showConfirmButton: false,
                         // confirmButtonColor: "#2eca6a",
                         // timer: 3000
                     });
 
-                    setTimeout(function(){window.location.href = friendlyURL('?module=login');}, 3000);
+                    setTimeout(function(){window.location.href = friendlyURL('?module=login');}, 2500);
                 }
 
             }).catch(function(textStatus) {
@@ -132,24 +132,24 @@ function send_new_password(token_email){
                     Swal.fire({
                         // position: "top-end",
                         icon: "success",
-                        title: "Recuperación de cuenta",
-                        text: "Nueva contraseña guardada",
+                        title: "Nueva contraseña guardada",
+                        text: "Puedes acceder a tu cuenta con tu nueva contraseña",
                         showConfirmButton: false,
                         // confirmButtonColor: "#2eca6a",
                         // timer: 3000
                     });
 
-                    setTimeout(function(){window.location.href = friendlyURL('?module=login');}, 3000);
+                    setTimeout(function(){window.location.href = friendlyURL('?module=login');}, 2500);
                 } else {
                     //SweetAlert2
                     Swal.fire({
                         // position: "top-end",
                         icon: "error",
-                        title: "Recuperación de cuenta",
-                        text: "Error guardando nueva contraseña",
+                        title: "Error actualizando la contraseña",
+                        text: "Se ha producido un error en la actualización. Vuelva a intentarlo",
                         showConfirmButton: false,
                         // confirmButtonColor: "#2eca6a",
-                        timer: 3000
+                        timer: 2500
                     })
                 }
             }).catch(function(textStatus) {

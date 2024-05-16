@@ -7,6 +7,8 @@
                 $secret = $jwt['JWT_SECRET_ACCESS'];
             } else if ($type == 'refresh'){
                 $secret = $jwt['JWT_SECRET_REFRESH'];
+            } else if ($type == 'verify'){
+                $secret = $jwt['JWT_SECRET_VERIFY'];
             }
 
             $JWT = new jwt;
@@ -41,6 +43,13 @@
                     "username": "'. $username .'"
                 }';
                 $secret = $jwt['JWT_SECRET_REFRESH'];
+            } else if ($type == 'verify'){
+                $payload = '{
+                    "iat": "'. time() .'", 
+                    "exp": "'. time() + $jwt['JWT_EXP_VERIFY'] .'",
+                    "username": "'. $username .'"
+                }';
+                $secret = $jwt['JWT_SECRET_VERIFY'];
             }
         
             $JWT = new jwt;

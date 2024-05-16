@@ -13,6 +13,8 @@
         }
 
         public function select_userReg($db, $username){
+            // $data = array($_POST['username_reg'], $_POST['email_reg'], $_POST['passwd1_reg']);
+            // return $data;
 
 			$sql = "SELECT u.username
                     FROM `user` u
@@ -32,10 +34,10 @@
             return $db->listar_object($stmt);
         } 
 
-        public function insert_user($db, $username, $password, $email, $avatar) {
+        public function insert_user($db, $username, $password, $email, $avatar, $token) {
 
-            $sql = "INSERT INTO `user`(`username`, `password`, `email`, `type_user`, `avatar`, `isActive`) 
-                    VALUES ('$username','$password','$email','client','$avatar','false')";
+            $sql = "INSERT INTO `user`(`username`, `password`, `email`, `type_user`, `avatar`, `token_email`, `isActive`) 
+                    VALUES ('$username','$password','$email','client','$avatar','$token','false')";
 
             return $stmt = $db->ejecutar($sql);
         }
@@ -50,20 +52,11 @@
             return $db->listar_object($stmt);
         }
 
-        public function update_verify_email($db, $username){
+        public function update_verify_email($db, $token_email){
 
             $sql = "UPDATE `user` u
-                        SET u.isActive = 'true'
-                        WHERE u.username = '$username'";
-
-            return $stmt = $db->ejecutar($sql);
-        }
-
-        public function delete_verify_email($db, $username){
-
-            $sql = "DELETE
-                        FROM `user` u
-                        WHERE u.username = '$username'";
+                        SET u.isActive = 'true', u.token_email = ''
+                        WHERE u.token_email = '$token_email'";
 
             return $stmt = $db->ejecutar($sql);
         }
