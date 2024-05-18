@@ -19,27 +19,27 @@
 		public function get_all_realestates_BLL($args) {
 			if ($args[2] != null) {
 				$accessToken_dec = middleware_auth::decode_token('access', $args[2]);
-				$id_user = $accessToken_dec['id_user'];
+				$uid = $accessToken_dec['uid'];
 			} else {
-				$id_user = 'null';
+				$uid = 'null';
 			}
 
-			return $this -> dao -> select_all_realEstates($this->db, $args[0], $args[1], $id_user);
+			return $this -> dao -> select_all_realEstates($this->db, $args[0], $args[1], $uid);
 		}
 
 		public function get_details_realestate_BLL($args) {
 			if ($args[1] != null) {
 				$accessToken_dec = middleware_auth::decode_token('access', $args[1]);
-				$id_user = $accessToken_dec['id_user'];
+				$uid = $accessToken_dec['uid'];
 			} else {
-				$id_user = 'null';
+				$uid = 'null';
 			}
 
 			$this -> dao -> insert_visited($this->db, $args[0]);
 			$dates_realEstate = $this -> dao -> select_one_realEstate($this->db, $args[0]);
 			$dates_images = $this -> dao -> select_imgs_realEstate($this->db, $args[0]);
 			$dates_extras = $this -> dao -> select_extras_realEstate($this->db, $args[0]);
-			$dates_likes = $this -> dao -> select_likes_realEstate($this->db, $args[0], $id_user);
+			$dates_likes = $this -> dao -> select_likes_realEstate($this->db, $args[0], $uid);
 
 			if (!empty($dates_realEstate || $dates_images || $dates_extras || $dates_likes)) {
 				$rdo = array();
@@ -80,12 +80,12 @@
 		public function get_filters_shop_BLL($args) {
 			if ($args[3] != null) {
 				$accessToken_dec = middleware_auth::decode_token('access', $args[3]);
-				$id_user = $accessToken_dec['id_user'];
+				$uid = $accessToken_dec['uid'];
 			} else {
-				$id_user = 'null';
+				$uid = 'null';
 			}
 			
-			return $this -> dao -> filters_shop($this->db, $args[0], $args[1], $args[2], $id_user);
+			return $this -> dao -> filters_shop($this->db, $args[0], $args[1], $args[2], $uid);
 		}
 
 		public function get_realestates_related_BLL($args) {
@@ -107,13 +107,13 @@
 		public function get_likes_BLL($args) {
 			if ($args[1] != null) {
 				$accessToken_dec = middleware_auth::decode_token('access', $args[1]);
-				$id_user = $accessToken_dec['id_user'];
+				$uid = $accessToken_dec['uid'];
 			} else {
-				$id_user = 'null';
+				$uid = 'null';
 			}
 
-			$this -> dao -> update_like($this->db, $args[0], $id_user, $args[2]);
-			return $this -> dao -> select_likes_realEstate($this->db, $args[0], $id_user);
+			$this -> dao -> update_like($this->db, $args[0], $uid, $args[2]);
+			return $this -> dao -> select_likes_realEstate($this->db, $args[0], $uid);
 		}
 
 	}

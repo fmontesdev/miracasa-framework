@@ -77,7 +77,7 @@
             return $this -> array;
         }
 
-        public function listar_array_img_like($stmt, $id_user) {
+        public function listar_array_img_like($stmt, $uid) {
             $this -> array = array();
             while ($row = $stmt -> fetch_array(MYSQLI_ASSOC)) {
                 $row['img_realestate'] = explode(":", $row['img_realestate']);
@@ -85,7 +85,7 @@
 				if ($row['like'] != null) {
 					$row['like'] = explode(":", $row['like']);
 					foreach ($row['like'] as $user) {
-						if ($user == $id_user) {
+						if ($user == $uid) {
 							$count_like = count($row['like']);
 						}
 					}

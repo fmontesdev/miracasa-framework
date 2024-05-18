@@ -1,5 +1,5 @@
 **.ini
-./.htaccess
-./utils/vendor/
-./utils/composer.lock
-./model/credentials.js
+/.htaccess
+/utils/vendor/
+/utils/composer.lock
+/model/credentials.js
