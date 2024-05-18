@@ -16,7 +16,7 @@
 
 			$sql = "SELECT u.username
                     FROM `user` u
-                    WHERE u.username = '$username'";
+                    WHERE u.username = '$username/local'";
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);
@@ -26,16 +26,34 @@
 
 			$sql = "SELECT u.email
                     FROM `user` u
-                    WHERE u.email = '$email'";
+                    WHERE u.email = '$email/local'";
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);
         } 
 
-        public function insert_user($db, $username, $password, $email, $avatar) {
+        public function insert_user($db, $uid, $username, $password, $email, $avatar) {
 
-            $sql = "INSERT INTO `user`(`username`, `password`, `email`, `type_user`, `avatar`, `isActive`) 
-                    VALUES ('$username','$password','$email','client','$avatar','false')";
+            $sql = "INSERT INTO `user`(`uid`, `username`, `password`, `email`, `type_user`, `avatar`, `isActive`) 
+                    VALUES ('$uid','$username/local','$password','$email/local','client','$avatar','false')";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+        public function select_social_login($db, $uid) {
+
+			$sql = "SELECT u.uid
+                        FROM `user` u
+                        WHERE u.uid = '$uid'";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_object($stmt);
+        }
+
+        public function insert_social_login($db, $uid, $username, $email, $avatar, $provider) {
+
+            $sql = "INSERT INTO `user`(`uid`, `username`, `email`, `type_user`, `avatar`, `isActive`) 
+                    VALUES ('$uid','$username/$provider','$email/$provider','client','$avatar','true')";
 
             return $stmt = $db->ejecutar($sql);
         }
@@ -50,20 +68,20 @@
             return $db->listar_object($stmt);
         }
 
-        public function update_verify_email($db, $username){
+        public function update_verify_email($db, $uid){
 
             $sql = "UPDATE `user` u
                         SET u.isActive = 'true'
-                        WHERE u.username = '$username'";
+                        WHERE u.uid = '$uid'";
 
             return $stmt = $db->ejecutar($sql);
         }
 
-        public function delete_verify_email($db, $username){
+        public function delete_verify_email($db, $uid){
 
             $sql = "DELETE
                         FROM `user` u
-                        WHERE u.username = '$username'";
+                        WHERE u.uid = '$uid'";
 
             return $stmt = $db->ejecutar($sql);
         }
@@ -72,7 +90,7 @@
 
 			$sql = "SELECT u.email
                         FROM `user` u
-                        WHERE u.email = '$email' AND u.password NOT LIKE ('')";
+                        WHERE u.email = '$email/local' AND u.password NOT LIKE ('')";
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);
@@ -82,7 +100,7 @@
 
 			$sql = "UPDATE `user` u
                         SET u.token_email = '$token_email', u.isActive = 'false'
-                        WHERE u.email = '$email'";
+                        WHERE u.email = '$email/local'";
 
             return $stmt = $db->ejecutar($sql);
         }
@@ -98,9 +116,9 @@
 
         public function select_userLogin($db, $username){
 
-			$sql = "SELECT u.id_user, u.username, u.password, u.isActive
+			$sql = "SELECT u.uid, u.username, u.password, u.isActive
                         FROM `user` u
-                        WHERE u.username = '$username'";
+                        WHERE u.username = '$username/local'";
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);
@@ -108,11 +126,11 @@
 
         // SIMPLIFICAR LOS DOS ÚLTIMOS DAOS EN UNO ???
 
-        public function select_data_user($db, $username){
+        public function select_data_user($db, $uid){
 
             $sql = "SELECT u.username, u.password, u.email, u.type_user, u.avatar
                     FROM `user` u
-                    WHERE u.username = '$username'";
+                    WHERE u.uid = '$uid'";
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);

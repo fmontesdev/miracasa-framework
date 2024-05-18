@@ -17,7 +17,7 @@
             return $rt_token;
         }
 
-        public static function create_token($type, $id_user, $username) {
+        public static function create_token($type, $uid, $username) {
             $jwt = parse_ini_file(MODEL_PATH . "jwt.ini");
 
             $header = '{
@@ -31,7 +31,7 @@
                 $payload = '{
                     "iat": "'. time() .'", 
                     "exp": "'. time() + $jwt['JWT_EXP_ACCESS'] .'",
-                    "id_user": "'. $id_user .'",
+                    "uid": "'. $uid .'",
                     "username": "'. $username .'"
                 }';
                 $secret = $jwt['JWT_SECRET_ACCESS'];
@@ -39,7 +39,7 @@
                 $payload = '{
                     "iat": "'. time() .'", 
                     "exp": "'. time() + $jwt['JWT_EXP_REFRESH'] .'",
-                    "id_user": "'. $id_user .'",
+                    "uid": "'. $uid .'",
                     "username": "'. $username .'"
                 }';
                 $secret = $jwt['JWT_SECRET_REFRESH'];
@@ -47,6 +47,7 @@
                 $payload = '{
                     "iat": "'. time() .'", 
                     "exp": "'. time() + $jwt['JWT_EXP_VERIFY'] .'",
+                    "uid": "'. $uid .'",
                     "username": "'. $username .'"
                 }';
                 $secret = $jwt['JWT_SECRET_VERIFY'];

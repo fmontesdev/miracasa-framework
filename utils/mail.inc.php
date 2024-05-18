@@ -6,13 +6,13 @@
                     $email['fromEmail'] = 'onboarding@resend.dev';
                     $email['inputEmail'] = 'onboarding@resend.dev';
                     $email['inputMatter'] = 'Miracasa: validación de registro';
-                    $email['inputMessage'] = "<h2>Verificación de email.</h2><a href='http://miracasa-framework/login/verify/$email[token]'>Haz clic aquí para verificar tu email.</a>";
+                    $email['inputMessage'] = "<h2>Verificación de email.</h2><a href='http://miracasa.fw/login/verify/$email[token]'>Haz clic aquí para verificar tu email.</a>";
                     break;
                 case 'recover';
                     $email['fromEmail'] = 'onboarding@resend.dev';
                     $email['inputEmail'] = 'onboarding@resend.dev';
                     $email['inputMatter'] = 'Miracasa: recuperación de contraseña';
-                    $email['inputMessage'] = "<a href='http://miracasa-framework/login/recover/$email[token]'>Haz clic aquí para recuperar tu contraseña.</a>";
+                    $email['inputMessage'] = "<a href='http://miracasa.fw/login/recover/$email[token]'>Haz clic aquí para recuperar tu contraseña.</a>";
                     break;
             }
             return self::send_resend($email);

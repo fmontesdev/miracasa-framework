@@ -65,12 +65,14 @@ function load_menu() {
                 console.log(data);
                 // return;
 
+                var username = data.username.split('/');
+
                 // highlight usuario
                 $('.navbarLogin_icon').hide();
                 $('.navbarLogin_avatar').remove();
                 $('<img>').attr('class', 'navbarLogin_avatar').attr('src', data.avatar).appendTo('.navbarLogin_container');
                 $('.navbarLogin_text')
-                    .html(data.username);
+                    .html(username[0]);
                 $('.navbarLogin_container')
                     .css({
                         "background-color": "#f0f0f0",
@@ -119,8 +121,8 @@ function logout() {
                 Swal.fire({
                     // position: "top-end",
                     icon: "error",
-                    // title: "Your work has been saved",
-                    text: "Sesión finalizada",
+                    title: "Sesión finalizada",
+                    // text: "Your work has been saved",
                     showConfirmButton: false,
                     timer: 1250
                   });

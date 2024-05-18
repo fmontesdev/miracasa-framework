@@ -108,9 +108,42 @@ function social_login(param){
     authService = firebase_config();
     authService.signInWithPopup(provider_config(param))
         .then(function(result) {
-            console.log(result);
-            return;
+            email_name = result.user._delegate.email;
+            let username = email_name.split('@');
+            console.log('Autenticado usuario', username[0], result.credential.providerId);
 
+            if (result) {
+                ajaxPromise(friendlyURL("?module=login"), 'POST', 'JSON', { 'op': 'social_login', 'uid': result.user._delegate.uid, 'username': username[0], 'email': result.user._delegate.email, 'avatar': result.user._delegate.photoURL, 'provider': result.credential.providerId })
+                    .then(function(data) {
+                        console.log(data);
+                        // return;
+
+                        localStorage.setItem("access_token", data.access);
+                        localStorage.setItem("refresh_token", data.refresh);
+
+                        //SweetAlert2
+                        Swal.fire({
+                            // position: "top-end",
+                            icon: "success",
+                            title: "Sesión iniciada",
+                            // text: "Your work has been saved",
+                            showConfirmButton: false,
+                            // timer: 1500
+                        });
+
+                        var location = localStorage.getItem("location");
+                        if (location == 'home')  {
+                            setTimeout(function(){window.location.href = friendlyURL('?module=home');}, 1500); // redirigimos al home
+                        } else if (location == 'shop') {
+                            setTimeout(function(){window.location.href = friendlyURL('?module=shop');}, 1500); // redirigimos al shop
+                        } else {
+                            setTimeout(function(){window.location.href = friendlyURL('?module=shop');}, 1500); // redirigimos al shop
+                        }
+                    })
+                    .catch(function() {
+                        console.log('Error: Social login error');
+                    });
+            }
         })
         .catch(function(error) {
             var errorCode = error.code;

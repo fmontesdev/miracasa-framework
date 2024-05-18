@@ -17,6 +17,10 @@
         <uri>login</uri>
     </function>
     <function>
+        <name>social_login</name>
+        <uri>social_login</uri>
+    </function>
+    <function>
         <name>verify_email</name>
         <uri>verify_email</uri>
     </function>

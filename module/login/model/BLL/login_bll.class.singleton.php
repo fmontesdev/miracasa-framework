@@ -42,9 +42,10 @@
 				// $hashavatar = md5(strtolower(trim($email))); // md5() función para encriptar con menos seguridad
 				// $avatar = "https://i.pravatar.cc/500?u=$hashavatar";
 				$avatar = "https://api.dicebear.com/8.x/initials/svg?backgroundColor=2eca6a&size=40&scale=110&radius=50&seed=$args[0]";
-				$token_email = middleware_auth::create_token("verify", null, $args[0]); // creamos token JWT con tiempo de expiración
+				$uid = common::generate_Token_secure(12);
+				$token_email = middleware_auth::create_token("verify", $uid, $args[0]); // creamos token JWT con tiempo de expiración
 
-				$rdo = $this -> dao -> insert_user($this->db, $args[0], $hashed_pass, $args[2], $avatar);
+				$rdo = $this -> dao -> insert_user($this->db, $uid, $args[0], $hashed_pass, $args[2], $avatar);
 
 				if (!$rdo) {
 					return "error";
@@ -74,11 +75,11 @@
                 return "error_user";
             } else if (password_verify($args[1], $value['password']) && $value['isActive'] == 'true') { //compara el password introducido con el password de base de datos
 				// return $data = [$value['id_user'], $value['username']];
-                $accessToken = middleware_auth::create_token("access", $value['id_user'], $value['username']);
+                $accessToken = middleware_auth::create_token("access", $value['uid'], $value['username']);
 				// return $accessToken;
-                $refreshToken = middleware_auth::create_token("refresh", $value['id_user'], $value['username']);
+                $refreshToken = middleware_auth::create_token("refresh", $value['uid'], $value['username']);
                 $token = array("access" => $accessToken, "refresh" => $refreshToken); // array asociativo
-                $_SESSION['username'] = $value['username']; //guardamos usuario en cookie (servidor)
+                $_SESSION['uid'] = $value['uid']; //guardamos usuario en cookie (servidor)
                 $_SESSION['tiempo'] = time(); //guardamos momento exacto del login en cookie (servidor)
                 return $token;
             } else if (password_verify($args[1], $value['password']) && $value['isActive'] == 'false') {
@@ -88,23 +89,40 @@
             }
 		}
 
+		public function get_social_login_BLL($args) {
+			$user = $this -> dao -> select_social_login($this->db, $args[0]);
+
+			if (empty($user)) {
+				$this -> dao -> insert_social_login($this->db, $args[0], $args[1], $args[2], $args[3], $args[4]);
+            }
+
+			$accessToken = middleware_auth::create_token("access", $args[0], $args[1]);
+			$refreshToken = middleware_auth::create_token("refresh", $args[0], $args[1]);
+			$token = array("access" => $accessToken, "refresh" => $refreshToken);
+			$_SESSION['uid'] = $args[0];
+            $_SESSION['tiempo'] = time();
+			return $token;
+		}
+
 		public function get_verify_email_BLL($token_email) {
 			$tokenEmail_dec = middleware_auth::decode_token('verify', $token_email);
 
 			if($tokenEmail_dec['exp'] > time()){
-				$this -> dao -> update_verify_email($this->db, $tokenEmail_dec['username']);
+				$this -> dao -> update_verify_email($this->db, $tokenEmail_dec['uid']);
 				return "verify";
 			} else {
-				$this -> dao -> delete_verify_email($this->db, $tokenEmail_dec['username']);
+				$this -> dao -> delete_verify_email($this->db, $tokenEmail_dec['uid']);
 				return "fail";
 			}
 		}
 
 		public function get_send_recover_email_BBL($email_recover) {
-			$email_user = $this -> dao -> select_recover_email($this->db, $email_recover);
+			$emailRecover = $this -> dao -> select_recover_email($this->db, $email_recover);
+			$email_userLocal = get_object_vars($emailRecover); //serializa objeto
+			$value = explode('/', $email_userLocal['email']);
 			$token_email = common::generate_Token_secure(20);
 
-			if (!empty($email_user)) {
+			if (!empty($emailRecover) && $value[1] == 'local') {
 				$this -> dao -> update_recover_email($this->db, $email_recover, $token_email);
                 $message = ['type' => 'recover', 
                             'token' => $token_email, 
@@ -139,12 +157,12 @@
 
 		public function get_data_user_BLL($token) {
 			$accessToken_dec = middleware_auth::decode_token('access', $token);
-			$rdo = $this -> dao -> select_data_user($this->db, $accessToken_dec['username']);
+			$rdo = $this -> dao -> select_data_user($this->db, $accessToken_dec['uid']);
 			return $rdo;
 		}
 
 		public function get_logout_BLL() {
-			unset($_SESSION['username']); //elimina valor de $_SESSION
+			unset($_SESSION['uid']); //elimina valor de $_SESSION
 			unset($_SESSION['tiempo']); //elimina valor de $_SESSION
 			session_destroy();
 			return "logout done";
@@ -155,9 +173,9 @@
 			$refreshToken_dec = middleware_auth::decode_token('refresh', $args[1]);
 
 			if ($accessToken_dec['exp'] < time() && $refreshToken_dec['exp'] > time()) { // accessToken expirado y refreshToken activo -> actualizamos accessToken
-				$new_accessToken = middleware_auth::create_token('access', $accessToken_dec['id_user'], $accessToken_dec['username']);
+				$new_accessToken = middleware_auth::create_token('access', $accessToken_dec['uid'], $accessToken_dec['username']);
 				$new_accessToken_dec = middleware_auth::decode_token('access', $new_accessToken);
-				if (isset($_SESSION['username']) && ($_SESSION['username'] == $new_accessToken_dec['username']) && ($_SESSION['username'] == $refreshToken_dec['username'])) {
+				if (isset($_SESSION['uid']) && ($_SESSION['uid'] == $new_accessToken_dec['uid']) && ($_SESSION['uid'] == $refreshToken_dec['uid'])) {
 					return $new_accessToken;
 				} else {
 					return "Wrong_User";
@@ -166,7 +184,7 @@
 				return "ExpirationTime_Token";
 			} else if (($accessToken_dec['exp'] < time()) && ($refreshToken_dec['exp'] < time())) { // accessToken expirado y refreshToken expirado -> logout
 				return "ExpirationTime_Token";
-			} else if (isset($_SESSION['username']) && ($_SESSION['username'] == $accessToken_dec['username']) && ($_SESSION['username'] == $refreshToken_dec['username'])) {
+			} else if (isset($_SESSION['uid']) && ($_SESSION['uid'] == $accessToken_dec['uid']) && ($_SESSION['uid'] == $refreshToken_dec['uid'])) {
 				// accessToken activo - refreshToken activo, y username de cookie y tokens valido
 				return "Correct_User";
 			} else { // username de cookie y tokens inválido
