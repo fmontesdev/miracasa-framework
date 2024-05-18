@@ -96,12 +96,51 @@ function validate_login() {
 
 function button_socialLogin() {
     $('#google').on('click', function(e) {
-        console.log('Hola Google');
+        social_login('google');
     });
 
     $('#github').on('click', function(e) {
-        console.log('Hola GitHub');
+        social_login('github');
     });
+}
+
+function social_login(param){
+    authService = firebase_config();
+    authService.signInWithPopup(provider_config(param))
+        .then(function(result) {
+            console.log(result);
+            return;
+
+        })
+        .catch(function(error) {
+            var errorCode = error.code;
+            console.log(errorCode);
+            var errorMessage = error.message;
+            console.log(errorMessage);
+            var email = error.email;
+            console.log(email);
+            var credential = error.credential;
+            console.log(credential);
+        });
+}
+
+function firebase_config(){
+    if(!firebase.apps.length){
+        firebase.initializeApp(FIREBASE_CONFIG);
+    }else{
+        firebase.app();
+    }
+    return authService = firebase.auth();
+}
+
+function provider_config(param){
+    if(param === 'google'){
+        var provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope('email');
+        return provider;
+    }else if(param === 'github'){
+        return provider = new firebase.auth.GithubAuthProvider();
+    }
 }
 
 // pinta el formulario de registro desde el formulario del login

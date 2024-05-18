@@ -65,7 +65,7 @@
 			if ($rdo) {
 				$value = get_object_vars($rdo); //serializa objeto
 			}else {
-				return "error_user";
+				$rdo = "error_user";
 			}
 
 			// return json_encode($value['username']);
