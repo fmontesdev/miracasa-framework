@@ -94,6 +94,16 @@ function validate_login() {
     }
 }
 
+function button_socialLogin() {
+    $('#google').on('click', function(e) {
+        console.log('Hola Google');
+    });
+
+    $('#github').on('click', function(e) {
+        console.log('Hola GitHub');
+    });
+}
+
 // pinta el formulario de registro desde el formulario del login
 function button_toRegister() {
     $('#to_register').on('click', function() {
@@ -106,5 +116,6 @@ function button_toRegister() {
 $(document).ready(function() {
     key_login();
     button_login();
+    button_socialLogin();
     button_toRegister();
 });

@@ -12,7 +12,7 @@
 
         function view() {
             common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'login_register.html');
-        }
+            }
 
         function recover_view() {
             common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'recover_pass.html');

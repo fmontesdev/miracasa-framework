@@ -89,7 +89,6 @@
 		}
 
 		public function get_verify_email_BLL($token_email) {
-			// $rdo = $this -> dao -> select_verify_email($this->db, $token_email);
 			$tokenEmail_dec = middleware_auth::decode_token('verify', $token_email);
 
 			if($tokenEmail_dec['exp'] > time()){

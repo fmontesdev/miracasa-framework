@@ -3871,7 +3871,23 @@ Login
 }
 
 #login_register .log_submit {
+  margin-bottom: 1.9rem;
+}
+
+#socialLogin_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   margin-bottom: 2.2rem;
+}
+
+button#google {
+  margin-bottom: 0.8rem;
+}
+
+.socialLogin_icon {
+  width: 21px;
+  margin-right: 10px;
 }
 
 #login_register .recover_submit {
