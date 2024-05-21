@@ -1,7 +1,7 @@
 <?php
     class middleware_auth {
         public static function decode_token($type, $token) {
-            $jwt = parse_ini_file(MODEL_PATH . "jwt.ini");
+            $jwt = parse_ini_file(MODEL_PATH . "credentials.ini");
 
             if ($type == 'access') {
                 $secret = $jwt['JWT_SECRET_ACCESS'];
@@ -18,7 +18,7 @@
         }
 
         public static function create_token($type, $uid, $username) {
-            $jwt = parse_ini_file(MODEL_PATH . "jwt.ini");
+            $jwt = parse_ini_file(MODEL_PATH . "credentials.ini");
 
             $header = '{
                 "typ": "'. $jwt['JWT_TYPE'] .'",

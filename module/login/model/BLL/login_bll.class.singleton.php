@@ -18,7 +18,6 @@
 
 		public function get_register_BLL($args) {
 			$checkUsername = $this -> dao -> select_userReg($this->db, $args[0]);
-			// return $checkUsername;
 
 			// Comprobar que el usuario no existe
 			if ($checkUsername) {
@@ -44,7 +43,6 @@
 				$avatar = "https://api.dicebear.com/8.x/initials/svg?backgroundColor=2eca6a&size=40&scale=110&radius=50&seed=$args[0]";
 				$uid = common::generate_Token_secure(12);
 				$token_email = middleware_auth::create_token("verify", $uid, $args[0]); // creamos token JWT con tiempo de expiración
-
 				$rdo = $this -> dao -> insert_user($this->db, $uid, $args[0], $hashed_pass, $args[2], $avatar);
 
 				if (!$rdo) {
@@ -53,8 +51,11 @@
 					$message = [ 'type' => 'validate',
 								'token' => $token_email, 
 								'toEmail' =>  $args[2]];
-					$email = json_decode(mail::send_email($message), true);
-					return "done";
+					$email = mail::send_email($message);
+					return $email;
+					if (!empty($email)) {
+						return "done";  
+					} 
 				}
 			}
 		}
@@ -127,8 +128,11 @@
                 $message = ['type' => 'recover', 
                             'token' => $token_email, 
                             'toEmail' => $email_recover];
-                $email = json_decode(mail::send_email($message), true);
-				return "done";   
+                $email = mail::send_email($message);
+				return $email;
+					if (!empty($email)) {
+						return "done";  
+					}   
             }else {
                 return "error";
             }
