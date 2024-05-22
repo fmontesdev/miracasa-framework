@@ -26,6 +26,10 @@
             echo json_encode(common::load_model('login_model', 'get_login', [$_POST['username'], $_POST['password']]));
         }
 
+        function otp_login() {
+            echo json_encode(common::load_model('login_model', 'get_otp_login', [$_POST['uid'], $_POST['otp']]));
+        }
+
         function social_login() {
             echo json_encode(common::load_model('login_model', 'get_social_login', [$_POST['uid'], $_POST['username'], $_POST['email'], $_POST['avatar'], $_POST['provider']]));
         }

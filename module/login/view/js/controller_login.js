@@ -13,9 +13,14 @@ function login() {
                 } else if (data == 'error_passwd') {
                     document.getElementById('error_passwd_log').innerHTML = "La contraseña es incorrecta"
                 } else if (data == 'user_inactive') {
-                    document.getElementById('error_passwd_log').innerHTML = "Tu cuenta ha sido deshabilitada"
-                } else if (data == 'otp') {
-                    login_otp();
+                    document.getElementById('error_passwd_log').innerHTML = "Tu cuenta ha sido deshabilitada. Contacta con el administrador"
+                } else if (data.msg == 'otp') {
+                    $('#login_container').hide();
+                    $('#register_container').hide();
+                    $('#recoverEmail_container').hide();
+                    $('#otp_container').show();
+                    key_otp(data.uid);
+                    button_otp(data.uid);
                 } else {
                     localStorage.setItem("access_token", data.access);
                     localStorage.setItem("refresh_token", data.refresh);
@@ -45,13 +50,6 @@ function login() {
                 }
             });
     }
-}
-
-function login_otp() {
-    $('#login_container').hide();
-    $('#register_container').hide();
-    $('#recoverEmail_container').hide();
-    $('#otp_container').show();
 }
 
 function key_login() {
@@ -101,6 +99,79 @@ function validate_login() {
     if (error == true) {
         return 0;
     }
+}
+
+function key_otp(uid) {
+    $("#login_otp").keypress(function(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            e.preventDefault();
+            otp_login(uid);
+        }
+    });
+}
+
+function button_otp(uid) {
+    $('#login_otp').on('click', function(e) {
+        e.preventDefault();
+        otp_login(uid);
+    });
+}
+
+function otp_login(uid) {
+    var otp = document.getElementById('otp_login').value;
+
+    ajaxPromise(friendlyURL('?module=login'), 'POST', 'JSON', { 'op': 'otp_login', 'uid': uid, 'otp': otp })
+        .then(function(data) {
+            console.log(data);
+            // return;
+
+            if (data.msg == 'otp_attempts') {
+                otp_attempts = 4 - data.otp_attempts;
+                document.getElementById('error_otp_login').innerHTML = `El código introducido no es válido.<br> Te quedan ${otp_attempts} intentos.`
+            } else if (data == 'unauthenticated') {
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+
+                //SweetAlert2
+                Swal.fire({
+                    // position: "top-end",
+                    icon: "error",
+                    title: "Cuenta deshabilitada",
+                    text: "Tu cuenta ha sido deshabilitada. Contacta con el administrador.",
+                    showConfirmButton: false,
+                    timer: 1250
+                  });
+                  
+                  setTimeout(function(){window.location.href = friendlyURL('?module=home');}, 1500); // redirigimos al home
+            } else {
+                localStorage.setItem("access_token", data.access);
+                localStorage.setItem("refresh_token", data.refresh);
+
+                //SweetAlert2
+                Swal.fire({
+                    // position: "top-end",
+                    icon: "success",
+                    title: "Sesión iniciada",
+                    // text: "Your work has been saved",
+                    showConfirmButton: false,
+                    // timer: 1500
+                });
+
+                var location = localStorage.getItem("location");
+                if (location == 'home')  {
+                    setTimeout(function(){window.location.href = friendlyURL('?module=home');}, 1500); // redirigimos al home
+                } else if (location == 'shop') {
+                    setTimeout(function(){window.location.href = friendlyURL('?module=shop');}, 1500); // redirigimos al shop
+                } else {
+                    setTimeout(function(){window.location.href = friendlyURL('?module=shop');}, 1500); // redirigimos al shop
+                }
+            }
+        }).catch(function(textStatus) {
+            if (console && console.log) {
+                console.log("La solicitud ha fallado: " + textStatus);
+            }
+        });
 }
 
 function button_socialLogin() {

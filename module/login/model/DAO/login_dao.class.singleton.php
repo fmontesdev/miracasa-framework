@@ -116,7 +116,7 @@
 
         public function select_userLogin($db, $username){
 
-			$sql = "SELECT u.uid, u.username, u.password, u.phone, u.isActive, u.login_time, u.max_access
+			$sql = "SELECT u.uid, u.username, u.password, u.phone, u.isActive, u.login_time, u.login_attempts
                         FROM `user` u
                         WHERE u.username = '$username/local'";
 
@@ -124,10 +124,47 @@
             return $db->listar_object($stmt);
         }
 
-        public function update_login_time($db, $uid, $login_time, $max_access){
+        public function update_login_time($db, $uid, $login_time, $login_attempts){
 
             $sql = "UPDATE `user` u
-                        SET u.login_time = '$login_time', u.max_access = '$max_access'
+                        SET u.login_time = '$login_time', u.login_attempts = '$login_attempts'
+                        WHERE u.uid = '$uid'";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+        public function update_otp($db, $uid, $otp){
+
+            $sql = "UPDATE `user` u
+                        SET u.otp = '$otp', u.login_attempts = 0, u.otp_attempts = 0
+                        WHERE u.uid = '$uid'";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+        public function select_otp($db, $uid){
+
+			$sql = "SELECT u.uid, u.username, u.otp, u.otp_attempts
+                        FROM `user` u
+                        WHERE u.uid = '$uid'";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_object($stmt);
+        }
+
+        public function update_otp_isActive($db, $uid){
+
+            $sql = "UPDATE `user` u
+                        SET u.isActive = 'false', u.login_attempts = 0, u.otp = '', u.otp_attempts = 0
+                        WHERE u.uid = '$uid'";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+        public function update_otp_attempts($db, $uid, $otp_attempts){
+
+            $sql = "UPDATE `user` u
+                        SET u.otp_attempts = '$otp_attempts'
                         WHERE u.uid = '$uid'";
 
             return $stmt = $db->ejecutar($sql);

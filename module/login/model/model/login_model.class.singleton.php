@@ -22,6 +22,10 @@ class login_model {
         return $this -> bll -> get_login_BLL($args);
     }
 
+    public function get_otp_login($args) {
+        return $this -> bll -> get_otp_login_BLL($args);
+    }
+
     public function get_social_login($args) {
         return $this -> bll -> get_social_login_BLL($args);
     }

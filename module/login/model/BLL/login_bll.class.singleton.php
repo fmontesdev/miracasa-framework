@@ -63,7 +63,6 @@
 		public function get_login_BLL($args) {
 			$rdo = $this -> dao -> select_userLogin($this->db, $args[0]);
 
-			$value = "";
 			if ($rdo) {
 				$value = get_object_vars($rdo); //serializa objeto
 			}else {
@@ -76,22 +75,23 @@
                 return "error_user";
             } else if (password_verify($args[1], $value['password']) && $value['isActive'] == 'true') { //compara el password introducido con el password de base de datos
 				// return $data = [$value['id_user'], $value['username']];
-				$max_access = 0;
+				$login_attempts = 0;
 				if ((time() - $value['login_time']) < 60) { // si la diferencia entre los dos ultimos accesos es menor a 1 minuto
-					$max_access = $value['max_access'] + 1;
-					if ($max_access >= 2) {
+					$login_attempts = $value['login_attempts'] + 1;
+					if ($login_attempts >= 2) {
 						$otp = common::generate_Token_secure(4);
+						$this -> dao -> update_otp($this->db, $value['uid'], $otp); // guardamos OTP
 						$result_otp = otp::send_msg($otp, $value['phone']);
 						if (!empty($result_otp)) {
-							return "otp";  
+							$data = array("msg" => "otp", "uid" => $value['uid']);
+							return $data;  
 						}
 					}
 				}
 				$login_time = time();
-				$this -> dao -> update_login_time($this->db, $value['uid'], $login_time, $max_access); // actualizamos la hora del último acceso y los intentos máximos de acceso en menos de 1 minuto
+				$this -> dao -> update_login_time($this->db, $value['uid'], $login_time, $login_attempts); // actualizamos la hora del último acceso y los intentos máximos de acceso en menos de 1 minuto
 
                 $accessToken = middleware_auth::create_token("access", $value['uid'], $value['username']);
-				// return $accessToken;
                 $refreshToken = middleware_auth::create_token("refresh", $value['uid'], $value['username']);
                 $token = array("access" => $accessToken, "refresh" => $refreshToken); // array asociativo
                 $_SESSION['uid'] = $value['uid']; //guardamos usuario en cookie (servidor)
@@ -102,6 +102,42 @@
 			} else {
                 return "error_passwd";
             }
+		}
+
+		public function get_otp_login_BLL($args) {
+			$rdo = $this -> dao -> select_otp($this->db, $args[0]); // seleccionamos OTP del usuario
+
+			if ($rdo) {
+				$value = get_object_vars($rdo); //serializa objeto
+			}else {
+				$rdo = "error_user";
+			}
+
+			if ($rdo == "error_user") {
+				return "error_user";
+			} else if ($value['otp'] === $args[1]) { // si el OTP introducido es igual al guardado en BD
+				$otp_empty = "";
+				$this -> dao -> update_otp($this->db, $value['uid'], $otp_empty); // borramos OTP
+
+				$accessToken = middleware_auth::create_token("access", $value['uid'], $value['username']);
+                $refreshToken = middleware_auth::create_token("refresh", $value['uid'], $value['username']);
+                $token = array("access" => $accessToken, "refresh" => $refreshToken); // array asociativo
+                $_SESSION['uid'] = $value['uid']; //guardamos usuario en cookie (servidor)
+                $_SESSION['tiempo'] = time(); //guardamos momento exacto del login en cookie (servidor)
+				return $token;
+			} else {
+				$otp_attempts = $value['otp_attempts'] + 1;
+				$this -> dao -> update_otp_attempts($this->db, $value['uid'], $otp_attempts); // desactivamos usuario
+				if ($value['otp_attempts'] >= 4) {
+					$this -> dao -> update_otp_isActive($this->db, $value['uid']); // desactivamos usuario
+					return "unauthenticated";
+				} else {
+					$data = array("msg" => "otp_attempts", "otp_attempts" => $value['otp_attempts']);
+					return $data;
+				}
+				// desactivar usuario??
+				// proximo login también otp??
+			}
 		}
 
 		public function get_social_login_BLL($args) {
