@@ -210,6 +210,7 @@ function button_toRecover() {
         $('#login_container').hide();
         $('#register_container').hide();
         $('#recoverEmail_container').show();
+        $('#otp_container').hide();
     });
 }
 

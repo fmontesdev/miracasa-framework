@@ -116,12 +116,21 @@
 
         public function select_userLogin($db, $username){
 
-			$sql = "SELECT u.uid, u.username, u.password, u.isActive
+			$sql = "SELECT u.uid, u.username, u.password, u.phone, u.isActive, u.login_time, u.max_access
                         FROM `user` u
                         WHERE u.username = '$username/local'";
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);
+        }
+
+        public function update_login_time($db, $uid, $login_time, $max_access){
+
+            $sql = "UPDATE `user` u
+                        SET u.login_time = '$login_time', u.max_access = '$max_access'
+                        WHERE u.uid = '$uid'";
+
+            return $stmt = $db->ejecutar($sql);
         }
 
         // SIMPLIFICAR LOS DOS ÚLTIMOS DAOS EN UNO ???

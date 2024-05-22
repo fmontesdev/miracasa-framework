@@ -141,6 +141,7 @@ function button_toLogin() {
         $('#login_container').show();
         $('#register_container').hide();
         $('#recoverEmail_container').hide();
+        $('#otp_container').hide();
     });
 }
 

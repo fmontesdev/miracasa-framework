@@ -69,13 +69,27 @@
 			}else {
 				$rdo = "error_user";
 			}
-
+			
 			// return json_encode($value['username']);
 
             if ($rdo == "error_user") {
                 return "error_user";
             } else if (password_verify($args[1], $value['password']) && $value['isActive'] == 'true') { //compara el password introducido con el password de base de datos
 				// return $data = [$value['id_user'], $value['username']];
+				$max_access = 0;
+				if ((time() - $value['login_time']) < 60) { // si la diferencia entre los dos ultimos accesos es menor a 1 minuto
+					$max_access = $value['max_access'] + 1;
+					if ($max_access >= 2) {
+						$otp = common::generate_Token_secure(4);
+						$result_otp = otp::send_msg($otp, $value['phone']);
+						if (!empty($result_otp)) {
+							return "otp";  
+						}
+					}
+				}
+				$login_time = time();
+				$this -> dao -> update_login_time($this->db, $value['uid'], $login_time, $max_access); // actualizamos la hora del último acceso y los intentos máximos de acceso en menos de 1 minuto
+
                 $accessToken = middleware_auth::create_token("access", $value['uid'], $value['username']);
 				// return $accessToken;
                 $refreshToken = middleware_auth::create_token("refresh", $value['uid'], $value['username']);

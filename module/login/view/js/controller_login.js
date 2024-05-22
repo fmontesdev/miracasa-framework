@@ -5,7 +5,7 @@ function login() {
 
         ajaxPromise(friendlyURL('?module=login'), 'POST', 'JSON', { 'op': 'login', 'username': userForm, 'password': pswdForm })
             .then(function(data) {
-                // console.log(data);
+                console.log(data);
                 // return;
 
                 if (data == 'error_user') {
@@ -14,6 +14,8 @@ function login() {
                     document.getElementById('error_passwd_log').innerHTML = "La contraseña es incorrecta"
                 } else if (data == 'user_inactive') {
                     document.getElementById('error_passwd_log').innerHTML = "Tu cuenta ha sido deshabilitada"
+                } else if (data == 'otp') {
+                    login_otp();
                 } else {
                     localStorage.setItem("access_token", data.access);
                     localStorage.setItem("refresh_token", data.refresh);
@@ -43,6 +45,13 @@ function login() {
                 }
             });
     }
+}
+
+function login_otp() {
+    $('#login_container').hide();
+    $('#register_container').hide();
+    $('#recoverEmail_container').hide();
+    $('#otp_container').show();
 }
 
 function key_login() {
@@ -182,6 +191,7 @@ function button_toRegister() {
         $('#login_container').hide();
         $('#register_container').show();
         $('#recoverEmail_container').hide();
+        $('#otp_container').hide();
     });
 }
 

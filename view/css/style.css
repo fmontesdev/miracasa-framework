@@ -3902,6 +3902,13 @@ button#google {
   font-weight: bold;
 }
 
+.info_form {
+  display: flex;
+  padding: 6px 3px 0 3px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
 #toRegister_container, #toLogin_container {
   display: flex;
   justify-content: center;

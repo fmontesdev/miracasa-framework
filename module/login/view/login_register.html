@@ -111,6 +111,26 @@
                             </div>
                         </form>
                     </div>
+
+                    <!-- ======= Login OTP ======= -->
+                    <div id="otp_container" class="row">
+                        <div class="col-sm-12">
+                            <h4 class="title-single title_log">Código de autenticación</h4>
+                        </div>
+
+                        <form autocomplete="on" method="post" id="otp_form" class="php-email-form">
+                            <div class="row">
+                                <div class="col-sm-12 mb-4">
+                                    <input type="text" id="otp_input" name="otp_input" class="form-control form-control-lg form-control-a" placeholder="Introduce el código OTP">
+                                    <span id="error_otp_input" class="error_form"></span>
+                                    <span id="info_otp_input" class="info_form">Necesitamos que confirmes tu identidad.<br>Hemos enviado un código de autenticación a tu WhatsApp.</span>
+                                </div>
+                                <div class="col-sm-12 otp_submit">
+                                    <button type="submit" id="input_otp" class="btn btn-c btn_login">Continúa</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     
                 </div>
             </div>
