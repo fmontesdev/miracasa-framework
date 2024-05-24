@@ -68,39 +68,34 @@
 			}else {
 				$rdo = "error_user";
 			}
-			
-			// return json_encode($value['username']);
 
             if ($rdo == "error_user") {
                 return "error_user";
-            } else if (password_verify($args[1], $value['password']) && $value['isActive'] == 'true') { //compara el password introducido con el password de base de datos
-				// return $data = [$value['id_user'], $value['username']];
-				$login_attempts = 0;
-				if ((time() - $value['login_time']) < 60) { // si la diferencia entre los dos ultimos accesos es menor a 1 minuto
-					$login_attempts = $value['login_attempts'] + 1;
-					if ($login_attempts >= 2) {
-						$otp = common::generate_Token_secure(4);
-						$this -> dao -> update_otp($this->db, $value['uid'], $otp); // guardamos OTP
-						$result_otp = otp::send_msg($otp, $value['phone']);
-						if (!empty($result_otp)) {
-							$data = array("msg" => "otp", "uid" => $value['uid']);
-							return $data;  
-						}
-					}
-				}
-				$login_time = time();
-				$this -> dao -> update_login_time($this->db, $value['uid'], $login_time, $login_attempts); // actualizamos la hora del último acceso y los intentos máximos de acceso en menos de 1 minuto
-
+            } else if (password_verify($args[1], $value['password']) && $value['isActive'] == 'true') { // password correcto y usuario activo
                 $accessToken = middleware_auth::create_token("access", $value['uid'], $value['username']);
                 $refreshToken = middleware_auth::create_token("refresh", $value['uid'], $value['username']);
                 $token = array("access" => $accessToken, "refresh" => $refreshToken); // array asociativo
                 $_SESSION['uid'] = $value['uid']; //guardamos usuario en cookie (servidor)
                 $_SESSION['tiempo'] = time(); //guardamos momento exacto del login en cookie (servidor)
                 return $token;
-            } else if (password_verify($args[1], $value['password']) && $value['isActive'] == 'false') {
+            } else if (password_verify($args[1], $value['password']) && $value['isActive'] == 'false') {  // password correcto y usuario inactivo
                 return "user_inactive";
-			} else {
-                return "error_passwd";
+			} else { // password incorrecto
+				if (($value['login_attempts'] == 0) || ($value['login_attempts'] < 2 && (time() - $value['login_time']) < 600)) { // login_attempts entre 0 y 2, y con menos de 10 minutos entre errores de password
+					$login_time = time();
+					$login_attempts = $value['login_attempts'] + 1;
+					$this -> dao -> update_login_attempts($this->db, $value['uid'], $login_time, $login_attempts);  // actualizamos los intentos fallidos de login junto la hora
+					return "error_passwd";
+				} else if ($value['login_attempts'] >= 2) { // login_attempts igual a 2 (al tercer fallo de password)
+					$otp = common::generate_Token_secure(4);
+					$expiredToken = middleware_auth::create_token("verify", $value['uid'], $value['username']);
+					$this -> dao -> update_otp($this->db, $value['uid'], $otp, $expiredToken); // guardamos OTP y token
+					$result_otp = otp::send_msg($otp, $value['phone']);
+					if (!empty($result_otp)) {
+						$data = array("msg" => "otp", "uid" => $value['uid']);
+						return $data;  
+					}
+				}
             }
 		}
 
@@ -115,20 +110,34 @@
 
 			if ($rdo == "error_user") {
 				return "error_user";
-			} else if ($value['otp'] === $args[1]) { // si el OTP introducido es igual al guardado en BD
-				$otp_empty = "";
-				$this -> dao -> update_otp($this->db, $value['uid'], $otp_empty); // borramos OTP
+			} else if ($value['otp'] === $args[1]) { // codigo OTP válido
+				$expiredToken_dec = middleware_auth::decode_token('verify', $value['expired_token']);
+				
+				if ($expiredToken_dec['exp'] > time()) { // tiempo de expiración del token otp válido
+					$otp_empty = 'NULL';
+					$expiredToken_empty = 'NULL';
+					$this -> dao -> update_otp($this->db, $value['uid'], $otp_empty, $expiredToken_empty); // borramos OTP
 
-				$accessToken = middleware_auth::create_token("access", $value['uid'], $value['username']);
-                $refreshToken = middleware_auth::create_token("refresh", $value['uid'], $value['username']);
-                $token = array("access" => $accessToken, "refresh" => $refreshToken); // array asociativo
-                $_SESSION['uid'] = $value['uid']; //guardamos usuario en cookie (servidor)
-                $_SESSION['tiempo'] = time(); //guardamos momento exacto del login en cookie (servidor)
-				return $token;
-			} else {
+					$accessToken = middleware_auth::create_token("access", $value['uid'], $value['username']);
+					$refreshToken = middleware_auth::create_token("refresh", $value['uid'], $value['username']);
+					$token = array("access" => $accessToken, "refresh" => $refreshToken); // array asociativo
+					$_SESSION['uid'] = $value['uid']; //guardamos usuario en cookie (servidor)
+					$_SESSION['tiempo'] = time(); //guardamos momento exacto del login en cookie (servidor)
+					return $token;
+				} else { // tiempo de expiración del token otp caducado
+					$otp = common::generate_Token_secure(4);
+					$expiredToken = middleware_auth::create_token("verify", $value['uid'], $value['username']);
+					$this -> dao -> update_otp($this->db, $value['uid'], $otp, $expiredToken); // guardamos OTP y token
+					$result_otp = otp::send_msg($otp, $value['phone']);
+					if (!empty($result_otp)) {
+						$data = array("msg" => "expired_token", "uid" => $value['uid']);
+						return $data;  
+					}
+				}
+			} else { // código OTP incorrecto
 				$otp_attempts = $value['otp_attempts'] + 1;
 				$this -> dao -> update_otp_attempts($this->db, $value['uid'], $otp_attempts); // desactivamos usuario
-				if ($value['otp_attempts'] >= 4) {
+				if ($value['otp_attempts'] >= 2) {
 					$this -> dao -> update_otp_isActive($this->db, $value['uid']); // desactivamos usuario
 					return "unauthenticated";
 				} else {

@@ -127,7 +127,7 @@ function otp_login(uid) {
             // return;
 
             if (data.msg == 'otp_attempts') {
-                otp_attempts = 4 - data.otp_attempts;
+                otp_attempts = 2 - data.otp_attempts;
                 document.getElementById('error_otp_login').innerHTML = `El código introducido no es válido.<br> Te quedan ${otp_attempts} intentos.`
             } else if (data == 'unauthenticated') {
                 localStorage.removeItem('access_token');
@@ -138,12 +138,22 @@ function otp_login(uid) {
                     // position: "top-end",
                     icon: "error",
                     title: "Cuenta deshabilitada",
-                    text: "Tu cuenta ha sido deshabilitada. Contacta con el administrador.",
+                    text: "Contacta con el administrador.",
                     showConfirmButton: false,
-                    timer: 1250
+                    // timer: 1250
                   });
                   
-                  setTimeout(function(){window.location.href = friendlyURL('?module=home');}, 1500); // redirigimos al home
+                  setTimeout(function(){window.location.href = friendlyURL('?module=home');}, 2500); // redirigimos al home
+            } else if (data.msg == 'expired_token') {
+                //SweetAlert2
+                Swal.fire({
+                    // position: "top-end",
+                    icon: "error",
+                    title: "Autenticación expirada",
+                    text: "Le hemos enviado otro código de autenticación",
+                    showConfirmButton: false,
+                    timer: 2500
+                  });
             } else {
                 localStorage.setItem("access_token", data.access);
                 localStorage.setItem("refresh_token", data.refresh);
@@ -191,7 +201,7 @@ function social_login(param){
             email_name = result.user._delegate.email;
             let username = email_name.split('@');
             console.log('Autenticado usuario', username[0], result.credential.providerId);
-
+            
             if (result) {
                 ajaxPromise(friendlyURL("?module=login"), 'POST', 'JSON', { 'op': 'social_login', 'uid': result.user._delegate.uid, 'username': username[0], 'email': result.user._delegate.email, 'avatar': result.user._delegate.photoURL, 'provider': result.credential.providerId })
                     .then(function(data) {

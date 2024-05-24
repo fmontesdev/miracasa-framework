@@ -3858,6 +3858,7 @@ Login
 }
 
 #register_container,
+#otp_container,
 #recoverEmail_container {
   display: none;
 }

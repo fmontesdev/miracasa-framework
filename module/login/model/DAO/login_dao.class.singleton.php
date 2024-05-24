@@ -124,7 +124,7 @@
             return $db->listar_object($stmt);
         }
 
-        public function update_login_time($db, $uid, $login_time, $login_attempts){
+        public function update_login_attempts($db, $uid, $login_time, $login_attempts){
 
             $sql = "UPDATE `user` u
                         SET u.login_time = '$login_time', u.login_attempts = '$login_attempts'
@@ -133,10 +133,10 @@
             return $stmt = $db->ejecutar($sql);
         }
 
-        public function update_otp($db, $uid, $otp){
+        public function update_otp($db, $uid, $otp, $expired_token){
 
             $sql = "UPDATE `user` u
-                        SET u.otp = '$otp', u.login_attempts = 0, u.otp_attempts = 0
+                        SET u.otp = '$otp', u.expired_token = '$expired_token', u.login_attempts = 0, u.otp_attempts = 0
                         WHERE u.uid = '$uid'";
 
             return $stmt = $db->ejecutar($sql);
@@ -144,7 +144,7 @@
 
         public function select_otp($db, $uid){
 
-			$sql = "SELECT u.uid, u.username, u.otp, u.otp_attempts
+			$sql = "SELECT u.uid, u.username, u.phone, u.otp, u.otp_attempts, u.expired_token
                         FROM `user` u
                         WHERE u.uid = '$uid'";
 
@@ -155,7 +155,7 @@
         public function update_otp_isActive($db, $uid){
 
             $sql = "UPDATE `user` u
-                        SET u.isActive = 'false', u.login_attempts = 0, u.otp = '', u.otp_attempts = 0
+                        SET u.isActive = 'false', u.login_attempts = 0, u.otp = null, u.otp_attempts = 0
                         WHERE u.uid = '$uid'";
 
             return $stmt = $db->ejecutar($sql);
