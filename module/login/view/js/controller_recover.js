@@ -84,12 +84,23 @@ function load_recover_password(){
     ajaxPromise(friendlyURL('?module=login'), 'POST', 'JSON', { 'op': 'verify_token', 'token_email': token_email })
     .then(function(data) {
 
-        if (data == "verify") {
+        if (data.msg == "verify") {
             // console.log(data);
-            key_recover_pass(token_email);
-            button_recover_pass(token_email); 
+            key_recover_pass(data.uid);
+            button_recover_pass(data.uid); 
         } else if (data == "fail") {
-            console.log("error");
+            //SweetAlert2
+            Swal.fire({
+                // position: "top-end",
+                icon: "error",
+                title: "Verificación fallida",
+                text: "El email de verificación ha caducado. Vuelva ha intentarlo",
+                showConfirmButton: false,
+                // confirmButtonColor: "#2eca6a",
+                // timer: 3000
+            });
+
+            setTimeout(function(){window.location.href = friendlyURL('?module=login');}, 2500);
         }
 
     }).catch(function(textStatus) {
@@ -100,32 +111,32 @@ function load_recover_password(){
 }
 
 //============== ENTER RECOVER PASSWORD ==============//
-function key_recover_pass(token_email) {
+function key_recover_pass(uid) {
     $("#recover_pass").keypress(function(e) {
         var code = (e.keyCode ? e.keyCode : e.which);
         if (code == 13) {
             e.preventDefault();
-            send_new_password(token_email);
+            send_new_password(uid);
         }
     });
 }
 
 //============== CLICK RECOVER PASSWORD ==============//
-function button_recover_pass(token_email) {
+function button_recover_pass(uid) {
     $('#recover_pass').on('click', function(e) {
         e.preventDefault();
-        send_new_password(token_email);
+        send_new_password(uid);
     });
 }
 
 //============== SEND NEW PASSWORD ==============//
-function send_new_password(token_email){
+function send_new_password(uid){
     if(validate_new_password() != 0){
         var pswdForm = document.getElementById('passwd1_recover').value;
         // console.log([pswdForm, token_email]);
         // return;
 
-        ajaxPromise(friendlyURL('?module=login'), 'POST', 'JSON', { 'op': 'new_password', 'token_email': token_email, 'new_pass': pswdForm })
+        ajaxPromise(friendlyURL('?module=login'), 'POST', 'JSON', { 'op': 'new_password', 'uid': uid, 'new_pass': pswdForm })
             .then(function(data) {
                 if(data == "done"){
                     //SweetAlert2

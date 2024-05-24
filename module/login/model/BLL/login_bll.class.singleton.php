@@ -177,13 +177,13 @@
 		}
 
 		public function get_send_recover_email_BBL($email_recover) {
-			$emailRecover = $this -> dao -> select_recover_email($this->db, $email_recover);
-			$email_userLocal = get_object_vars($emailRecover); //serializa objeto
-			$value = explode('/', $email_userLocal['email']);
-			$token_email = common::generate_Token_secure(20);
+			$rdo = $this -> dao -> select_recover_email($this->db, $email_recover);
+			$value = get_object_vars($rdo); //serializa objeto
+			$provider = explode('/', $value['email']);
+			$token_email = middleware_auth::create_token("verify", $value['uid'], $value['username']); // creamos token JWT con tiempo de expiración
 
-			if (!empty($emailRecover) && $value[1] == 'local') {
-				$this -> dao -> update_recover_email($this->db, $email_recover, $token_email);
+			if (!empty($rdo) && $provider[1] == 'local') {
+				$this -> dao -> update_recover_email($this->db, $email_recover);
                 $message = ['type' => 'recover', 
                             'token' => $token_email, 
                             'toEmail' => $email_recover];
@@ -198,12 +198,13 @@
 		}
 
 		public function get_verify_token_BLL($token_email) {
-			$rdo = $this -> dao -> select_verify_email($this->db, $token_email);
+			$tokenEmail_dec = middleware_auth::decode_token('verify', $token_email);
 
-			if(!$rdo){
-				return "fail";
+			if($tokenEmail_dec['exp'] > time()){
+				$data = array("msg" => "verify", "uid" => $tokenEmail_dec['uid']);
+				return $data;
 			} else {
-				return "verify";
+				return "fail";
 			}
 		}
 

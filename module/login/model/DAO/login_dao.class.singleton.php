@@ -58,15 +58,15 @@
             return $stmt = $db->ejecutar($sql);
         }
 
-        public function select_verify_email($db, $token_email){
+        // public function select_verify_email($db, $token_email){
 
-			$sql = "SELECT u.token_email
-                        FROM `user` u
-                        WHERE u.token_email = '$token_email'";
+		// 	$sql = "SELECT u.token_email
+        //                 FROM `user` u
+        //                 WHERE u.token_email = '$token_email'";
 
-            $stmt = $db->ejecutar($sql);
-            return $db->listar_object($stmt);
-        }
+        //     $stmt = $db->ejecutar($sql);
+        //     return $db->listar_object($stmt);
+        // }
 
         public function update_verify_email($db, $uid){
 
@@ -88,7 +88,7 @@
 
         public function select_recover_email($db, $email){
 
-			$sql = "SELECT u.email
+			$sql = "SELECT u.uid, u.username, u.email
                         FROM `user` u
                         WHERE u.email = '$email/local' AND u.password NOT LIKE ('')";
 
@@ -96,20 +96,20 @@
             return $db->listar_object($stmt);
         }
 
-        public function update_recover_email($db, $email, $token_email){
+        public function update_recover_email($db, $email){
 
 			$sql = "UPDATE `user` u
-                        SET u.token_email = '$token_email', u.isActive = 'false'
+                        SET u.isActive = 'false'
                         WHERE u.email = '$email/local'";
 
             return $stmt = $db->ejecutar($sql);
         }
 
-        public function update_new_passwoord($db, $token_email, $password){
+        public function update_new_passwoord($db, $uid, $password){
 
             $sql = "UPDATE `user` u
-                        SET u.password = '$password', u.isActive = 'true', u.token_email = ''
-                        WHERE u.token_email = '$token_email'";
+                        SET u.password = '$password', u.isActive = 'true'
+                        WHERE u.uid = '$uid'";
 
             return $stmt = $db->ejecutar($sql);
         }
