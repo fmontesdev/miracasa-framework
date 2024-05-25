@@ -18,7 +18,7 @@
 
 		public function get_register_BLL($args) {
 			$checkUsername = $this -> dao -> select_userReg($this->db, $args[0]);
-
+			
 			// Comprobar que el usuario no existe
 			if ($checkUsername) {
 				$check = false;
@@ -26,7 +26,7 @@
 			} else {
 				// Comprobar que el email no existe
 				$checkEmail = $this -> dao -> select_email($this->db, $args[2]);
-	
+				
 				if ($checkEmail) {
 					$check = false;
 					return "error_email";
@@ -34,7 +34,7 @@
 					$check = true;
 				}
 			}
-
+			
 			// Si no existe ni el username ni el email creará el usuario
 			if ($check) {
 				$hashed_pass = password_hash($args[1], PASSWORD_DEFAULT, ['cost' => 12]); // password_hash() función para encriptar password muy segura
@@ -42,10 +42,12 @@
 				// $avatar = "https://i.pravatar.cc/500?u=$hashavatar";
 				$avatar = "https://api.dicebear.com/8.x/initials/svg?backgroundColor=2eca6a&size=40&scale=110&radius=50&seed=$args[0]";
 				$uid = common::generate_Token_secure(12);
-				$token_email = middleware_auth::create_token("verify", $uid, $args[0]); // creamos token JWT con tiempo de expiración
-				$rdo = $this -> dao -> insert_user($this->db, $uid, $args[0], $hashed_pass, $args[2], $avatar);
+				$token_email = middleware_auth::create_token("verify", $uid, $args[0], "local"); // creamos token JWT con tiempo de expiración
+				$rdo_user = $this -> dao -> insert_user($this->db, $uid);
+				$rdo_userLocal = $this -> dao -> insert_user_local($this->db, $uid, $args[0], $hashed_pass, $args[2], $args[3], $avatar);
+				$rdo_userLog = $this -> dao -> insert_user_log($this->db, $uid);
 
-				if (!$rdo) {
+				if (!$rdo_user || !$rdo_userLocal || !$rdo_userLog) {
 					return "error";
 				} else {
 					$message = [ 'type' => 'validate',
@@ -72,8 +74,8 @@
             if ($rdo == "error_user") {
                 return "error_user";
             } else if (password_verify($args[1], $value['password']) && $value['isActive'] == 'true') { // password correcto y usuario activo
-                $accessToken = middleware_auth::create_token("access", $value['uid'], $value['username']);
-                $refreshToken = middleware_auth::create_token("refresh", $value['uid'], $value['username']);
+                $accessToken = middleware_auth::create_token("access", $value['uid'], $value['username'], "local");
+                $refreshToken = middleware_auth::create_token("refresh", $value['uid'], $value['username'], "local");
                 $token = array("access" => $accessToken, "refresh" => $refreshToken); // array asociativo
                 $_SESSION['uid'] = $value['uid']; //guardamos usuario en cookie (servidor)
                 $_SESSION['tiempo'] = time(); //guardamos momento exacto del login en cookie (servidor)
@@ -88,7 +90,7 @@
 					return "error_passwd";
 				} else if ($value['login_attempts'] >= 2) { // login_attempts igual a 2 (al tercer fallo de password)
 					$otp = common::generate_Token_secure(4);
-					$expiredToken = middleware_auth::create_token("verify", $value['uid'], $value['username']);
+					$expiredToken = middleware_auth::create_token("verify", $value['uid'], $value['username'], "local");
 					$this -> dao -> update_otp($this->db, $value['uid'], $otp, $expiredToken); // guardamos OTP y token
 					$result_otp = otp::send_msg($otp, $value['phone']);
 					if (!empty($result_otp)) {
@@ -118,15 +120,15 @@
 					$expiredToken_empty = 'NULL';
 					$this -> dao -> update_otp($this->db, $value['uid'], $otp_empty, $expiredToken_empty); // borramos OTP
 
-					$accessToken = middleware_auth::create_token("access", $value['uid'], $value['username']);
-					$refreshToken = middleware_auth::create_token("refresh", $value['uid'], $value['username']);
+					$accessToken = middleware_auth::create_token("access", $value['uid'], $value['username'], "local");
+					$refreshToken = middleware_auth::create_token("refresh", $value['uid'], $value['username'], "local");
 					$token = array("access" => $accessToken, "refresh" => $refreshToken); // array asociativo
 					$_SESSION['uid'] = $value['uid']; //guardamos usuario en cookie (servidor)
 					$_SESSION['tiempo'] = time(); //guardamos momento exacto del login en cookie (servidor)
 					return $token;
 				} else { // tiempo de expiración del token otp caducado
 					$otp = common::generate_Token_secure(4);
-					$expiredToken = middleware_auth::create_token("verify", $value['uid'], $value['username']);
+					$expiredToken = middleware_auth::create_token("verify", $value['uid'], $value['username'], "local");
 					$this -> dao -> update_otp($this->db, $value['uid'], $otp, $expiredToken); // guardamos OTP y token
 					$result_otp = otp::send_msg($otp, $value['phone']);
 					if (!empty($result_otp)) {
@@ -138,7 +140,8 @@
 				$otp_attempts = $value['otp_attempts'] + 1;
 				$this -> dao -> update_otp_attempts($this->db, $value['uid'], $otp_attempts); // desactivamos usuario
 				if ($value['otp_attempts'] >= 2) {
-					$this -> dao -> update_otp_isActive($this->db, $value['uid']); // desactivamos usuario
+					$this -> dao -> update_isActive($this->db, $value['uid'], 'false'); // desactivamos usuario
+					$this -> dao -> update_otp($this->db, $value['uid'], 'NULL', 'NULL'); // reseteamos valores de user_log
 					return "unauthenticated";
 				} else {
 					$data = array("msg" => "otp_attempts", "otp_attempts" => $value['otp_attempts']);
@@ -153,25 +156,30 @@
 			$user = $this -> dao -> select_social_login($this->db, $args[0]);
 
 			if (empty($user)) {
-				$this -> dao -> insert_social_login($this->db, $args[0], $args[1], $args[2], $args[3], $args[4]);
+				$this -> dao -> insert_socialLogin_user($this->db, $args[0], $args[5]);
+				$this -> dao -> insert_socialLogin_userProvider($this->db, $args[0], $args[1], $args[2], $args[3], $args[4], $args[5]);
             }
 
-			$accessToken = middleware_auth::create_token("access", $args[0], $args[1]);
-			$refreshToken = middleware_auth::create_token("refresh", $args[0], $args[1]);
+			$accessToken = middleware_auth::create_token("access", $args[0], $args[1], $args[5]);
+			$refreshToken = middleware_auth::create_token("refresh", $args[0], $args[1], $args[5]);
 			$token = array("access" => $accessToken, "refresh" => $refreshToken);
 			$_SESSION['uid'] = $args[0];
-            $_SESSION['tiempo'] = time();
+			$_SESSION['tiempo'] = time();
 			return $token;
 		}
 
 		public function get_verify_email_BLL($token_email) {
+			// return "Hola verify";
 			$tokenEmail_dec = middleware_auth::decode_token('verify', $token_email);
+			// return $tokenEmail_dec;
 
 			if($tokenEmail_dec['exp'] > time()){
-				$this -> dao -> update_verify_email($this->db, $tokenEmail_dec['uid']);
+				$this -> dao -> update_isActive($this->db, $tokenEmail_dec['uid'], "true");
 				return "verify";
 			} else {
-				$this -> dao -> delete_verify_email($this->db, $tokenEmail_dec['uid']);
+				$this -> dao -> delete_userLocal($this->db, $tokenEmail_dec['uid']);
+				$this -> dao -> delete_userLog($this->db, $tokenEmail_dec['uid']);
+				$this -> dao -> delete_user($this->db, $tokenEmail_dec['uid']); // eliminar de la tabla user en último lugar por la restricción de las foreign key
 				return "fail";
 			}
 		}
@@ -179,11 +187,10 @@
 		public function get_send_recover_email_BBL($email_recover) {
 			$rdo = $this -> dao -> select_recover_email($this->db, $email_recover);
 			$value = get_object_vars($rdo); //serializa objeto
-			$provider = explode('/', $value['email']);
-			$token_email = middleware_auth::create_token("verify", $value['uid'], $value['username']); // creamos token JWT con tiempo de expiración
+			$token_email = middleware_auth::create_token("verify", $value['uid'], $value['username'], "local"); // creamos token JWT con tiempo de expiración
 
-			if (!empty($rdo) && $provider[1] == 'local') {
-				$this -> dao -> update_recover_email($this->db, $email_recover);
+			if (!empty($rdo)) {
+				$this -> dao -> update_isActive($this->db, $value['uid'], 'false');
                 $message = ['type' => 'recover', 
                             'token' => $token_email, 
                             'toEmail' => $email_recover];
@@ -210,9 +217,10 @@
 
 		public function get_new_password_BLL($args) {
 			$hashed_pass = password_hash($args[1], PASSWORD_DEFAULT, ['cost' => 12]);
-			$rdo = $this -> dao -> update_new_passwoord($this->db, $args[0], $hashed_pass);
+			$rdo_pass = $this -> dao -> update_new_passwoord($this->db, $args[0], $hashed_pass);
+			$rdo_isActive = $this -> dao -> update_isActive($this->db, $args[0], 'true');
 			
-			if (!$rdo) {
+			if (!$rdo_pass || !$rdo_isActive) {
 				return "fail";
 			} else {
 				return "done";
@@ -221,7 +229,7 @@
 
 		public function get_data_user_BLL($token) {
 			$accessToken_dec = middleware_auth::decode_token('access', $token);
-			$rdo = $this -> dao -> select_data_user($this->db, $accessToken_dec['uid']);
+			$rdo = $this -> dao -> select_data_user($this->db, $accessToken_dec['uid'], $accessToken_dec['provider']);
 			return $rdo;
 		}
 
@@ -237,7 +245,7 @@
 			$refreshToken_dec = middleware_auth::decode_token('refresh', $args[1]);
 
 			if ($accessToken_dec['exp'] < time() && $refreshToken_dec['exp'] > time()) { // accessToken expirado y refreshToken activo -> actualizamos accessToken
-				$new_accessToken = middleware_auth::create_token('access', $accessToken_dec['uid'], $accessToken_dec['username']);
+				$new_accessToken = middleware_auth::create_token('access', $accessToken_dec['uid'], $accessToken_dec['username'], $accessToken_dec['provider']);
 				$new_accessToken_dec = middleware_auth::decode_token('access', $new_accessToken);
 				if (isset($_SESSION['uid']) && ($_SESSION['uid'] == $new_accessToken_dec['uid']) && ($_SESSION['uid'] == $refreshToken_dec['uid'])) {
 					return $new_accessToken;

@@ -201,13 +201,15 @@ function social_login(param){
             email_name = result.user._delegate.email;
             let username = email_name.split('@');
             console.log('Autenticado usuario', username[0], result.credential.providerId);
+            // console.log([result.user._delegate.uid, username[0], result.user._delegate.email, result.user._delegate.phoneNumber, result.user._delegate.photoURL, result.credential.providerId]);
+            // return;
             
             if (result) {
-                ajaxPromise(friendlyURL("?module=login"), 'POST', 'JSON', { 'op': 'social_login', 'uid': result.user._delegate.uid, 'username': username[0], 'email': result.user._delegate.email, 'avatar': result.user._delegate.photoURL, 'provider': result.credential.providerId })
+                ajaxPromise(friendlyURL("?module=login"), 'POST', 'JSON', { 'op': 'social_login', 'uid': result.user._delegate.uid, 'username': username[0], 'email': result.user._delegate.email, 'phone': result.user._delegate.phoneNumber, 'avatar': result.user._delegate.photoURL, 'provider': result.credential.providerId })
                     .then(function(data) {
                         console.log(data);
                         // return;
-
+                        
                         localStorage.setItem("access_token", data.access);
                         localStorage.setItem("refresh_token", data.refresh);
 

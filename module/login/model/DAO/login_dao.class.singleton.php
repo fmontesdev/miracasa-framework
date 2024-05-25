@@ -15,8 +15,8 @@
         public function select_userReg($db, $username){
 
 			$sql = "SELECT u.username
-                    FROM `user` u
-                    WHERE u.username = '$username/local'";
+                    FROM `user_local` u
+                    WHERE u.username = '$username'";
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);
@@ -25,17 +25,33 @@
         public function select_email($db, $email){
 
 			$sql = "SELECT u.email
-                    FROM `user` u
-                    WHERE u.email = '$email/local'";
+                    FROM `user_local` u
+                    WHERE u.email = '$email'";
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);
         } 
 
-        public function insert_user($db, $uid, $username, $password, $email, $avatar) {
+        public function insert_user($db, $uid) {
 
-            $sql = "INSERT INTO `user`(`uid`, `username`, `password`, `email`, `type_user`, `avatar`, `isActive`) 
-                    VALUES ('$uid','$username/local','$password','$email/local','client','$avatar','false')";
+            $sql = "INSERT INTO `user`(`uid`, `type_user`, `provider`, `isActive`) 
+                    VALUES ('$uid','client','local','false')";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+        public function insert_user_local($db, $uid, $username, $password, $email, $phone, $avatar) {
+
+            $sql = "INSERT INTO `user_local`(`uid`, `username`, `password`, `email`, `phone`, `avatar`) 
+                    VALUES ('$uid','$username','$password','$email','$phone','$avatar')";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+        public function insert_user_log($db, $uid) {
+
+            $sql = "INSERT INTO `user_log`(`uid`, `login_time`, `login_attempts`, `otp`, `otp_attempts`, `expired_token`) 
+                    VALUES ('$uid',0,0,null,0,null)";
 
             return $stmt = $db->ejecutar($sql);
         }
@@ -50,34 +66,32 @@
             return $db->listar_object($stmt);
         }
 
-        public function insert_social_login($db, $uid, $username, $email, $avatar, $provider) {
+        public function insert_socialLogin_user($db, $uid, $provider) {
 
-            $sql = "INSERT INTO `user`(`uid`, `username`, `email`, `type_user`, `avatar`, `isActive`) 
-                    VALUES ('$uid','$username/$provider','$email/$provider','client','$avatar','true')";
+            $sql = "INSERT INTO `user`(`uid`, `type_user`, `provider`, `isActive`) 
+                    VALUES ('$uid','client','$provider','true')";
 
             return $stmt = $db->ejecutar($sql);
         }
 
-        // public function select_verify_email($db, $token_email){
+        public function insert_socialLogin_userProvider($db, $uid, $username, $email, $phone, $avatar, $provider) {
 
-		// 	$sql = "SELECT u.token_email
-        //                 FROM `user` u
-        //                 WHERE u.token_email = '$token_email'";
+            $sql = "INSERT INTO `user_$provider`(`uid`, `username`, `email`, `phone`, `avatar`) 
+                    VALUES ('$uid','$username','$email','$phone','$avatar')";
 
-        //     $stmt = $db->ejecutar($sql);
-        //     return $db->listar_object($stmt);
-        // }
+            return $stmt = $db->ejecutar($sql);
+        }
 
-        public function update_verify_email($db, $uid){
+        public function update_isActive($db, $uid, $boolean){
 
             $sql = "UPDATE `user` u
-                        SET u.isActive = 'true'
+                        SET u.isActive = '$boolean'
                         WHERE u.uid = '$uid'";
 
             return $stmt = $db->ejecutar($sql);
         }
 
-        public function delete_verify_email($db, $uid){
+        public function delete_user($db, $uid){
 
             $sql = "DELETE
                         FROM `user` u
@@ -86,29 +100,38 @@
             return $stmt = $db->ejecutar($sql);
         }
 
+        public function delete_userLocal($db, $uid){
+
+            $sql = "DELETE
+                        FROM `user_local` u
+                        WHERE u.uid = '$uid'";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+        public function delete_userLog($db, $uid){
+
+            $sql = "DELETE
+                        FROM `user_log` u
+                        WHERE u.uid = '$uid'";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
         public function select_recover_email($db, $email){
 
 			$sql = "SELECT u.uid, u.username, u.email
-                        FROM `user` u
-                        WHERE u.email = '$email/local' AND u.password NOT LIKE ('')";
+                        FROM `user_local` u
+                        WHERE u.email = '$email' AND u.password NOT LIKE ('')";
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);
         }
 
-        public function update_recover_email($db, $email){
-
-			$sql = "UPDATE `user` u
-                        SET u.isActive = 'false'
-                        WHERE u.email = '$email/local'";
-
-            return $stmt = $db->ejecutar($sql);
-        }
-
         public function update_new_passwoord($db, $uid, $password){
 
-            $sql = "UPDATE `user` u
-                        SET u.password = '$password', u.isActive = 'true'
+            $sql = "UPDATE `user_local` u
+                        SET u.password = '$password'
                         WHERE u.uid = '$uid'";
 
             return $stmt = $db->ejecutar($sql);
@@ -116,9 +139,11 @@
 
         public function select_userLogin($db, $username){
 
-			$sql = "SELECT u.uid, u.username, u.password, u.phone, u.isActive, u.login_time, u.login_attempts
+			$sql = "SELECT u.uid, ul.username, ul.password, ul.phone, u.isActive, lg.login_time, lg.login_attempts
                         FROM `user` u
-                        WHERE u.username = '$username/local'";
+                        INNER JOIN `user_local` ul ON u.uid = ul.uid
+                        INNER JOIN `user_log` lg ON u.uid = lg.uid
+                        WHERE ul.username = '$username'";
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);
@@ -126,7 +151,7 @@
 
         public function update_login_attempts($db, $uid, $login_time, $login_attempts){
 
-            $sql = "UPDATE `user` u
+            $sql = "UPDATE `user_log` u
                         SET u.login_time = '$login_time', u.login_attempts = '$login_attempts'
                         WHERE u.uid = '$uid'";
 
@@ -135,7 +160,7 @@
 
         public function update_otp($db, $uid, $otp, $expired_token){
 
-            $sql = "UPDATE `user` u
+            $sql = "UPDATE `user_log` u
                         SET u.otp = '$otp', u.expired_token = '$expired_token', u.login_attempts = 0, u.otp_attempts = 0
                         WHERE u.uid = '$uid'";
 
@@ -144,39 +169,37 @@
 
         public function select_otp($db, $uid){
 
-			$sql = "SELECT u.uid, u.username, u.phone, u.otp, u.otp_attempts, u.expired_token
+			$sql = "SELECT u.uid, ul.username, ul.phone, lg.otp, lg.otp_attempts, lg.expired_token
                         FROM `user` u
+                        INNER JOIN `user_local` ul ON u.uid = ul.uid
+                        INNER JOIN `user_log` lg ON u.uid = lg.uid
                         WHERE u.uid = '$uid'";
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);
         }
 
-        public function update_otp_isActive($db, $uid){
-
-            $sql = "UPDATE `user` u
-                        SET u.isActive = 'false', u.login_attempts = 0, u.otp = null, u.otp_attempts = 0
-                        WHERE u.uid = '$uid'";
-
-            return $stmt = $db->ejecutar($sql);
-        }
-
         public function update_otp_attempts($db, $uid, $otp_attempts){
 
-            $sql = "UPDATE `user` u
+            $sql = "UPDATE `user_log` u
                         SET u.otp_attempts = '$otp_attempts'
                         WHERE u.uid = '$uid'";
 
             return $stmt = $db->ejecutar($sql);
         }
 
-        // SIMPLIFICAR LOS DOS ÚLTIMOS DAOS EN UNO ???
-
-        public function select_data_user($db, $uid){
-
-            $sql = "SELECT u.username, u.password, u.email, u.type_user, u.avatar
-                    FROM `user` u
-                    WHERE u.uid = '$uid'";
+        public function select_data_user($db, $uid, $provider){
+            if ($provider == 'local') {
+                $sql = "SELECT u.uid, ul.username, ul.password, ul.email, ul.phone, u.type_user, ul.avatar
+                            FROM `user` u
+                            INNER JOIN `user_local` ul ON u.uid = ul.uid
+                            WHERE u.uid = '$uid'";
+            } else {
+                $sql = "SELECT u.uid, up.username, up.email, up.phone, u.type_user, up.avatar
+                            FROM `user` u
+                            INNER JOIN `user_$provider` up ON u.uid = up.uid
+                            WHERE u.uid = '$uid'";
+            }
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);

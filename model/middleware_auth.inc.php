@@ -17,7 +17,7 @@
             return $rt_token;
         }
 
-        public static function create_token($type, $uid, $username) {
+        public static function create_token($type, $uid, $username, $provider) {
             $jwt = parse_ini_file(MODEL_PATH . "credentials.ini");
 
             $header = '{
@@ -32,7 +32,8 @@
                     "iat": "'. time() .'", 
                     "exp": "'. time() + $jwt['JWT_EXP_ACCESS'] .'",
                     "uid": "'. $uid .'",
-                    "username": "'. $username .'"
+                    "username": "'. $username .'",
+                    "provider": "'. $provider .'"
                 }';
                 $secret = $jwt['JWT_SECRET_ACCESS'];
             } else if ($type == 'refresh'){
@@ -40,7 +41,8 @@
                     "iat": "'. time() .'", 
                     "exp": "'. time() + $jwt['JWT_EXP_REFRESH'] .'",
                     "uid": "'. $uid .'",
-                    "username": "'. $username .'"
+                    "username": "'. $username .'",
+                    "provider": "'. $provider .'"
                 }';
                 $secret = $jwt['JWT_SECRET_REFRESH'];
             } else if ($type == 'verify'){
@@ -48,7 +50,8 @@
                     "iat": "'. time() .'", 
                     "exp": "'. time() + $jwt['JWT_EXP_VERIFY'] .'",
                     "uid": "'. $uid .'",
-                    "username": "'. $username .'"
+                    "username": "'. $username .'",
+                    "provider": "'. $provider .'"
                 }';
                 $secret = $jwt['JWT_SECRET_VERIFY'];
             }

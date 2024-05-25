@@ -3,13 +3,15 @@ function register() {
         var userForm = document.getElementById('username_reg').value;
         var pswdForm = document.getElementById('passwd1_reg').value;
         var emailForm = document.getElementById('email_reg').value;
+        var whitespace_phoneForm = document.getElementById('phone_reg').value;
+        var phoneForm = whitespace_phoneForm.replace(/ /g, ""); // quita los espacios en blanco
 
-        // console.log([userForm, pswdForm, emailForm]);
+        // console.log([userForm, pswdForm, emailForm, phoneForm]);
         // return;
         
-        ajaxPromise(friendlyURL('?module=login'), 'POST', 'JSON', { 'op': 'register', 'username': userForm, 'password': pswdForm, 'email': emailForm })
+        ajaxPromise(friendlyURL('?module=login'), 'POST', 'JSON', { 'op': 'register', 'username': userForm, 'password': pswdForm, 'email': emailForm, 'phone': phoneForm })
             .then(function(data) {
-                // console.log(data);
+                console.log(data);
                 // return;
 
                 if (data == 'error_user') {
@@ -63,8 +65,9 @@ function validate_register() {
     // expresión regualar \W carácter no alfanumérico
 
     var username_exp = /^(?=.{5,}$)(?=.*[a-zA-Z0-9]).*$/;
-    var mail_exp = /^[a-zA-Z0-9_\.\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-\.]+$/;
     var passwd_exp = /^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/;
+    var mail_exp = /^[a-zA-Z0-9_\.\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-\.]+$/;
+    var phone_exp = /^\+[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2} [0-9]{2}$/;
     var error = false;
 
     if (document.getElementById('username_reg').value.length === 0) {
@@ -81,18 +84,6 @@ function validate_register() {
             } else {
                 document.getElementById('error_username_reg').innerHTML = "";
             }
-        }
-    }
-
-    if (document.getElementById('email_reg').value.length === 0) {
-        document.getElementById('error_email_reg').innerHTML = "Tienes que introducir el email";
-        error = true;
-    } else {
-        if (!mail_exp.test(document.getElementById('email_reg').value)) {
-            document.getElementById('error_email_reg').innerHTML = "El formato del email es inválido";
-            error = true;
-        } else {
-            document.getElementById('error_email_reg').innerHTML = "";
         }
     }
 
@@ -127,6 +118,30 @@ function validate_register() {
                 document.getElementById('error_passwd2_reg').innerHTML = "Las contraseñas no coinciden";
                 error = true;
             }
+        }
+    }
+
+    if (document.getElementById('email_reg').value.length === 0) {
+        document.getElementById('error_email_reg').innerHTML = "Tienes que introducir el email";
+        error = true;
+    } else {
+        if (!mail_exp.test(document.getElementById('email_reg').value)) {
+            document.getElementById('error_email_reg').innerHTML = "El formato del email es inválido";
+            error = true;
+        } else {
+            document.getElementById('error_email_reg').innerHTML = "";
+        }
+    }
+
+    if (document.getElementById('phone_reg').value.length === 0) {
+        document.getElementById('error_phone_reg').innerHTML = "Tienes que introducir el teléfono";
+        error = true;
+    } else {
+        if (!phone_exp.test(document.getElementById('phone_reg').value)) {
+            document.getElementById('error_phone_reg').innerHTML = "El formato del teléfono es inválido.<br> Ejemplo +12 123 45 67 89";
+            error = true;
+        } else {
+            document.getElementById('error_phone_reg').innerHTML = "";
         }
     }
 

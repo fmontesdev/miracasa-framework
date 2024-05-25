@@ -143,6 +143,7 @@ function load_content() {
         ajaxPromise(friendlyURL("?module=login"), 'POST', 'JSON', { 'op': 'verify_email', 'token_email': path[3] })
         .then(function(data) {
             console.log(data);
+            // return;
 
             if (data == "verify") {
                 //SweetAlert2

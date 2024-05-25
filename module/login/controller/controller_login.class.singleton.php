@@ -19,7 +19,7 @@
         }
  
         function register() {
-            echo json_encode(common::load_model('login_model', 'get_register', [$_POST['username'], $_POST['password'], $_POST['email']]));
+            echo json_encode(common::load_model('login_model', 'get_register', [$_POST['username'], $_POST['password'], $_POST['email'], $_POST['phone']]));
         }
 
         function login() {
@@ -31,7 +31,7 @@
         }
 
         function social_login() {
-            echo json_encode(common::load_model('login_model', 'get_social_login', [$_POST['uid'], $_POST['username'], $_POST['email'], $_POST['avatar'], $_POST['provider']]));
+            echo json_encode(common::load_model('login_model', 'get_social_login', [$_POST['uid'], $_POST['username'], $_POST['email'], $_POST['phone'], $_POST['avatar'], $_POST['provider']]));
         }
 
         function verify_email() {
