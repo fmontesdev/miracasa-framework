@@ -1,0 +1,12 @@
+const SITE_PATH = "http://miracasa.fw";
+const IMG_BUTTONS_PATH = SITE_PATH + "/view/img/buttons/";
+const IMG_CATEGORIES_PATH = SITE_PATH + "/view/img/categories/";
+const IMG_CITIES_PATH = SITE_PATH + "/view/img/cities/";
+const IMG_EXTRAS_PATH = SITE_PATH + "/view/img/extras/";
+const IMG_ICONS_PATH = SITE_PATH + "/view/img/icons/";
+const IMG_OPERATIONS_PATH = SITE_PATH + "/view/img/operations/";
+const IMG_REALESTATES_PATH = SITE_PATH + "/view/img/real_estates/";
+const IMG_SPECS_PATH = SITE_PATH + "/view/img/specs/";
+const IMG_TOURISTCAT_PATH = SITE_PATH + "/view/img/tourist_cat/";
+const IMG_TOURISTCAT_MAP_PATH = SITE_PATH + "/view/img/tourist_cat/maps/";
+const IMG_TYPES_PATH = SITE_PATH + "/view/img/types/";

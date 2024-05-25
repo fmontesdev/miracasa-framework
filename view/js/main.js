@@ -42,13 +42,13 @@ function load_menu() {
             </div>
 
             <div class='filterSearchButton_container'>
-                <img src="view/img/icons/search1.png" id="search_button">
+                <img src="${IMG_ICONS_PATH}search1.png" id="search_button">
             </div>
         </div>
 
         <div class="navbarLogin_container">
             <span class="navbarLogin_text">Mi cuenta</span>
-            <img src="view/img/icons/user1.png" class="navbarLogin_icon">
+            <img src="${IMG_ICONS_PATH}user1.png" class="navbarLogin_icon">
             
             <div id="navbarLogin_modal">
                 <a class="navbarLogin_items login" href="${friendlyURL('?module=login')}"><span class="navbarLogin_items">Regístrate / Inicia sesión</span></a>

@@ -9,12 +9,12 @@ function carouselTouristcat() {
                 .html(`
                     <div class='card-box-b card-shadow news-box'>
                         <div class='img-box-b'>
-                            <img src='${data[row].img_touristcat}' alt='' class='img-b img-fluid'>
+                            <img src='${IMG_TOURISTCAT_PATH + data[row].img_touristcat}' alt='' class='img-b img-fluid'>
                         </div>
                         <div class='card-overlay'>
                             <div class='card-header-e touristcat_map_overlay_cont'>
                                 <div class='full_width'>
-                                    <img src='${data[row].map_touristcat}' alt='' class='touristcat_map'>
+                                    <img src='${IMG_TOURISTCAT_MAP_PATH + data[row].map_touristcat}' alt='' class='touristcat_map'>
                                 </div>
                                 <div class='full_width'>
                                     <span class='title-1'>
@@ -64,7 +64,7 @@ function carouselTypes() {
                 .html(`
                     <div class='card-box-b card-shadow news-box border_radius'>
                         <div class='img-box-b'>
-                            <img src='${data[row].img_type}' alt='' class='img-b img-fluid'>
+                            <img src='${IMG_TYPES_PATH + data[row].img_type}' alt='' class='img-b img-fluid'>
                         </div>
                         <div class='card-overlay'>
                             <div class='card-header-e'>
@@ -118,7 +118,7 @@ function carouselCategories() {
                 .html(`
                     <div class='card-box-b card-shadow news-box border_radius'>
                         <div class='img-box-b'>
-                            <img src='${data[row].img_cat}' alt='' class='img-b img-fluid'>
+                            <img src='${IMG_CATEGORIES_PATH + data[row].img_cat}' alt='' class='img-b img-fluid'>
                         </div>
                         <div class='card-overlay'>
                             <div class='card-header-e'>
@@ -170,7 +170,7 @@ function carouselOperations() {
                 .html(`
                     <div class='card-box-b card-shadow news-box border_radius'>
                         <div class='img-box-b'>
-                            <img src='${data[row].img_op}' alt='' class='img-b img-fluid'>
+                            <img src='${IMG_OPERATIONS_PATH + data[row].img_op}' alt='' class='img-b img-fluid'>
                         </div>
                         <div class='card-overlay'>
                             <div class='card-header-e'>
@@ -222,7 +222,7 @@ function carouselCities() {
                 .html(`
                     <div class='card-box-b card-shadow news-box border_radius'>
                         <div class='img-box-b'>
-                            <img src='${data[row].img_city}' alt='' class='img-b img-fluid'>
+                            <img src='${IMG_CITIES_PATH + data[row].img_city}' alt='' class='img-b img-fluid'>
                         </div>
                         <div class='card-overlay'>
                             <div class='card-header-e'>
@@ -292,7 +292,7 @@ function carouselLastsearch() {
                     .html(`
                         <div class='card-box-a card-shadow border_radius'>
                             <div class='img-box-a'>
-                                <img src='${data[row].img_realestate[0]}' alt='' class='img-a img-fluid'>
+                                <img src='${IMG_REALESTATES_PATH + data[row].img_realestate[0]}' alt='' class='img-a img-fluid'>
                             </div>
                             <div class='card-overlay'>
                                 <div class='card-overlay-a-content'>
@@ -377,7 +377,7 @@ function carouselMostvisited() {
                 .html(`
                     <div class='card-box-a card-shadow border_radius'>
                         <div class='img-box-a'>
-                            <img src='${data[row].img_realestate}' alt='' class='img-a img-fluid'>
+                            <img src='${IMG_REALESTATES_PATH + data[row].img_realestate}' alt='' class='img-a img-fluid'>
                         </div>
                         <div class='card-overlay'>
                             <div class='card-overlay-a-content'>
@@ -459,7 +459,7 @@ function carouselRecomendations() {
                 .html(`
                     <div class='card-box-a card-shadow border_radius'>
                         <div class='img-box-a'>
-                            <img src='${data[row].img_realestate}' alt='' class='img-a img-fluid'>
+                            <img src='${IMG_REALESTATES_PATH + data[row].img_realestate}' alt='' class='img-a img-fluid'>
                         </div>
                         <div class='card-overlay'>
                             <div class='card-overlay-a-content'>

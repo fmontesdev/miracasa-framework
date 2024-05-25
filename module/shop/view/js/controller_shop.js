@@ -123,9 +123,9 @@ function ajaxForSearch(url, type, dataType, sData=undefined) {
                                 <span id='${data[row].id_realestate}' class='listInfo_title toDetails'>${data[row].name_type} en ${data[row].name_city}</span>
                                 <div id='${data[row].id_realestate}' class='listLike_container' like='${data[row].like}'>
                                     ${(data[row].like != 0 ?
-                                    (`<img src='view/img/icons/like.png' id='${data[row].id_realestate}' class='listLike_icon'>
+                                    (`<img src='${IMG_ICONS_PATH}like.png' id='${data[row].id_realestate}' class='listLike_icon'>
                                     <span class='list_countLikes'>${(data[row].like > 1 ? (`${data[row].like}`) : "")}</span>`) :
-                                    (`<img src='view/img/icons/dislike.png' id='${data[row].id_realestate}' class='listLike_icon'>`))}
+                                    (`<img src='${IMG_ICONS_PATH}dislike.png' id='${data[row].id_realestate}' class='listLike_icon'>`))}
                                 </div>
                             </div>
                             <div id='${data[row].id_realestate}' class='toDetails'>
@@ -134,14 +134,14 @@ function ajaxForSearch(url, type, dataType, sData=undefined) {
                                 </div>
                                 <div class='listInfo_specs'>
                                     <div class="listInfoSpecs_contents">
-                                        <img src='view/img/specs/area.png' class='listInfoSpecs-img'>
+                                        <img src='${IMG_SPECS_PATH}area.png' class='listInfoSpecs-img'>
                                         <span class='listInfoSpecs-txt'>
                                             ${data[row].area} m<sup>2</sup>
                                         </span>
                                     </div>
                                     ${(data[row].rooms != 0 ? (`
                                         <div class="listInfoSpecs_contents">
-                                            <img src='view/img/specs/rooms.png' class='listInfoSpecs-img'>
+                                            <img src='${IMG_SPECS_PATH}rooms.png' class='listInfoSpecs-img'>
                                             <span class='listInfoSpecs-txt'>
                                             ${data[row].rooms} habs.
                                             </span>
@@ -149,7 +149,7 @@ function ajaxForSearch(url, type, dataType, sData=undefined) {
                                     `) : "")}
                                     ${(data[row].bathrooms != 0 ? (`
                                         <div class="listInfoSpecs_contents">
-                                            <img src='view/img/specs/bathrooms.png' class='listInfoSpecs-img'>
+                                            <img src='${IMG_SPECS_PATH}bathrooms.png' class='listInfoSpecs-img'>
                                             <span class='listInfoSpecs-txt'>
                                                 ${data[row].bathrooms} baños
                                             </span>
@@ -157,7 +157,7 @@ function ajaxForSearch(url, type, dataType, sData=undefined) {
                                     `) : "")}
                                     ${(data[row].floor != 0 ? (`
                                         <div class="listInfoSpecs_contents">
-                                            <img src='view/img/specs/floor.png' class='listInfoSpecs-img'>
+                                            <img src='${IMG_SPECS_PATH}floor.png' class='listInfoSpecs-img'>
                                             <span class='listInfoSpecs-txt'>
                                                 ${data[row].floor}
                                             </span>
@@ -176,7 +176,7 @@ function ajaxForSearch(url, type, dataType, sData=undefined) {
                         .html(`
                             <div class='card-box-b card-shadow news-box'>
                                 <div class='img-box-b'>
-                                    <img src='${data[row].img_realestate[img]}' alt='' class='img-b img-fluid'>
+                                    <img src='${IMG_REALESTATES_PATH + data[row].img_realestate[img]}' alt='' class='img-b img-fluid'>
                                 </div>
                             </div>`
                         );
@@ -233,7 +233,7 @@ function load_mapboxList(data) {
             .setHTML(`
                 <div id='${data[row].id_realestate}' class='containerMap toDetails'>
                     <div class='map_img'>
-                        <img src='${data[row].img_realestate[0]}' alt='' class='img-b img-fluid'>
+                        <img src='${IMG_REALESTATES_PATH + data[row].img_realestate[0]}' alt='' class='img-b img-fluid'>
                     </div>
                     <div class='mapInfo_header'>
                         <span class='mapInfo_title'>${data[row].name_type} en ${data[row].name_city}</span>
@@ -355,7 +355,7 @@ function loadDetails(id_realestate) {
                 .html(`
                     <div class='card-box-b card-shadow news-box'>
                         <div class='img-box-b'>
-                            <img src='${data[1][row].img_realestate}' alt='' class='img-b img-fluid'>
+                            <img src='${IMG_REALESTATES_PATH + data[1][row].img_realestate}' alt='' class='img-b img-fluid'>
                         </div>
                     </div>`
                 )     
@@ -399,9 +399,9 @@ function loadDetails(id_realestate) {
                     </div>
                     <div id='${data[0].id_realestate}' class='detailsLike_container' like='${data[3].like}'>
                         ${(data[3].like != 0 ?
-                        (`<img src='view/img/icons/like.png' class='detailsLike_icon'>
+                        (`<img src='${IMG_ICONS_PATH}like.png' class='detailsLike_icon'>
                         <span class='details_countLikes'>${(data[3].like > 1 ? (`${data[3].like}`) : "")}</span>`) :
-                        (`<img src='view/img/icons/dislike.png' class='detailsLike_icon'>`))}
+                        (`<img src='${IMG_ICONS_PATH}dislike.png' class='detailsLike_icon'>`))}
                     </div>
                     <div class='detailsInfo_backButton'>
                         <button class="btn btn-c back_btn" role="link" onclick="window.location='${friendlyURL('?module=shop')}'">Volver</button>
@@ -409,7 +409,7 @@ function loadDetails(id_realestate) {
                 </div>
                 <div class='detailsInfo_specs'>
                     <div class='detailsInfoSpecs_contents'>
-                        <img src='view/img/specs/area.png' class='detailsInfoSpecs-img'>
+                        <img src='${IMG_SPECS_PATH}area.png' class='detailsInfoSpecs-img'>
                         <span class='detailsInfoSpecs-txt'>${data[0].area} m<sup>2</sup></span>
                     </div>
                 </div>
@@ -422,21 +422,21 @@ function loadDetails(id_realestate) {
         if (data[0].rooms != 0){
             $('<div></div>').attr('class', 'detailsInfoSpecs_contents').appendTo('.detailsInfo_specs')
                 .html(`
-                    <img src='view/img/specs/rooms.png' class='detailsInfoSpecs-img'>
+                    <img src='${IMG_SPECS_PATH}rooms.png' class='detailsInfoSpecs-img'>
                     <span class='detailsInfoSpecs-txt'>${data[0].rooms} habitaciones</span>`
                 )
         }
         if (data[0].bathrooms != 0){
             $('<div></div>').attr('class', 'detailsInfoSpecs_contents').appendTo('.detailsInfo_specs')
                 .html(`
-                    <img src='view/img/specs/bathrooms.png' class='detailsInfoSpecs-img'>
+                    <img src='${IMG_SPECS_PATH}bathrooms.png' class='detailsInfoSpecs-img'>
                     <span class='detailsInfoSpecs-txt'>${data[0].bathrooms} baños</span>`
                 )
         }
         if (data[0].floor != 0){
             $('<div></div>').attr('class', 'detailsInfoSpecs_contents').appendTo('.detailsInfo_specs')
                 .html(`
-                    <img src='view/img/specs/floor.png' class='detailsInfoSpecs-img'>
+                    <img src='${IMG_SPECS_PATH}floor.png' class='detailsInfoSpecs-img'>
                     <span class='detailsInfoSpecs-txt'>${data[0].floor}</span>`
                 )
         }
@@ -450,7 +450,7 @@ function loadDetails(id_realestate) {
         for (row in data[2]) { 
             $('<div></div>').attr('class', 'detailsInfoExtras_contents').attr('id', data[2][row].id_extras).appendTo('.detailsInfoExtras_container')
                 .html(`
-                    <img src='${data[2][row].img_extras}' class='detailsInfoExtras-img'</img>
+                    <img src='${IMG_EXTRAS_PATH + data[2][row].img_extras}' class='detailsInfoExtras-img'</img>
                     <span class='detailsInfoExtras-txt'>${data[2][row].name_extras}</span>`
                 )
         }
@@ -494,7 +494,7 @@ function loadFilters() {
             <div class='filters_container container'>
                 <div id='modal_all_filters'>
                     <a href='#modalAllFilters' class='open'>
-                        <img src='view/img/icons/filtrar.png' alt='Todos los filtros'>
+                        <img src='${IMG_ICONS_PATH}filtrar.png' alt='Todos los filtros'>
                     </a>
                     <div id='modalAllFilters' class='modal container'>
                         <a href='#' class='modal-bg container'></a>
@@ -661,7 +661,7 @@ function loadFilters() {
                         <div class='modal-content filterType_container'>
                             <div class='modal-title'>
                                 <span>Tipo de inmueble</span>
-                                <img src='view/img/icons/eliminar.png' alt='Eliminar filtro' onclick='remove_filterType()'>
+                                <img src='${IMG_ICONS_PATH}eliminar.png' alt='Eliminar filtro' onclick='remove_filterType()'>
                             </div>
                             <div class='filterTypeCont_data'>
                                 <div class='filterTypeCont_col1'>
@@ -689,7 +689,7 @@ function loadFilters() {
                         <div class='modal-content filterCat_container'>
                             <div class='modal-title'>
                                 <span>Categoría</span>
-                                <img src='view/img/icons/eliminar.png' alt='Eliminar filtro' onclick='remove_filterCat()'>
+                                <img src='${IMG_ICONS_PATH}eliminar.png' alt='Eliminar filtro' onclick='remove_filterCat()'>
                             </div>
                         </div>
                     </div>
@@ -704,7 +704,7 @@ function loadFilters() {
                         <div class='modal-content filterExtras_container'>
                             <div class='modal-title'>
                                 <span>Extras</span>
-                                <img src='view/img/icons/eliminar.png' alt='Eliminar filtro' onclick='remove_filterExtras()'>
+                                <img src='${IMG_ICONS_PATH}eliminar.png' alt='Eliminar filtro' onclick='remove_filterExtras()'>
                             </div>
                         </div>
                     </div>
@@ -719,7 +719,7 @@ function loadFilters() {
                         <div class='modal-content filterOrder_container'>
                             <div class='modal-title'>
                                 <span>Ordenar por</span>
-                                <img src='view/img/icons/eliminar.png' alt='Eliminar filtro' onclick='remove_filterOrder()'>
+                                <img src='${IMG_ICONS_PATH}eliminar.png' alt='Eliminar filtro' onclick='remove_filterOrder()'>
                             </div>
                             <div class="filter_container">
                                 <input type='radio' id='filter_order_cheaper' name='filter_order' class='filter_order' value='Más baratos'>
@@ -746,7 +746,7 @@ function loadFilters() {
                 </div>
 
                 <div id='modal_remove'>
-                    <img src='view/img/icons/eliminar.png' alt='Eliminar todos los filtros' onclick='remove_filters()'>
+                    <img src='${IMG_ICONS_PATH}eliminar.png' alt='Eliminar todos los filtros' onclick='remove_filters()'>
                 </div>
             </div>`
         )
@@ -1450,7 +1450,7 @@ function load_realestates_related(id, operation, limit, offset, countRelated, is
                 $('<div></div>').attr('class', 'card-box-a card-shadow border_radius detailsRelated_re').attr('id', data[row].id_realestate).appendTo('.detailsRelated_realestates')
                     .html(`
                         <div class='img-box-a'>
-                            <img src='${data[row].img_realestate[0]}' alt='' class='img-a img-fluid'>
+                            <img src='${IMG_REALESTATES_PATH + data[row].img_realestate[0]}' alt='' class='img-a img-fluid'>
                         </div>
                         <div class='card-overlay'>
                             <div class='card-overlay-a-content'>
@@ -1512,24 +1512,24 @@ function likes(id_realestate, count_like, origin) {
                     $(`#${id_realestate} .listLike_container`).attr('like', data.like); // actualiza contador de likes como atributo en el div
                     $(`#${id_realestate} .listLike_icon`).remove();
                     if (data.like != 0) {
-                        $('<img>').attr('id', id_realestate).attr('class', 'listLike_icon').attr('src', 'view/img/icons/like.png').appendTo(`#${id_realestate} .listLike_container`);
+                        $('<img>').attr('id', id_realestate).attr('class', 'listLike_icon').attr('src', IMG_ICONS_PATH + 'like.png').appendTo(`#${id_realestate} .listLike_container`);
                         if (data.like > 1) {
                             $('<span></span>').attr('class', 'list_countLikes').appendTo(`#${id_realestate} .listLike_container`).html(data.like);
                         }
                     } else {
-                        $('<img>').attr('id', id_realestate).attr('class', 'listLike_icon').attr('src', 'view/img/icons/dislike.png').appendTo(`#${id_realestate} .listLike_container`);
+                        $('<img>').attr('id', id_realestate).attr('class', 'listLike_icon').attr('src', IMG_ICONS_PATH + 'dislike.png').appendTo(`#${id_realestate} .listLike_container`);
                     }
                 } else if (origin == 'details') {
                     console.log(data);
                     $('.detailsLike_container').attr('like', data.like);  // actualiza contador de likes como atributo en el div
                     $('.detailsLike_icon').remove();
                     if (data.like != 0) {
-                        $('<img>').attr('class', 'detailsLike_icon').attr('src', 'view/img/icons/like.png').appendTo('.detailsLike_container');
+                        $('<img>').attr('class', 'detailsLike_icon').attr('src', IMG_ICONS_PATH + 'like.png').appendTo('.detailsLike_container');
                         if (data.like > 1) {
                             $('<span></span>').attr('class', 'details_countLikes').appendTo(`.detailsLike_container`).html(data.like);
                         }
                     } else {
-                        $('<img>').attr('class', 'detailsLike_icon').attr('src', 'view/img/icons/dislike.png').appendTo('.detailsLike_container');
+                        $('<img>').attr('class', 'detailsLike_icon').attr('src', IMG_ICONS_PATH + 'dislike.png').appendTo('.detailsLike_container');
                     }
                 }
             }).catch(function(textStatus) {
