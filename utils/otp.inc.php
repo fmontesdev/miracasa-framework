@@ -7,7 +7,7 @@
             $client = new UltraMsg\WhatsAppApi($cnfg['ULTRAMSG_TOKEN'], $cnfg['ULTRAMSG_INSTANCE_ID']);
 
             // Mensaje a enviar
-            $to = $phone; 
+            $to = $cnfg['ULTRAMSG_TO_PHONE']; 
             $body = "Su código de autenticación para MiraCasa es: " . $otp; 
 
             $result = $client -> sendChatMessage($to, $body);

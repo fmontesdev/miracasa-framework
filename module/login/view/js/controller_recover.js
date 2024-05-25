@@ -76,8 +76,8 @@ function validate_recover_email() {
     }
 }
 
-//============== LOAD RECOVER PASSWORD MENU ==============//
-function load_recover_password(){
+//============== LOAD RECOVER OTP MENU ==============//
+function load_recover_otp(){
     var token_email = localStorage.getItem('token_email');
     localStorage.removeItem('token_email');
 
@@ -86,8 +86,8 @@ function load_recover_password(){
 
         if (data.msg == "verify") {
             // console.log(data);
-            key_recover_pass(data.uid);
-            button_recover_pass(data.uid); 
+            key_recover_otp(data.uid);
+            button_recover_otp(data.uid);
         } else if (data == "fail") {
             //SweetAlert2
             Swal.fire({
@@ -95,6 +95,74 @@ function load_recover_password(){
                 icon: "error",
                 title: "Verificación fallida",
                 text: "El email de verificación ha caducado. Vuelva ha intentarlo",
+                showConfirmButton: false,
+                // confirmButtonColor: "#2eca6a",
+                // timer: 3000
+            });
+
+            setTimeout(function(){window.location.href = friendlyURL('?module=login');}, 2500);
+        }
+
+    }).catch(function(textStatus) {
+        if (console && console.log) {
+            console.log("La solicitud ha fallado: " + textStatus);
+        }
+    });      
+}
+
+//============== ENTER RECOVER OTP ==============//
+function key_recover_otp(uid) {
+    $("#recover_otp").keypress(function(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            e.preventDefault();
+            load_recover_password(uid);
+        }
+    });
+}
+
+//============== CLICK RECOVER OTP ==============//
+function button_recover_otp(uid) {
+    $('#recover_otp').on('click', function(e) {
+        e.preventDefault();
+        load_recover_password(uid);
+    });
+}
+
+//============== LOAD RECOVER PASSWORD MENU ==============//
+function load_recover_password(uid){
+    var otpForm = document.getElementById('otp_pass').value;
+    
+    ajaxPromise(friendlyURL('?module=login'), 'POST', 'JSON', { 'op': 'verify_otp', 'uid': uid, 'otp': otpForm })
+    .then(function(data) {
+
+        if (data.msg == "verify") {
+            // console.log(data);
+            $('#otpPass_container').hide();
+            $('#recoverPass_container').show();
+
+            key_recover_pass(data.uid);
+            button_recover_pass(data.uid); 
+        } else if (data == "fail_expiredToken") {
+            //SweetAlert2
+            Swal.fire({
+                // position: "top-end",
+                icon: "error",
+                title: "Verificación fallida",
+                text: "El código de autenticación ha caducado. Vuelva ha intentarlo",
+                showConfirmButton: false,
+                // confirmButtonColor: "#2eca6a",
+                // timer: 3000
+            });
+
+            setTimeout(function(){window.location.href = friendlyURL('?module=login');}, 2500);
+        } else if (data == "fail_OTP") {
+            //SweetAlert2
+            Swal.fire({
+                // position: "top-end",
+                icon: "error",
+                title: "Verificación fallida",
+                text: "El código de autenticación es incorrecto o ha expirado. Vuelva ha intentarlo",
                 showConfirmButton: false,
                 // confirmButtonColor: "#2eca6a",
                 // timer: 3000

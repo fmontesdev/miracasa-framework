@@ -17,7 +17,7 @@
             return $rt_token;
         }
 
-        public static function create_token($type, $uid, $username, $provider) {
+        public static function create_token($type, $uid, $username, $provider, $phone) {
             $jwt = parse_ini_file(MODEL_PATH . "credentials.ini");
 
             $header = '{
@@ -51,7 +51,8 @@
                     "exp": "'. time() + $jwt['JWT_EXP_VERIFY'] .'",
                     "uid": "'. $uid .'",
                     "username": "'. $username .'",
-                    "provider": "'. $provider .'"
+                    "provider": "'. $provider .'",
+                    "phone": "'. $phone .'"
                 }';
                 $secret = $jwt['JWT_SECRET_VERIFY'];
             }

@@ -46,6 +46,10 @@
             echo json_encode(common::load_model('login_model', 'get_verify_token', $_POST['token_email']));
         }
 
+        function verify_otp() {
+            echo json_encode(common::load_model('login_model', 'get_verify_otp', [$_POST['uid'], $_POST['otp']]));
+        }
+
         function new_password() {
             echo json_encode(common::load_model('login_model', 'get_new_password', [$_POST['uid'], $_POST['new_pass']]));
         }

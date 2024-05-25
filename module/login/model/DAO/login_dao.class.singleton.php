@@ -120,7 +120,7 @@
 
         public function select_recover_email($db, $email){
 
-			$sql = "SELECT u.uid, u.username, u.email
+			$sql = "SELECT u.uid, u.username, u.email, u.phone
                         FROM `user_local` u
                         WHERE u.email = '$email' AND u.password NOT LIKE ('')";
 

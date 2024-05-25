@@ -3859,7 +3859,8 @@ Login
 
 #register_container,
 #otp_container,
-#recoverEmail_container {
+#recoverEmail_container,
+#recoverPass_container {
   display: none;
 }
 

@@ -178,7 +178,7 @@ function load_content() {
         window.location.href = friendlyURL("?module=login&op=recover_view");
         localStorage.setItem("token_email", path[3]);
     } else if (path[2] === 'recover_view') {
-        load_recover_password();
+        load_recover_otp();
     }
 }
 

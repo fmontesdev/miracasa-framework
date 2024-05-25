@@ -5,6 +5,26 @@
             <div class="row justify-content-center">
                 <div id="login_register" class="col-sm-4">
 
+                    <!-- ======= Recover OTP ======= -->
+                    <div id="otpPass_container" class="row">
+                        <div class="col-sm-12">
+                            <h4 class="title-single title_log">Código de autenticación</h4>
+                        </div>
+
+                        <form method="post" id="otpPass_form" class="php-email-form">
+                            <div class="row">
+                                <div class="col-sm-12 mb-4">
+                                    <input type="text" id="otp_pass" name="otp_pass" class="form-control form-control-lg form-control-a" placeholder="Introduce el código OTP">
+                                    <span id="error_otp_pass" class="error_form"></span>
+                                    <span id="info_otp_pass" class="info_form">Necesitamos que confirmes tu identidad.<br>Hemos enviado un código de autenticación a tu WhatsApp.</span>
+                                </div>
+                                <div class="col-sm-12 otp_submit">
+                                    <button type="submit" id="recover_otp" class="btn btn-c btn_login">Continúa</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
                     <!-- ======= Recover password ======= -->
                     <div id="recoverPass_container" class="row">
                         <div class="col-sm-12">
@@ -20,6 +40,7 @@
                                 <div class="col-sm-12 mb-4">
                                     <input type="password" id="passwd2_recover" name="passwd2_recover" class="form-control form-control-lg form-control-a" placeholder="Repite la contraseña">
                                     <span id="error_passwd2_recover" class="error_form"></span>
+                                    <span id="info_recover_pass" class="info_form">Introduce la nueva contraseña para restablecere tu cuenta.</span>
                                 </div>
                                 <div class="col-sm-12 recover_submit">
                                     <button type="submit" id="recover_pass" class="btn btn-c btn_login">Continúa</button>
@@ -37,10 +58,6 @@
 
 <div id="preloader"></div>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-<!-- Vendor JS Files -->
-<!-- <script src="view/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-<!-- <script src="view/vendor/swiper/swiper-bundle.min.js"></script> -->
 
 <!-- Template Main JS File -->
 <script src="<?php echo SITE_PATH ?>view/js/main_template.js"></script>

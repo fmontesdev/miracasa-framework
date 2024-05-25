@@ -42,6 +42,10 @@ class login_model {
         return $this -> bll -> get_verify_token_BLL($token_email);
     }
 
+    public function get_verify_otp($args) {
+        return $this -> bll -> get_verify_otp_BLL($args);
+    }
+
     public function get_new_password($args) {
         return $this -> bll -> get_new_password_BLL($args);
     }

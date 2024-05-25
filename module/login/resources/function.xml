@@ -37,6 +37,10 @@
         <uri>verify_token</uri>
     </function>
     <function>
+        <name>verify_otp</name>
+        <uri>verify_otp</uri>
+    </function>
+    <function>
         <name>new_password</name>
         <uri>new_password</uri>
     </function>
