@@ -2487,14 +2487,35 @@ footer .credits {
   color: #2eca6a;
 }
 
-.listLike_container {
-  position: relative;
+.listHeader_icons_container {
   display: flex;
   margin-left: auto; /* Empujar a la derecha */
   align-items: center;
   justify-content: center;
+}
+
+.listCart_container {
+  padding-right: 10px;
   cursor: pointer;
-  }
+}
+
+.listLike_container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.listCart_icon {
+  width: 26px;
+  transition: 0.5s ease;
+  filter: hue-rotate(0deg) saturate(0%) brightness(0%);
+}
+
+.listCart_icon:hover {
+  filter: none;
+}
 
 .listLike_icon {
   width: 26px;
@@ -2663,16 +2684,37 @@ footer .credits {
   text-align: left;
 }
 
+.detailsHeader_icons_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .detailsLike_container {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  }
+}
+
+.detailsCart_container {
+  padding-left: 15px;
+  cursor: pointer;
+}
 
 .detailsLike_icon {
   width: 30px;
+}
+
+.detailsCart_icon {
+  width: 30px;
+  transition: 0.5s ease;
+  filter: hue-rotate(0deg) saturate(0%) brightness(0%);
+}
+
+.detailsCart_icon:hover {
+  filter: none;
 }
 
 .details_countLikes {
@@ -3786,11 +3828,18 @@ Search
 /*======================================
 Login
 ======================================*/
+.navbarIcons_container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  height: 40px;
+}
+
 .navbarLogin_container {
   position: relative;
   /* display: flex;
   flex-wrap: wrap; */
-  height: 40px;
+  /* height: 40px; */
   /* align-content: center; */
   padding-left: 10px;
   border: 1px solid #dddddd;
@@ -3940,5 +3989,23 @@ button#google {
 }
 
 /*======================================
-Likes
+Cart
 ======================================*/
+.navbarCart_container {
+  position: relative;
+  margin-left: 20px;
+  border: 1px solid #dddddd;
+  border-radius: 20px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+  cursor: pointer;
+}
+
+.navbarCart_icon {
+  width: 38.5px;
+  transition: 0.5s ease;
+  filter: hue-rotate(0deg) saturate(0%) brightness(0%);
+}
+
+.navbarCart_container:hover img {
+  filter: none;
+}

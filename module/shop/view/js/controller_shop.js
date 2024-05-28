@@ -121,11 +121,16 @@ function ajaxForSearch(url, type, dataType, sData=undefined) {
                         <div id='${data[row].id_realestate}' class='containerList_info more_info'>
                             <div class='listInfo_header'>
                                 <span id='${data[row].id_realestate}' class='listInfo_title toDetails'>${data[row].name_type} en ${data[row].name_city}</span>
-                                <div id='${data[row].id_realestate}' class='listLike_container' like='${data[row].like}'>
-                                    ${(data[row].like != 0 ?
-                                    (`<img src='${IMG_ICONS_PATH}like.png' id='${data[row].id_realestate}' class='listLike_icon'>
-                                    <span class='list_countLikes'>${(data[row].like > 1 ? (`${data[row].like}`) : "")}</span>`) :
-                                    (`<img src='${IMG_ICONS_PATH}dislike.png' id='${data[row].id_realestate}' class='listLike_icon'>`))}
+                                <div class='listHeader_icons_container'>
+                                    <div id='${data[row].id_realestate}' class='listCart_container'>
+                                        <img src='${IMG_ICONS_PATH}cart1.png' id='${data[row].id_realestate}' class='listCart_icon'>
+                                    </div>
+                                    <div id='${data[row].id_realestate}' class='listLike_container' like='${data[row].like}'>
+                                        ${(data[row].like != 0 ?
+                                        (`<img src='${IMG_ICONS_PATH}like.png' id='${data[row].id_realestate}' class='listLike_icon'>
+                                        <span class='list_countLikes'>${(data[row].like > 1 ? (`${data[row].like}`) : "")}</span>`) :
+                                        (`<img src='${IMG_ICONS_PATH}dislike.png' id='${data[row].id_realestate}' class='listLike_icon'>`))}
+                                    </div>
                                 </div>
                             </div>
                             <div id='${data[row].id_realestate}' class='toDetails'>
@@ -397,11 +402,16 @@ function loadDetails(id_realestate) {
                     <div class='detailsInfo_trading'>
                         <span class='detailsInfo_price'>${new Intl.NumberFormat("es-ES").format(data[0].price)} €&nbsp;&nbsp;|&nbsp;&nbsp;${data[0].name_op}</span>
                     </div>
-                    <div id='${data[0].id_realestate}' class='detailsLike_container' like='${data[3].like}'>
-                        ${(data[3].like != 0 ?
-                        (`<img src='${IMG_ICONS_PATH}like.png' class='detailsLike_icon'>
-                        <span class='details_countLikes'>${(data[3].like > 1 ? (`${data[3].like}`) : "")}</span>`) :
-                        (`<img src='${IMG_ICONS_PATH}dislike.png' class='detailsLike_icon'>`))}
+                    <div class='detailsHeader_icons_container'>
+                        <div id='${data[0].id_realestate}' class='detailsLike_container' like='${data[3].like}'>
+                            ${(data[3].like != 0 ?
+                            (`<img src='${IMG_ICONS_PATH}like.png' class='detailsLike_icon'>
+                            <span class='details_countLikes'>${(data[3].like > 1 ? (`${data[3].like}`) : "")}</span>`) :
+                            (`<img src='${IMG_ICONS_PATH}dislike.png' class='detailsLike_icon'>`))}
+                        </div>
+                        <div id='${data[0].id_realestate}' class='detailsCart_container'>
+                            <img src='${IMG_ICONS_PATH}cart1.png' class='detailsCart_icon'>
+                        </div>
                     </div>
                     <div class='detailsInfo_backButton'>
                         <button class="btn btn-c back_btn" role="link" onclick="window.location='${friendlyURL('?module=shop')}'">Volver</button>

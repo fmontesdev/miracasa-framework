@@ -42,7 +42,7 @@
             $stmt = $db -> ejecutar($sql);
         }
         
-        function select_one_realEstate($db, $id_re){
+        public function select_one_realEstate($db, $id_re){
 
             $sql = "SELECT r.id_realestate, r.lat, r.lng, t.name_type, o.name_op, s.price,
                     c.name_city, c.province, r.area, r.rooms, r.bathrooms, r.floor, r.description
@@ -84,7 +84,7 @@
 
             $sql = "SELECT l.id_realestate, l.uid AS user_like
                     FROM `real_estate` r LEFT JOIN `like` l ON r.id_realestate = l.id_realestate
-                    WHERE r.id_realestate = $id_re";
+                    WHERE r.id_realestate = '$id_re'";
 
             $stmt = $db->ejecutar($sql);
             $likeArray = $db->listar_array($stmt);
@@ -403,10 +403,10 @@
             if ($count_like > 0) {
                 $sql = "DELETE
                             FROM `like` l
-                            WHERE l.id_realestate = $id_re AND l.uid = $uid";
+                            WHERE l.uid = '$uid' AND l.id_realestate = '$id_re'";
             } else {
-                $sql = "INSERT INTO `like`(`id_realestate`, `uid`) 
-                    VALUES ('$id_re','$uid')";
+                $sql = "INSERT INTO `like`(`uid`, `id_realestate`) 
+                    VALUES ('$uid','$id_re')";
             }
 
             $stmt = $db->ejecutar($sql);

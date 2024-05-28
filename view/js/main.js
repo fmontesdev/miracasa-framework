@@ -46,13 +46,19 @@ function load_menu() {
             </div>
         </div>
 
-        <div class="navbarLogin_container">
-            <span class="navbarLogin_text">Mi cuenta</span>
-            <img src="${IMG_ICONS_PATH}user1.png" class="navbarLogin_icon">
-            
-            <div id="navbarLogin_modal">
-                <a class="navbarLogin_items login" href="${friendlyURL('?module=login')}"><span class="navbarLogin_items">Regístrate / Inicia sesión</span></a>
-                <span class="navbarLogin_items logout">Cierra sesión</span>
+        <div class="navbarIcons_container">
+            <div class="navbarLogin_container">
+                <span class="navbarLogin_text">Mi cuenta</span>
+                <img src="${IMG_ICONS_PATH}user1.png" class="navbarLogin_icon">
+                
+                <div id="navbarLogin_modal">
+                    <a class="navbarLogin_items login" href="${friendlyURL('?module=login')}"><span class="navbarLogin_items">Regístrate / Inicia sesión</span></a>
+                    <span class="navbarLogin_items logout">Cierra sesión</span>
+                </div>
+            </div>
+
+            <div class="navbarCart_container">
+                <img src="${IMG_ICONS_PATH}cart_round1.png" class="navbarCart_icon">
             </div>
         </div>`
     )
