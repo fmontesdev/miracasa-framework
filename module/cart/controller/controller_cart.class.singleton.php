@@ -16,7 +16,12 @@
  
         function insert_cart() {
             echo json_encode(common::load_model('cart_model', 'get_insert_cart', [$_POST['id_re'], $_POST['token']]));
-        } 
+        }
+
+        function select_cart() {
+            echo json_encode(common::load_model('cart_model', 'get_select_cart', $_POST['token']));
+        }
+
     }
 
 ?>

@@ -17,4 +17,8 @@ class cart_model {
     public function get_insert_cart($args) {
         return $this -> bll -> get_insert_cart_BLL($args);
     }
+
+    public function get_select_cart($token) {
+        return $this -> bll -> get_select_cart_BLL($token);
+    }
 }

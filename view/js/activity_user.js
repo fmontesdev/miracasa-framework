@@ -64,6 +64,7 @@ function logout_auto() {
 
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
+            localStorage.removeItem('cart_qty');
             //SweetAlert2
             Swal.fire({
                 // position: "top-end",

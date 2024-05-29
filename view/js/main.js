@@ -63,6 +63,12 @@ function load_menu() {
         </div>`
     )
 
+    // Highlight carrito, recupera la cantidad total
+    var cart_qty = localStorage.getItem('cart_qty');
+    if (cart_qty) {
+        $('<span></span>').attr('class', 'qty_cart').appendTo('.navbarCart_container').html(cart_qty);
+    }
+
     // si detecta un usuario logeado a través de la existencia del access token, lo pinta en el menu
     var token = localStorage.getItem('access_token');
     if (token) {
@@ -71,14 +77,12 @@ function load_menu() {
                 console.log(data);
                 // return;
 
-                var username = data.username.split('/');
-
                 // highlight usuario
                 $('.navbarLogin_icon').hide();
                 $('.navbarLogin_avatar').remove();
                 $('<img>').attr('class', 'navbarLogin_avatar').attr('src', data.avatar).appendTo('.navbarLogin_container');
                 $('.navbarLogin_text')
-                    .html(username[0]);
+                    .html(data.username);
                 $('.navbarLogin_container')
                     .css({
                         "background-color": "#f0f0f0",
@@ -123,6 +127,8 @@ function logout() {
 
                 localStorage.removeItem('access_token');
                 localStorage.removeItem('refresh_token');
+                localStorage.removeItem('cart_qty');
+
                 //SweetAlert2
                 Swal.fire({
                     // position: "top-end",
@@ -188,9 +194,21 @@ function load_content() {
     }
 }
 
+function click_navbarCart() {
+    $(document).on("click", ".navbarCart_container", function() {
+        var accessToken = localStorage.getItem('access_token') || null;
+        if (accessToken != null) {
+            window.location.href=friendlyURL('?module=cart');
+        } else {
+            window.location.href=friendlyURL('?module=login');
+        }
+    });
+}
+
 $(document).ready(function() {
     load_menu();
     load_content();
     modal_login();
     logout();
+    click_navbarCart();
 });
