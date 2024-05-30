@@ -20,7 +20,7 @@
 			// return $args;
 
 			$token_dec = middleware_auth::decode_token('access', $args[1]);
-			$checkCart = $this -> dao -> select_one_lineCart($this->db, $args[0], $token_dec['uid']);
+			$checkCart = $this -> dao -> select_lineCart($this->db, $args[0], $token_dec['uid']);
 			// return $checkCart;
 
 			// Comprobar que la linea del carrito no existe, entonces inserta
@@ -50,7 +50,7 @@
 
 				// return [$cart_value['quantity'], $re_value['stock']];
 				if ($cart_value['quantity'] < $re_value['stock']) { // Comprobar que hay suficiente stock
-					$rdo = $this -> dao -> update_cart($this->db, $args[0], $token_dec['uid']);
+					$rdo = $this -> dao -> update_cart($this->db, $args[0], $token_dec['uid'], 1);
 					$data_qty = $this -> dao -> select_totalQty($this->db, $token_dec['uid']);
 
 					if ($data_qty) {
@@ -77,6 +77,52 @@
 				return $cart;
 			} else {
 				return "error_cart";
+			}
+		}
+
+		public function get_update_cart_BLL($args) {
+			// return $args;
+
+			$token_dec = middleware_auth::decode_token('access', $args[1]);
+
+			if ($args[3] == "delete") {
+				$rdo = $this -> dao -> delete_lineCart($this->db, $args[0], $token_dec['uid']);
+
+				if (!$rdo) {
+					return "error_cart";
+				}
+
+				$cart = $this -> dao -> select_cart($this->db, $token_dec['uid']);
+
+				if ($cart) {
+					return [$cart, "delete", $args[0]];
+				} else {
+					return "error_cart";
+				}
+			} else {
+				$data_re = $this -> dao -> select_realestate($this->db, $args[0]);
+				
+				if ($data_re) {
+					$re_value = get_object_vars($data_re); //serializa objeto
+				}else {
+					return "error_realestate";
+				}
+
+				if ((($args[2] + $args[3]) <= $re_value['stock']) && (($args[2] + $args[3]) >= 1)) {  // Comprobar que hay suficiente stock, y la cantidad final no sea inferior a 1
+					$rdo = $this -> dao -> update_cart($this->db, $args[0], $token_dec['uid'], $args[3]);
+
+					if (!$rdo) {
+						return "error_cart";
+					}
+
+					$cart = $this -> dao -> select_cart($this->db, $token_dec['uid']);
+
+					if ($cart) {
+						return [$cart, "update"];
+					} else {
+						return "error_cart";
+					}
+				}
 			}
 		}
 	}

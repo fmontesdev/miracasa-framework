@@ -376,13 +376,6 @@ a:hover {
   font-weight: 600;
 }
 
-.title-b {
-  text-align: center;
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 0.85rem;
-}
-
 .title-link {
   font-size: 1.2rem;
   font-weight: 300;
@@ -4030,7 +4023,38 @@ Cart navbar
 /*======================================
 Cart view
 ======================================*/
+#cart {
+  margin-bottom: 25px;
+}
+
 .containerCart {
+  width: 78%;
+  padding-right: 20px;
+}
+
+.containerTitle {
+  display: flex;
+  align-items: center;
+  margin: 8px 0 10px 0;
+}
+
+.cart_title .title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #000000;
+}
+
+.containerProducts {
+  margin-left: auto;
+}
+
+.containerProducts .products_qty {
+  margin-left: 20px;
+  font-size: 18px;
+	font-weight: 500;
+}
+
+.containerCart_item {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
@@ -4041,29 +4065,29 @@ Cart view
 }
 
 .containerCart_img {
-	width: 25%;
+	width: 33.1%;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
   overflow: hidden;
 }
 
 .containerCart_info {
-	width: 75%;
-	padding: 9px 17px 15px 17px;
+	width: 66.9%;
+	padding: 10px 18px 15px 18px;
 }
 
 .cartInfo_title {
+margin-bottom: 16px;
 }
 
 .cartInfoTitle_property {
-  margin-bottom: 4px;
   font-size: 23px;
 	font-weight: 600;
   color: #2eca6a;
+  cursor: pointer;
 }
 
 .cartInfoTitle_province {
-  margin-bottom: 14px;
   font-size: 17px;
 	font-weight: 500;
 }
@@ -4072,7 +4096,7 @@ Cart view
   width: 100%;
 	display: flex;
 	flex-wrap: wrap;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
 .cartInfoSpecs_contents{
@@ -4141,6 +4165,20 @@ Cart view
   cursor: pointer;
 }
 
+.cartPurchase_stock .stock {
+  padding: 0.1rem 0.6rem;
+  border: 2px solid #2eca6a;
+  border-radius: 50px;
+  font-weight: 600;
+}
+
+.cartPurchase_stock .outStock {
+  padding: 0.1rem 0.6rem;
+  border: 2px solid #ed3c0d;
+  border-radius: 50px;
+  font-weight: 600;
+}
+
 .cartPurchase_stock {
   margin-left: 30px;
 }
@@ -4153,148 +4191,49 @@ Cart view
 }
 
 .containerCart_total {
+  width: 22%;
+  height: 139px;
   display: flex;
+  flex-wrap: wrap;
+  padding: 12px 17px;
   justify-content: right;
-  align-items: center;
-  margin-bottom: 30px;
-  /* font-size: 17px;
-	font-weight: 600;
-  color: #000; */
+  background: #f3f3f3;
+  border-radius: 12px;
+}
+
+.cartProducts {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1px;
+}
+
+.products_qty {
+  font-size: 18px;
+	font-weight: 500;
+  color: #000000;
+}
+
+.cartTotal {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 3px;
 }
 
 .cartTotal_imp {
-  margin-left: 20px;
-  font-size: 20px;
+  font-size: 19px;
 	font-weight: 600;
-  color: #000;
+  color: #000000;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* CUIDADO */
-.list-img {
+.purchase_btn {
   width: 100%;
-	height: auto;
-  max-height: 235px;
-}
-
-.containerList_info {
-	width: 60%;
-	padding: 10px 17px 15px 17px;
-}
-
-.listInfo_header {
   display: flex;
-  flex-wrap: nowrap;
-  margin-bottom: 11px;
-}
-
-
-
-.listHeader_icons_container {
-  display: flex;
-  margin-left: auto; /* Empujar a la derecha */
-  align-items: center;
   justify-content: center;
 }
 
-.listCart_container {
-  padding-right: 10px;
-  cursor: pointer;
-}
-
-.listLike_container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.listCart_icon {
-  width: 26px;
-  transition: 0.5s ease;
-  filter: hue-rotate(0deg) saturate(0%) brightness(0%);
-}
-
-.listCart_icon:hover {
-  filter: none;
-}
-
-.listLike_icon {
-  width: 26px;
-}
-
-.list_countLikes {
-  position: absolute;
-  font-size: 12px;
-  font-weight: 500;
-  color: #ffffff;
-}
-
-/* .listInfo_province {
-  margin-left: 10px;
-} */
-
-.listInfo_trading {
-	width: 100%;
-  margin-bottom: 18px;
-}
-
-
-
-.listInfo_specs {
-  width: 100%;
-	display: flex;
-	flex-wrap: wrap;
-  margin-bottom: 9px;
-}
-
-.listInfoSpecs_contents {
-	width: auto;
-  margin-right: 13px;
-}
-
-.listInfoSpecs-img {
-	width: 25px;
-}
-
-
-
-.listInfo_desc {
-  width: 100%;
-  height: 61px;
-  margin-bottom: 0;
-  text-align: justify;
-  font-size: 15px;
-  line-height: 20.5px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  display: -webkit-box;
+.purchase_btn  button {
+  margin: 5px 0px;
+  width: 256px;
 }

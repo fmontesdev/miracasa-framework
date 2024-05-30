@@ -12,7 +12,7 @@
             return self::$_instance;
         }
 
-        public function select_one_lineCart($db, $id_re, $uid){
+        public function select_lineCart($db, $id_re, $uid){
 
 			$sql = "SELECT c.id_realestate, c.uid, c.quantity, c.state
                     FROM `cart` c
@@ -43,8 +43,8 @@
         public function select_totalQty($db, $uid){
 
 			$sql = "SELECT SUM(c.quantity) AS quantity
-                    FROM `cart` c
-                    WHERE c.uid = '$uid'";
+                    FROM `cart` c INNER JOIN `real_estate` r ON c.id_realestate = r.id_realestate
+                    WHERE c.uid = '$uid' AND r.stock != 0";
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_object($stmt);
@@ -58,10 +58,10 @@
             return $stmt = $db->ejecutar($sql);
         }
 
-        public function update_cart($db, $id_re, $uid){
+        public function update_cart($db, $id_re, $uid, $op){
 
             $sql = "UPDATE `cart` c
-                        SET c.quantity = c.quantity + 1
+                        SET c.quantity = c.quantity + '$op'
                         WHERE c.id_realestate = '$id_re' AND c.uid = '$uid'";
 
             return $stmt = $db->ejecutar($sql);
@@ -83,6 +83,15 @@
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_indexed_array($stmt);
+        }
+
+        public function delete_lineCart($db, $id_re, $uid){
+
+            $sql = "DELETE
+                        FROM `cart` c
+                        WHERE c.id_realestate = '$id_re' AND c.uid = '$uid'";
+
+            return $stmt = $db->ejecutar($sql);
         }
 
     }

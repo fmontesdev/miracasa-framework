@@ -21,4 +21,8 @@ class cart_model {
     public function get_select_cart($token) {
         return $this -> bll -> get_select_cart_BLL($token);
     }
+
+    public function get_update_cart($args) {
+        return $this -> bll -> get_update_cart_BLL($args);
+    }
 }

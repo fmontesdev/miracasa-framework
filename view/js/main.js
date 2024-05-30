@@ -64,10 +64,12 @@ function load_menu() {
     )
 
     // Highlight carrito, recupera la cantidad total
-    var cart_qty = localStorage.getItem('cart_qty');
-    if (cart_qty) {
-        $('<span></span>').attr('class', 'qty_cart').appendTo('.navbarCart_container').html(cart_qty);
-    }
+    setTimeout(function(){
+        var cart_qty = localStorage.getItem('cart_qty');
+        if (cart_qty) {
+            $('<span></span>').attr('class', 'qty_cart').appendTo('.navbarCart_container').html(cart_qty);
+        }
+    }, 100);
 
     // si detecta un usuario logeado a través de la existencia del access token, lo pinta en el menu
     var token = localStorage.getItem('access_token');

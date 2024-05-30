@@ -22,6 +22,10 @@
             echo json_encode(common::load_model('cart_model', 'get_select_cart', $_POST['token']));
         }
 
+        function update_cart() {
+            echo json_encode(common::load_model('cart_model', 'get_update_cart', [$_POST['id_re'], $_POST['token'], $_POST['qty'], $_POST['operation']]));
+        }
+
     }
 
 ?>

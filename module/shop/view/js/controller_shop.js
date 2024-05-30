@@ -52,12 +52,12 @@ function loadAllRealestates(limit=4, offset=0) {
         localStorage.setItem('filters_shop', JSON.stringify(filtersHome));
     }
 
-    var validate_filtersHome_details = localStorage.getItem('filtersHome_details') || undefined; // conseguimos de localStorage filtersHome_details, sinó existe undefined
+    var validate_filtersHome_details = localStorage.getItem('redirect_details') || undefined; // conseguimos de localStorage filtersHome_details, sinó existe undefined
     // var validate_locationDetails = localStorage.getItem('location') || undefined; // conseguimos de localStorage location, sinó existe undefined
     var validate_filtersShop = localStorage.getItem('filters_shop') || undefined; // conseguimos de localStorage filters_shop, sinó existe undefined
     
     if (validate_filtersHome_details != undefined) {
-        localStorage.removeItem('filtersHome_details'); // eliminamos de localStorage id_recomendation para no interferir en próximas busquedas
+        localStorage.removeItem('redirect_details'); // eliminamos de localStorage id_recomendation para no interferir en próximas busquedas
         console.log(validate_filtersHome_details);
         loadDetails(validate_filtersHome_details);
     // } else if (validate_locationDetails != undefined && validate_locationDetails != 'home' && validate_locationDetails != 'shop') {

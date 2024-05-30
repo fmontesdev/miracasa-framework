@@ -12,4 +12,8 @@
         <name>select_cart</name>
         <uri>select_cart</uri>
     </function>
+    <function>
+        <name>update_cart</name>
+        <uri>update_cart</uri>
+    </function>
 </functions>
