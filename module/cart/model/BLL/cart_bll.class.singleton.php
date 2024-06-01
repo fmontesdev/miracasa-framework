@@ -22,17 +22,23 @@
 
 			// Comprueba que la linea del carrito no existe, entonces inserta
 			if (!$checkCart) {
-				$insert = $this -> dao -> insert_cart($this->db, $args[0], $token_dec['uid']);
 				$data_re = $this -> dao -> select_realestate($this->db, $args[0]);
-				$data_qty = $this -> dao -> select_totalQty($this->db, $token_dec['uid']);
-				if (!$insert || !$data_qty) {
-					return "error_cart";
-				} else if (!$data_re ) {
+				if (!$data_re) {
 					return "error_realestate";
 				}
 
-				$data = array("msg" => "insert done", "re" => $data_re, "qty" => $data_qty->quantity);
-				return $data;
+				if ($data_re->stock >= 1) {
+					$insert = $this -> dao -> insert_cart($this->db, $args[0], $token_dec['uid']);
+					$data_qty = $this -> dao -> select_totalQty($this->db, $token_dec['uid']);
+					if (!$insert || !$data_qty) {
+						return "error_cart";
+					}
+
+					$data = array("msg" => "insert done", "re" => $data_re, "qty" => $data_qty->quantity);
+					return $data;
+				} else {
+					return "insuficient stock";
+				}
 			} else { // Comprueba que la linea del carrito existe, entonces actualiza
 				$data_re = $this -> dao -> select_realestate($this->db, $args[0]);
 				if (!$data_re) {
