@@ -20,6 +20,10 @@ function load_cart() {
                         </div>
                     </div>`
                 );
+
+                // actualiza contador carrito en menu
+                $('.navbarCart_container .qty_cart').remove();
+                localStorage.removeItem("cart_qty");
             } else {
                 $('<div></div>').attr('class', 'containerCart_title').appendTo('#cart')
                     .html(`

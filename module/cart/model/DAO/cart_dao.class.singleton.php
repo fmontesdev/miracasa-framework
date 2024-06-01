@@ -121,6 +121,46 @@
 
             return $stmt = $db->ejecutar($sql);
         }
+
+        public function select_bill($db, $uid, $provider, $id_bill){
+
+			$sql = "SELECT b.id_bill, b.date, up.username, up.email
+                        FROM `bill` b
+                        INNER JOIN `user` u ON u.uid = b.uid
+                        INNER JOIN `user_$provider` up ON u.uid = up.uid
+                        WHERE b.uid = '$uid' AND b.id_bill = '$id_bill'";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_object($stmt);
+        }
+
+        public function select_bill_detail($db, $id_bill){
+
+			$sql = "SELECT b.quantity, CONCAT(o.name_op, ' de ', t.name_type, ' en ', c.name_city) AS description,
+                        FORMAT(b.price, 2) AS price, FORMAT(b.quantity * b.price, 2) AS import
+                        FROM `real_estate` r
+                        INNER JOIN `belong_to_type` bt ON  r.id_realestate = bt.id_realestate 
+                        INNER JOIN `type` t ON t.id_type = bt.id_type
+                        INNER JOIN `is_traded` s ON r.id_realestate = s.id_realestate 
+                        INNER JOIN `operation` o ON o.id_op = s.id_op
+                        INNER JOIN `city` c ON r.id_city = c.id_city
+                        INNER JOIN `bill_detail` b ON r.id_realestate = b.id_realestate
+                        WHERE b.id_bill = '$id_bill' AND t.name_type != 'Vivienda'";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_array($stmt);
+        }
+
+        public function select_bill_total($db, $uid, $id_bill){
+
+			$sql = "SELECT SUM((bd.quantity * bd.price)) AS total
+                        FROM `bill` b
+                        INNER JOIN `bill_detail` bd ON b.id_bill = bd.id_bill
+                        WHERE b.uid = '$uid' AND b.id_bill = '$id_bill'";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_object($stmt);
+        }
     }
 
 ?>

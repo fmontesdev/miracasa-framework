@@ -113,12 +113,23 @@
 			}
 		}
 
+		public function get_quantity_cart_BLL($token) {
+			$token_dec = middleware_auth::decode_token('access', $token);
+			$qty = $this -> dao -> select_totalQty($this->db, $token_dec['uid']);
+			
+			if ($qty->quantity != null) {
+				return $qty;
+			} else {
+				return "no_cart";
+			}
+		}
+
 		public function get_insert_bill_BLL($token) {
 			$token_dec = middleware_auth::decode_token('access', $token);
 			$bill = $this -> dao -> insert_bill($this->db, $token_dec['uid']);
 
 			if ($bill) {
-				$data = array("uid" => $token_dec['uid'], "id_bill" => $bill->id_bill);
+				$data = array("uid" => $token_dec['uid'], "provider" => $token_dec['provider'], "id_bill" => $bill->id_bill);
 				return $data;
 			} else {
 				return "error_bill";
@@ -159,20 +170,26 @@
 			$del_cart = $this -> dao -> delete_cart($this->db, $uid);
 			
 			if ($del_cart) {
-				return "done";
+				return $del_cart;
 			} else {
 				return "error_cart";
 			}
 		}
 
-		public function get_quantity_cart_BLL($token) {
-			$token_dec = middleware_auth::decode_token('access', $token);
-			$qty = $this -> dao -> select_totalQty($this->db, $token_dec['uid']);
+		public function get_generate_pdf_BLL($data) {
+			$bill_data = $this -> dao -> select_bill($this->db, $data['uid'], $data['provider'], $data['id_bill']);
+			$bill_detail = $this -> dao -> select_bill_detail($this->db, $data['id_bill']);
+			$bill_total = $this -> dao -> select_bill_total($this->db, $data['uid'], $data['id_bill']);
 			
-			if ($qty) {
-				return $qty;
+			if ($bill_data && $bill_detail && $bill_total) {
+				$pdf = pdf::generate($bill_data, $bill_detail, $bill_total);
+				if ($pdf == "done") {
+					return "done";
+				} else {
+					return "error_pdf";
+				}
 			} else {
-				return "error_cart";
+				return "error_bill";
 			}
 		}
 	}

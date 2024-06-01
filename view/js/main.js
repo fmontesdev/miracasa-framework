@@ -112,9 +112,11 @@ function load_quantityCart(token) {
         ajaxPromise(friendlyURL('?module=cart'), 'POST', 'JSON', { 'op': 'quantity_cart', 'token': token })
             .then(function(data) {
                 
-                $('<span></span>').attr('class', 'qty_cart').appendTo('.navbarCart_container').html(data.quantity);
-                localStorage.setItem("cart_qty", data.quantity);
-
+                if (data != "no_cart") {
+                    $('<span></span>').attr('class', 'qty_cart').appendTo('.navbarCart_container').html(data.quantity);
+                    localStorage.setItem("cart_qty", data.quantity);
+                }
+                
             }).catch(function() {
                 console.log("Error al cargar el carrito");
             });

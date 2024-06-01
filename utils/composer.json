@@ -1,5 +1,6 @@
 {
     "require": {
-        "ultramsg/whatsapp-php-sdk": "^2.0"
+        "ultramsg/whatsapp-php-sdk": "^2.0",
+        "dompdf/dompdf": "^3.0"
     }
 }

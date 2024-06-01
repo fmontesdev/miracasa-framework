@@ -26,12 +26,12 @@
             echo json_encode(common::load_model('cart_model', 'get_update_cart', [$_POST['id_re'], $_POST['token'], $_POST['qty'], $_POST['operation']]));
         }
 
-        function billing() {
-            echo json_encode(common::load_model('cart_model', 'get_billing', $_POST['token']));
-        }
-
         function quantity_cart() {
             echo json_encode(common::load_model('cart_model', 'get_quantity_cart', $_POST['token']));
+        }
+
+        function billing() {
+            echo json_encode(common::load_model('cart_model', 'get_billing', $_POST['token']));
         }
     }
 

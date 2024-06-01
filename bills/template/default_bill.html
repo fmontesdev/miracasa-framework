@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Factura</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #555555;
+        }
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            /* border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); */
+        }
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+            border-collapse: collapse;
+        }
+        .invoice-box table td {
+            padding: 5px;
+            vertical-align: top;
+        }
+        .invoice-box table tr td:nth-child(2) {
+            text-align: right;
+        }
+        .invoice-box table tr.top table td {
+            padding-bottom: 20px;
+        }
+        .invoice-box table tr.top table td.title {
+            font-size: 18px;
+            line-height: 21px;
+            color: #333;
+        }
+        .invoice-box table tr.information table td {
+            padding-bottom: 40px;
+        }
+        .invoice-box table tr.heading td {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+        .invoice-box table tr.item td {
+            border-bottom: 1px solid #eee;
+        }
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+        .invoice-box table tr.total td:nth-child(4) {
+            border-top: 1px solid #eee;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .logo {
+            text-align: right;
+        }
+        .logo img {
+            width: 150px;
+        }
+        .text-brand {
+            font-size: 35px;
+            font-weight: bold;
+            color: #000000;
+        }
+        .color-b {
+            color: #2eca6a; 
+        }
+        .no-border td {
+            border: none;
+        }
+        .info-box {
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="4">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                MiraCasa, SL.<br>
+                                Carretera Imaginaria, 26<br>
+                                46870 Ontinyent, Valencia
+                            </td>
+                            <td class="logo">
+                                <span class="text-brand">mira<span class="color-b">casa</span></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr class="information">
+                <td colspan="4">
+                    <table>
+                        <tr>
+                            <td>
+                                <b>Facturar a:</b><br>
+                                {{name}}<br>
+                                {{email}}
+                            </td>
+                            <td>
+                                <b>Nº factura:</b> {{id_bill}}<br>
+                                <b>Fecha:</b> {{date}}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr class="heading">
+                <td>Cantidad</td>
+                <td>Descripción</td>
+                <td>Precio ud.</td>
+                <td>Importe</td>
+            </tr>
+            {{items}}
+            <tr class="total no-border">
+                <td></td>
+                <td></td>
+                <td>IVA 21.0%</td>
+                <td>{{iva}}</td>
+            </tr>
+            <tr class="total no-border">
+                <td></td>
+                <td></td>
+                <td>Total Factura</td>
+                <td>{{total}}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

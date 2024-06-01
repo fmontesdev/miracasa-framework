@@ -26,15 +26,16 @@ class cart_model {
         return $this -> bll -> get_update_cart_BLL($args);
     }
 
+    public function get_quantity_cart($token) {
+        return $this -> bll -> get_quantity_cart_BLL($token);
+    }
+
     public function get_billing($token) {
         $data = $this -> bll -> get_insert_bill_BLL($token);
         $this -> bll -> get_insert_bill_detail_BLL($data);
         $this -> bll -> get_update_stock_BLL($data['uid']);
         $this -> bll -> get_insert_purchase_log_BLL($data['uid']);
-        return $this -> bll -> get_delete_cart_BLL($data['uid']);
-    }
-
-    public function get_quantity_cart($token) {
-        return $this -> bll -> get_quantity_cart_BLL($token);
+        $this -> bll -> get_delete_cart_BLL($data['uid']);
+        return $this -> bll -> get_generate_pdf_BLL($data);
     }
 }
