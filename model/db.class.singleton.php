@@ -45,6 +45,11 @@
             return $this->stmt;
         }
 
+        public function ejecutar_multi($sql) {
+            $this -> stmt = $this -> link -> multi_query($sql);
+            return $this->stmt;
+        }
+
         public function listar_object($stmt) {
             $this -> object = $stmt -> fetch_object();
             return $this -> object;

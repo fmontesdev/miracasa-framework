@@ -16,4 +16,8 @@
         <name>update_cart</name>
         <uri>update_cart</uri>
     </function>
+    <function>
+        <name>billing</name>
+        <uri>billing</uri>
+    </function>
 </functions>

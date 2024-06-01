@@ -24,7 +24,7 @@ function insert_cart(id_realestate) {
                         imageHeight: 250,
                         imageAlt: `${data.re.name_type} en ${data.re.name_city}`,
                         showConfirmButton: false,
-                        timer: 2500
+                        timer: 2000
                     });
                 } else if (data == 'insuficient stock') {
                     //SweetAlert2
@@ -34,7 +34,7 @@ function insert_cart(id_realestate) {
                         title: "Stock insuficiente",
                         text: "Has añadido la cantidad máxima disponible",
                         showConfirmButton: false,
-                        timer: 2500
+                        timer: 2000
                     });
                 }
             }).catch(function(textStatus) {

@@ -14,7 +14,7 @@
 
         public function select_lineCart($db, $id_re, $uid){
 
-			$sql = "SELECT c.id_realestate, c.uid, c.quantity, c.state
+			$sql = "SELECT c.id_realestate, c.uid, c.quantity
                     FROM `cart` c
                     WHERE c.id_realestate = '$id_re' AND c.uid = '$uid'";
 
@@ -52,8 +52,8 @@
 
         public function insert_cart($db, $id_re, $uid){
 
-			$sql = "INSERT INTO `cart` (`id_realestate`, `uid`, `quantity`) 
-                    VALUES ('$id_re','$uid',1)";
+			$sql = "INSERT INTO `cart` (`date_time`, `id_realestate`, `uid`, `quantity`) 
+                    VALUES (CURRENT_TIMESTAMP,'$id_re','$uid',1)";
 
             return $stmt = $db->ejecutar($sql);
         }
@@ -69,17 +69,19 @@
 
         public function select_cart($db, $uid){
 
-			$sql = "SELECT ca.id_realestate, ca.uid, t.name_type, o.name_op, c.name_city, c.province, r.area, r.rooms, r.bathrooms, r.floor, r.description, i.img_realestate, ca.quantity, s.price, r.stock, ca.state
-                    FROM `real_estate` r
-                    INNER JOIN `cart` ca ON r.id_realestate = ca.id_realestate
-                    INNER JOIN `belong_to_type` bt ON  r.id_realestate = bt.id_realestate 
-                    INNER JOIN `type` t ON t.id_type = bt.id_type
-                    INNER JOIN `is_traded` s ON r.id_realestate = s.id_realestate 
-                    INNER JOIN `operation` o ON o.id_op = s.id_op
-                    INNER JOIN `img_realestate` i ON r.id_realestate = i.id_realestate
-                    INNER JOIN `city` c ON r.id_city = c.id_city
-                    WHERE ca.uid = '$uid' AND t.name_type != 'Vivienda'
-                    GROUP BY ca.id_realestate";
+			$sql = "SELECT ca.id_realestate, ca.uid, t.name_type, o.name_op, c.name_city, c.province, r.area, r.rooms,
+                        r.bathrooms, r.floor, r.description, i.img_realestate, ca.quantity, s.price, r.stock
+                        FROM `real_estate` r
+                        INNER JOIN `cart` ca ON r.id_realestate = ca.id_realestate
+                        INNER JOIN `belong_to_type` bt ON  r.id_realestate = bt.id_realestate 
+                        INNER JOIN `type` t ON t.id_type = bt.id_type
+                        INNER JOIN `is_traded` s ON r.id_realestate = s.id_realestate 
+                        INNER JOIN `operation` o ON o.id_op = s.id_op
+                        INNER JOIN `img_realestate` i ON r.id_realestate = i.id_realestate
+                        INNER JOIN `city` c ON r.id_city = c.id_city
+                        WHERE ca.uid = '$uid' AND t.name_type != 'Vivienda'
+                        GROUP BY ca.id_realestate
+                        ORDER BY ca.date_time";
 
             $stmt = $db->ejecutar($sql);
             return $db->listar_indexed_array($stmt);
@@ -90,6 +92,40 @@
             $sql = "DELETE
                         FROM `cart` c
                         WHERE c.id_realestate = '$id_re' AND c.uid = '$uid'";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+        public function insert_bill($db, $uid){
+
+			$sql = "CALL insert_bill($uid, @id_bill)";
+            $stmt = $db->ejecutar($sql);
+                       
+            $sql = "SELECT @id_bill AS id_bill";
+            $stmt = $db->ejecutar($sql);
+            return $db->listar_object($stmt);
+        }
+
+        public function insert_bill_detail($db, $uid, $id_bill){
+			$sql = "CALL insert_bill_detail($uid, $id_bill)";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+        public function update_stock($db, $uid){
+			$sql = "CALL update_stock($uid)";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+        public function insert_purchase_log($db, $uid){
+			$sql = "CALL insert_purchase_log($uid)";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+        public function delete_cart($db, $uid){
+			$sql = "CALL delete_cart($uid)";
 
             return $stmt = $db->ejecutar($sql);
         }

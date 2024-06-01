@@ -76,7 +76,7 @@
 			if ($cart) {
 				return $cart;
 			} else {
-				return "error_cart";
+				return "no_cart";
 			}
 		}
 
@@ -85,6 +85,7 @@
 
 			$token_dec = middleware_auth::decode_token('access', $args[1]);
 
+			// elimina linea del carrito
 			if ($args[3] == "delete") {
 				$rdo = $this -> dao -> delete_lineCart($this->db, $args[0], $token_dec['uid']);
 
@@ -97,9 +98,10 @@
 				if ($cart) {
 					return [$cart, "delete", $args[0]];
 				} else {
-					return "error_cart";
+					return "no_cart";
 				}
 			} else {
+				// recupera stock del producto
 				$data_re = $this -> dao -> select_realestate($this->db, $args[0]);
 				
 				if ($data_re) {
@@ -108,6 +110,7 @@
 					return "error_realestate";
 				}
 
+				// actualiza linea del carrito
 				if ((($args[2] + $args[3]) <= $re_value['stock']) && (($args[2] + $args[3]) >= 1)) {  // Comprobar que hay suficiente stock, y la cantidad final no sea inferior a 1
 					$rdo = $this -> dao -> update_cart($this->db, $args[0], $token_dec['uid'], $args[3]);
 
@@ -123,6 +126,58 @@
 						return "error_cart";
 					}
 				}
+			}
+		}
+
+		public function get_insert_bill_BLL($token) {
+			$token_dec = middleware_auth::decode_token('access', $token);
+			$bill = $this -> dao -> insert_bill($this->db, $token_dec['uid']);
+
+			if ($bill) {
+				$data = array("uid" => $token_dec['uid'], "id_bill" => $bill->id_bill);
+				return $data;
+			} else {
+				return "error_bill";
+			}
+		}
+
+		public function get_insert_bill_detail_BLL($data) {
+			$bill_detail = $this -> dao -> insert_bill_detail($this->db, $data['uid'], $data['id_bill']);
+			
+			if ($bill_detail) {
+				return $bill_detail;
+			} else {
+				return "error_bill_detail";
+			}
+		}
+
+		public function get_update_stock_BLL($uid) {
+			$stock = $this -> dao -> update_stock($this->db, $uid);
+			
+			if ($stock) {
+				return $stock;
+			} else {
+				return "error_stock";
+			}
+		}
+
+		public function get_insert_purchase_log_BLL($uid) {
+			$purchase_log = $this -> dao -> insert_purchase_log($this->db, $uid);
+			
+			if ($purchase_log) {
+				return $purchase_log;
+			} else {
+				return "error_purchase_log";
+			}
+		}
+
+		public function get_delete_cart_BLL($uid) {
+			$del_cart = $this -> dao -> delete_cart($this->db, $uid);
+			
+			if ($del_cart) {
+				return "done";
+			} else {
+				return "error_cart";
 			}
 		}
 	}
