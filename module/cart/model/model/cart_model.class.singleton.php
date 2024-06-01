@@ -33,4 +33,8 @@ class cart_model {
         $this -> bll -> get_insert_purchase_log_BLL($data['uid']);
         return $this -> bll -> get_delete_cart_BLL($data['uid']);
     }
+
+    public function get_quantity_cart($token) {
+        return $this -> bll -> get_quantity_cart_BLL($token);
+    }
 }

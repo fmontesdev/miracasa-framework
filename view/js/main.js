@@ -63,45 +63,61 @@ function load_menu() {
         </div>`
     )
 
-    // Highlight carrito, recupera la cantidad total
-    setTimeout(function(){
-        var cart_qty = localStorage.getItem('cart_qty');
-        if (cart_qty) {
-            $('<span></span>').attr('class', 'qty_cart').appendTo('.navbarCart_container').html(cart_qty);
-        }
-    }, 100);
-
     // si detecta un usuario logeado a través de la existencia del access token, lo pinta en el menu
     var token = localStorage.getItem('access_token');
     if (token) {
-        ajaxPromise(friendlyURL('?module=login'), 'POST', 'JSON', { 'op': 'data_user', 'token': token })
-            .then(function(data) {
-                console.log(data);
-                // return;
-
-                // highlight usuario
-                $('.navbarLogin_icon').hide();
-                $('.navbarLogin_avatar').remove();
-                $('<img>').attr('class', 'navbarLogin_avatar').attr('src', data.avatar).appendTo('.navbarLogin_container');
-                $('.navbarLogin_text')
-                    .html(data.username);
-                $('.navbarLogin_container')
-                    .css({
-                        "background-color": "#f0f0f0",
-                    });
-                // oculta enlace para login-registro y muestra enlace para logout
-                $('.navbarLogin_items.login').hide();
-                $('.navbarLogin_items.logout').show();
-
-            }).catch(function() {
-                console.log("Error al cargar los datos del user");
-                $('.navbarLogin_items.logout').hide();
-                $('.navbarLogin_items.login').show();
-            });
+        load_user(token)
+        load_quantityCart(token)
     } else {
         console.log("No hay token disponible");
         $('.navbarLogin_items.logout').hide();
         $('.navbarLogin_items.login').show();
+    }
+}
+
+/* LOAD USER */
+function load_user(token) {
+    ajaxPromise(friendlyURL('?module=login'), 'POST', 'JSON', { 'op': 'data_user', 'token': token })
+        .then(function(data) {
+            console.log(data);
+            // return;
+
+            // highlight usuario
+            $('.navbarLogin_icon').hide();
+            $('.navbarLogin_avatar').remove();
+            $('<img>').attr('class', 'navbarLogin_avatar').attr('src', data.avatar).appendTo('.navbarLogin_container');
+            $('.navbarLogin_text')
+                .html(data.username);
+            $('.navbarLogin_container')
+                .css({
+                    "background-color": "#f0f0f0",
+                });
+            // oculta enlace para login-registro y muestra enlace para logout
+            $('.navbarLogin_items.login').hide();
+            $('.navbarLogin_items.logout').show();
+
+        }).catch(function() {
+            console.log("Error al cargar los datos del user");
+            $('.navbarLogin_items.logout').hide();
+            $('.navbarLogin_items.login').show();
+        });
+}
+
+/* LOAD QUANTITY CART */
+function load_quantityCart(token) {
+    var qty_cart = localStorage.getItem('cart_qty');
+    if (qty_cart) {
+        $('<span></span>').attr('class', 'qty_cart').appendTo('.navbarCart_container').html(qty_cart);
+    } else {
+        ajaxPromise(friendlyURL('?module=cart'), 'POST', 'JSON', { 'op': 'quantity_cart', 'token': token })
+            .then(function(data) {
+                
+                $('<span></span>').attr('class', 'qty_cart').appendTo('.navbarCart_container').html(data.quantity);
+                localStorage.setItem("cart_qty", data.quantity);
+
+            }).catch(function() {
+                console.log("Error al cargar el carrito");
+            });
     }
 }
 

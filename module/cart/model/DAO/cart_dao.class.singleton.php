@@ -51,18 +51,13 @@
         }
 
         public function insert_cart($db, $id_re, $uid){
-
-			$sql = "INSERT INTO `cart` (`date_time`, `id_realestate`, `uid`, `quantity`) 
-                    VALUES (CURRENT_TIMESTAMP,'$id_re','$uid',1)";
+            $sql = "CALL insert_cart($id_re, $uid)";
 
             return $stmt = $db->ejecutar($sql);
         }
 
         public function update_cart($db, $id_re, $uid, $op){
-
-            $sql = "UPDATE `cart` c
-                        SET c.quantity = c.quantity + '$op'
-                        WHERE c.id_realestate = '$id_re' AND c.uid = '$uid'";
+            $sql = "CALL update_cart($id_re, $uid, $op)";
 
             return $stmt = $db->ejecutar($sql);
         }
@@ -88,10 +83,7 @@
         }
 
         public function delete_lineCart($db, $id_re, $uid){
-
-            $sql = "DELETE
-                        FROM `cart` c
-                        WHERE c.id_realestate = '$id_re' AND c.uid = '$uid'";
+            $sql = "CALL delete_lineCart($id_re, $uid)";
 
             return $stmt = $db->ejecutar($sql);
         }
@@ -129,7 +121,6 @@
 
             return $stmt = $db->ejecutar($sql);
         }
-
     }
 
 ?>

@@ -20,4 +20,8 @@
         <name>billing</name>
         <uri>billing</uri>
     </function>
+    <function>
+        <name>quantity_cart</name>
+        <uri>quantity_cart</uri>
+    </function>
 </functions>

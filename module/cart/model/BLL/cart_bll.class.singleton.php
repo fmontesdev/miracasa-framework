@@ -17,49 +17,36 @@
 		}
 
 		public function get_insert_cart_BLL($args) {
-			// return $args;
-
 			$token_dec = middleware_auth::decode_token('access', $args[1]);
 			$checkCart = $this -> dao -> select_lineCart($this->db, $args[0], $token_dec['uid']);
-			// return $checkCart;
 
-			// Comprobar que la linea del carrito no existe, entonces inserta
+			// Comprueba que la linea del carrito no existe, entonces inserta
 			if (!$checkCart) {
-				$rdo = $this -> dao -> insert_cart($this->db, $args[0], $token_dec['uid']);
+				$insert = $this -> dao -> insert_cart($this->db, $args[0], $token_dec['uid']);
 				$data_re = $this -> dao -> select_realestate($this->db, $args[0]);
 				$data_qty = $this -> dao -> select_totalQty($this->db, $token_dec['uid']);
-
-				if ($data_qty) {
-					$qty_value = get_object_vars($data_qty); //serializa objeto
-				}else {
+				if (!$insert || !$data_qty) {
 					return "error_cart";
-				}
-
-				$data = array("msg" => "insert done", "re" => $data_re, "qty" => $qty_value['quantity']);
-				return $data;
-			} else { // Comprobar que la linea del carrito existe, entonces actualiza
-				$cart_value = get_object_vars($checkCart); //serializa objeto
-				
-				$data_re = $this -> dao -> select_realestate($this->db, $args[0]);
-				
-				if ($data_re) {
-					$re_value = get_object_vars($data_re); //serializa objeto
-				}else {
+				} else if (!$data_re ) {
 					return "error_realestate";
 				}
 
-				// return [$cart_value['quantity'], $re_value['stock']];
-				if ($cart_value['quantity'] < $re_value['stock']) { // Comprobar que hay suficiente stock
-					$rdo = $this -> dao -> update_cart($this->db, $args[0], $token_dec['uid'], 1);
-					$data_qty = $this -> dao -> select_totalQty($this->db, $token_dec['uid']);
+				$data = array("msg" => "insert done", "re" => $data_re, "qty" => $data_qty->quantity);
+				return $data;
+			} else { // Comprueba que la linea del carrito existe, entonces actualiza
+				$data_re = $this -> dao -> select_realestate($this->db, $args[0]);
+				if (!$data_re) {
+					return "error_realestate";
+				}
 
-					if ($data_qty) {
-						$qty_value = get_object_vars($data_qty); //serializa objeto
-					}else {
+				if ($checkCart->quantity < $data_re->stock) { // Comprueba que hay suficiente stock
+					$update = $this -> dao -> update_cart($this->db, $args[0], $token_dec['uid'], 1);
+					$data_qty = $this -> dao -> select_totalQty($this->db, $token_dec['uid']);
+					if (!$update || !$data_qty) {
 						return "error_cart";
 					}
 
-					$data = array("msg" => "update done", "re" => $data_re, "qty" => $qty_value['quantity']);
+					$data = array("msg" => "update done", "re" => $data_re, "qty" => $data_qty->quantity);
 					return $data;
 				} else {
 					return "insuficient stock";
@@ -81,20 +68,16 @@
 		}
 
 		public function get_update_cart_BLL($args) {
-			// return $args;
-
 			$token_dec = middleware_auth::decode_token('access', $args[1]);
 
 			// elimina linea del carrito
 			if ($args[3] == "delete") {
-				$rdo = $this -> dao -> delete_lineCart($this->db, $args[0], $token_dec['uid']);
-
-				if (!$rdo) {
+				$del = $this -> dao -> delete_lineCart($this->db, $args[0], $token_dec['uid']);
+				if (!$del) {
 					return "error_cart";
 				}
 
 				$cart = $this -> dao -> select_cart($this->db, $token_dec['uid']);
-
 				if ($cart) {
 					return [$cart, "delete", $args[0]];
 				} else {
@@ -103,23 +86,18 @@
 			} else {
 				// recupera stock del producto
 				$data_re = $this -> dao -> select_realestate($this->db, $args[0]);
-				
-				if ($data_re) {
-					$re_value = get_object_vars($data_re); //serializa objeto
-				}else {
+				if (!$data_re) {
 					return "error_realestate";
 				}
 
 				// actualiza linea del carrito
-				if ((($args[2] + $args[3]) <= $re_value['stock']) && (($args[2] + $args[3]) >= 1)) {  // Comprobar que hay suficiente stock, y la cantidad final no sea inferior a 1
-					$rdo = $this -> dao -> update_cart($this->db, $args[0], $token_dec['uid'], $args[3]);
-
-					if (!$rdo) {
+				if ((($args[2] + $args[3]) <= ($data_re->stock)) && (($args[2] + $args[3]) >= 1)) {  // Comprobar que hay suficiente stock, y la cantidad final no sea inferior a 1
+					$update = $this -> dao -> update_cart($this->db, $args[0], $token_dec['uid'], $args[3]);
+					if (!$update) {
 						return "error_cart";
 					}
 
 					$cart = $this -> dao -> select_cart($this->db, $token_dec['uid']);
-
 					if ($cart) {
 						return [$cart, "update"];
 					} else {
@@ -176,6 +154,17 @@
 			
 			if ($del_cart) {
 				return "done";
+			} else {
+				return "error_cart";
+			}
+		}
+
+		public function get_quantity_cart_BLL($token) {
+			$token_dec = middleware_auth::decode_token('access', $token);
+			$qty = $this -> dao -> select_totalQty($this->db, $token_dec['uid']);
+			
+			if ($qty) {
+				return $qty;
 			} else {
 				return "error_cart";
 			}

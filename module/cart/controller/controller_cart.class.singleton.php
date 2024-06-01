@@ -29,6 +29,10 @@
         function billing() {
             echo json_encode(common::load_model('cart_model', 'get_billing', $_POST['token']));
         }
+
+        function quantity_cart() {
+            echo json_encode(common::load_model('cart_model', 'get_quantity_cart', $_POST['token']));
+        }
     }
 
 ?>
