@@ -53,6 +53,7 @@ function load_menu() {
                 
                 <div id="navbarLogin_modal">
                     <a class="navbarLogin_items login" href="${friendlyURL('?module=login')}"><span class="navbarLogin_items">Regístrate / Inicia sesión</span></a>
+                    <a class="navbarLogin_items profile" href="${friendlyURL('?module=profile')}"><span class="navbarLogin_items">Mi perfil</span></a>
                     <span class="navbarLogin_items logout">Cierra sesión</span>
                 </div>
             </div>
@@ -70,8 +71,9 @@ function load_menu() {
         load_quantityCart(token)
     } else {
         console.log("No hay token disponible");
-        $('.navbarLogin_items.logout').hide();
         $('.navbarLogin_items.login').show();
+        $('.navbarLogin_items.logout').hide();
+        $('.navbarLogin_items.profile').hide();
     }
 }
 
@@ -95,11 +97,13 @@ function load_user(token) {
             // oculta enlace para login-registro y muestra enlace para logout
             $('.navbarLogin_items.login').hide();
             $('.navbarLogin_items.logout').show();
+            $('.navbarLogin_items.profile').show();
 
         }).catch(function() {
             console.log("Error al cargar los datos del user");
-            $('.navbarLogin_items.logout').hide();
             $('.navbarLogin_items.login').show();
+            $('.navbarLogin_items.logout').hide();
+            $('.navbarLogin_items.profile').hide();
         });
 }
 

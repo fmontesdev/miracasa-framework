@@ -64,6 +64,14 @@
     define('JS_VIEW_LOGIN', SITE_PATH . 'module/login/view/js/');
     define ('VIEW_PATH_LOGIN', SITE_ROOT . 'module/login/view/');
 
+    //MODEL_PROFILE
+    // define('UTILS_CART', SITE_ROOT . 'module/cart/utils/');
+    define('DAO_PROFILE', SITE_ROOT . 'module/profile/model/DAO/');
+    define('BLL_PROFILE', SITE_ROOT . 'module/profile/model/BLL/');
+    define('MODEL_PROFILE', SITE_ROOT . 'module/profile/model/model/');
+    define('JS_VIEW_PROFILE', SITE_PATH . 'module/profile/view/js/');
+    define ('VIEW_PATH_PROFILE', SITE_ROOT . 'module/profile/view/');
+
     //MODEL_CART
     // define('UTILS_CART', SITE_ROOT . 'module/cart/utils/');
     define('DAO_CART', SITE_ROOT . 'module/cart/model/DAO/');
