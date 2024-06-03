@@ -72,6 +72,12 @@
     define('JS_VIEW_CART', SITE_PATH . 'module/cart/view/js/');
     define ('VIEW_PATH_CART', SITE_ROOT . 'module/cart/view/');
 
+    //UTILS
+    define('BILL_TEMPLATE', SITE_ROOT . 'bills/template/');
+    define('BILL_PDF', SITE_ROOT . 'bills/pdf/');
+    define('BILL_QR', SITE_ROOT . 'bills/qr/');
+    define('URL_BILL_QR', SITE_PATH . 'bills/pdf/');
+
     //MODEL_ERRORS
     // define('UTILS_ERRORS', SITE_ROOT . 'module/errors/utils/');
     // define('DAO_ERRORS', SITE_ROOT . 'module/errors/model/DAO/');

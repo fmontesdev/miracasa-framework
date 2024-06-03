@@ -1,5 +1,8 @@
 **.ini
 /.htaccess
+/utils/phpqrcode/
 /utils/vendor/
 /utils/composer.lock
 /model/credentials.js
+/bills/pdf/
+/bills/qr/

@@ -192,4 +192,10 @@
 				return "error_bill";
 			}
 		}
+
+		public function get_generate_qr_BLL($id_bill) {
+			$url = URL_BILL_QR . $id_bill . '.pdf';			
+			$qr = qr::generate($url, $id_bill);
+			return $qr;
+		}
 	}

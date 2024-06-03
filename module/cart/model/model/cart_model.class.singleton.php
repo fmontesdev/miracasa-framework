@@ -36,6 +36,7 @@ class cart_model {
         $this -> bll -> get_update_stock_BLL($data['uid']);
         $this -> bll -> get_insert_purchase_log_BLL($data['uid']);
         $this -> bll -> get_delete_cart_BLL($data['uid']);
-        return $this -> bll -> get_generate_pdf_BLL($data);
+        $this -> bll -> get_generate_pdf_BLL($data);
+        return $this -> bll -> get_generate_qr_BLL($data['id_bill']);
     }
 }

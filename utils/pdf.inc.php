@@ -23,7 +23,7 @@ class pdf {
         }
 
         // Cargar contenido HTML y reemplazar marcadores de posición
-        $html_template = file_get_contents('bills/template/default_bill.html');
+        $html_template = file_get_contents(BILL_TEMPLATE . 'default_bill.html');
 
         foreach ($billData as $key => $value) {
             $html_template = str_replace("{{{$key}}}", $value, $html_template);
@@ -47,7 +47,7 @@ class pdf {
 
         if ($pdf_content) {
             // Guardar el PDF en el servidor
-            $path = 'bills/pdf/' . $bill_data->id_bill . '.pdf';
+            $path = BILL_PDF . $bill_data->id_bill . '.pdf';
             file_put_contents($path, $pdf_content);
             return "done";
         } else {
