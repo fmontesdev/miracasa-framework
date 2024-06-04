@@ -13,7 +13,7 @@
             $errorCorrectionLevel = 'M';
 
             // Tamaño de cada "píxel" en el código QR
-            $matrixPointSize = 2;
+            $matrixPointSize = 8;
 
             // Margen (espacio en blanco alrededor del código QR)
             $margin = 2;

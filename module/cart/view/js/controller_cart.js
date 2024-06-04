@@ -27,7 +27,7 @@ function load_cart() {
             } else {
                 $('<div></div>').attr('class', 'containerCart_title').appendTo('#cart')
                     .html(`
-                        <span class="title">Cesta de la compra</span>`
+                        <h3 class="text-brand">Cesta de la compra</h3>`
                     );
                 $('<div></div>').attr('class', 'containerCart').appendTo('#cart');
 

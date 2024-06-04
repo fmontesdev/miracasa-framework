@@ -18,12 +18,19 @@
 
 		public function get_load_bills_BLL($token) {
 			$token_dec = middleware_auth::decode_token('access', $token);
-			$bill = $this -> dao -> select_bill($this->db, $token_dec['uid'], $token_dec['provider']);
-
-			if ($bill) {
-				return $bill;
+			$user = $this -> dao -> select_user($this->db, $token_dec['uid'], $token_dec['provider']);
+			
+			if ($user) {
+				$bills = $this -> dao -> select_bill($this->db, $token_dec['uid']);
+				if ($bills) {
+					$data = array("user" => $user, "bills" => $bills);
+					return $data;
+				} else {
+					$data = array("user" => $user, "bills" => "no_bills");
+					return $data;
+				}
 			} else {
-				return "no_bills";
+				return "error_user";
 			}
 		}
 	}
