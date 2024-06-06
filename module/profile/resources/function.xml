@@ -5,6 +5,10 @@
         <uri>view</uri>
     </function>
     <function>
+        <name>loadProfile_user</name>
+        <uri>loadProfile_user</uri>
+    </function>
+    <function>
         <name>load_bills</name>
         <uri>load_bills</uri>
     </function>

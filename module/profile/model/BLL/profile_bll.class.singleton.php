@@ -16,21 +16,25 @@
 			return self::$_instance;
 		}
 
-		public function get_load_bills_BLL($token) {
+		public function get_loadProfile_user_BLL($token) {
 			$token_dec = middleware_auth::decode_token('access', $token);
 			$user = $this -> dao -> select_user($this->db, $token_dec['uid'], $token_dec['provider']);
 			
 			if ($user) {
-				$bills = $this -> dao -> select_bill($this->db, $token_dec['uid']);
-				if ($bills) {
-					$data = array("user" => $user, "bills" => $bills);
-					return $data;
-				} else {
-					$data = array("user" => $user, "bills" => "no_bills");
-					return $data;
-				}
+				return $user;
 			} else {
 				return "error_user";
+			}
+		}
+
+		public function get_load_bills_BLL($token) {
+			$token_dec = middleware_auth::decode_token('access', $token);
+			
+			$bills = $this -> dao -> select_bill($this->db, $token_dec['uid']);
+			if ($bills) {
+				return $bills;
+			} else {
+				return "no_bills";
 			}
 		}
 	}

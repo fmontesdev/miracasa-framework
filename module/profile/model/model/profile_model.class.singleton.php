@@ -14,6 +14,10 @@ class profile_model {
         return self::$_instance;
     }
 
+    public function get_loadProfile_user($token) {
+        return $this -> bll -> get_loadProfile_user_BLL($token);
+    }
+
     public function get_load_bills($token) {
         return $this -> bll -> get_load_bills_BLL($token);
     }
