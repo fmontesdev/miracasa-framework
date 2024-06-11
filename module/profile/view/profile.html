@@ -1,9 +1,83 @@
 <main id="main">
 
-    <section class="section-profile section-t7">
+    <section class="section-profile section-t6">
         <div class="container">
             <div id="profile">
+                <div class="profile_navigation">
+                    <nav class="profile_navbar">
+                        <div class="profile_avatar"></div>
+                        <ul class="profile_nav-list">
+                            <li class="profile_nav-item">
+                                <button class='btn_profile_nav-item account'>
+                                    <img class='icon_profile_nav-item account' src='http://miracasa.fw/view/img/icons/user1.png' alt='Mi cuenta'>
+                                    Mi cuenta
+                                </button>
+                            </li>
+                            <li class="profile_nav-item">
+                                <button class='btn_profile_nav-item purchases'>
+                                    <img class='icon_profile_nav-item purchases' src='http://miracasa.fw/view/img/icons/purchase_profile1.png' alt='Mis compras'>
+                                    Mis compras
+                                </button>
+                            </li>
+                            <li class="profile_nav-item">
+                                <button class='btn_profile_nav-item likes'>
+                                    <img class='icon_profile_nav-item likes' src='http://miracasa.fw/view/img/icons/like_profile1.png' alt='Mis likes'>
+                                    Mis likes
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
 
+                <div class="profile_account">
+                    <div class="profileAccount_title">
+                        <h3 class='text-brand'>Mi cuenta</h3>
+                    </div>
+
+                    <div class="profileAccount_info"></div>
+
+                    <div id="toUpdate_user">
+                        <div class="row col-sm-12">
+                            <button type="button" id="to_updUser" class="btn btn-c btn_toLogin">Actualiza tus datos</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile_updUser" class="row">
+                    <div class="col-sm-12">
+                        <h3 class="text-brand">Actualiza tus datos</h3>
+                    </div>
+
+                    <form id="uploadForm" enctype="multipart/form-data" class="php-email-form">
+                        <div class="row">
+                            <div class="col-sm-12 mb-2">
+                                <label>Usuario</label>
+                                <input type="text" id="username_prf" name="username_prf" class="form-control form-control-lg form-control-a" placeholder="Actualiza el nombre de usuario">
+                                <div id="error_username_prf" class="error_form"></div>
+                            </div>
+                            <div class="col-sm-12 mb-2">
+                                <label>Email</label>
+                                <input type="email" id="email_prf" name="email_prf" class="form-control form-control-lg form-control-a" placeholder="Actualiza el email">
+                                <div id="error_email_prf" class="error_form"></div>
+                            </div>
+                            <div class="col-sm-12 mb-2">
+                                <label>Teléfono</label>
+                                <input type="tel" id="phone_prf" name="phone_prf" class="form-control form-control-lg form-control-a" placeholder="Actualiza el teléfono +12 123 45 67 89">
+                                <div id="error_phone_prf" class="error_form"></div>
+                            </div>
+                            <div class="col-sm-12 mb-4 file">
+                                <label>Avatar</label>
+                                <input type="file" name="file" id="file" class="form-control form-control-lg form-control-a"/>
+                                <div id="error_file" class="error_form"></div>
+                            </div>
+                            <div class="col-sm-12 submit">
+                                <input type="submit" value="Actualizar" class="btn btn-c btn_login"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                
             </div>
         </div>
     </section>

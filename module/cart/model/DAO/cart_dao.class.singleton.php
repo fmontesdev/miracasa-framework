@@ -51,13 +51,14 @@
         }
 
         public function insert_cart($db, $id_re, $uid){
-            $sql = "CALL insert_cart($id_re, $uid)";
+            
+            $sql = "CALL insert_cart($id_re, '$uid')";
 
             return $stmt = $db->ejecutar($sql);
         }
 
         public function update_cart($db, $id_re, $uid, $op){
-            $sql = "CALL update_cart($id_re, $uid, $op)";
+            $sql = "CALL update_cart($id_re, '$uid', $op)";
 
             return $stmt = $db->ejecutar($sql);
         }
@@ -83,14 +84,14 @@
         }
 
         public function delete_lineCart($db, $id_re, $uid){
-            $sql = "CALL delete_lineCart($id_re, $uid)";
+            $sql = "CALL delete_lineCart($id_re, '$uid')";
 
             return $stmt = $db->ejecutar($sql);
         }
 
         public function insert_bill($db, $uid){
 
-			$sql = "CALL insert_bill($uid, @id_bill)";
+			$sql = "CALL insert_bill('$uid', @id_bill)";
             $stmt = $db->ejecutar($sql);
                        
             $sql = "SELECT @id_bill AS id_bill";
@@ -99,25 +100,25 @@
         }
 
         public function insert_bill_detail($db, $uid, $id_bill){
-			$sql = "CALL insert_bill_detail($uid, $id_bill)";
+			$sql = "CALL insert_bill_detail('$uid', $id_bill)";
 
             return $stmt = $db->ejecutar($sql);
         }
 
         public function update_stock($db, $uid){
-			$sql = "CALL update_stock($uid)";
+			$sql = "CALL update_stock('$uid')";
 
             return $stmt = $db->ejecutar($sql);
         }
 
         public function insert_purchase_log($db, $uid){
-			$sql = "CALL insert_purchase_log($uid)";
+			$sql = "CALL insert_purchase_log('$uid')";
 
             return $stmt = $db->ejecutar($sql);
         }
 
         public function delete_cart($db, $uid){
-			$sql = "CALL delete_cart($uid)";
+			$sql = "CALL delete_cart('$uid')";
 
             return $stmt = $db->ejecutar($sql);
         }

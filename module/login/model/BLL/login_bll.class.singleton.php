@@ -250,9 +250,11 @@
 			} else { // código OTP incorrecto
 				$otp_attempts = $value['otp_attempts'] + 1;
 				$this -> dao -> update_otp_attempts($this->db, $value['uid'], $otp_attempts); // actualizamos intentos para OTP
-				if (($value['otp_attempts'] >= 2) && (($expiredToken_dec['exp'] + 300) < time())) {
+				if (($value['otp_attempts'] >= 2) || (($expiredToken_dec['exp'] + 300) < time())) { // 3 intentos máximos de autenticación por OTP o tiempo expirado expiredToken
 					$this -> dao -> update_otp($this->db, $value['uid'], 'NULL', 'NULL'); // eliminamos otp y token_email
 					return "fail_OTP";
+				} else {
+					return $value['otp_attempts'];
 				}
 			}
 		}

@@ -21,4 +21,12 @@ class profile_model {
     public function get_load_bills($token) {
         return $this -> bll -> get_load_bills_BLL($token);
     }
+
+    public function get_load_likes($token) {
+        return $this -> bll -> get_load_likes_BLL($token);
+    }
+
+    public function get_update_user($args) {
+        return $this -> bll -> get_update_user_BLL($args);
+    }
 }

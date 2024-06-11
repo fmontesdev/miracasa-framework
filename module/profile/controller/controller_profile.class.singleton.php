@@ -21,6 +21,15 @@
         function load_bills() {
             echo json_encode(common::load_model('profile_model', 'get_load_bills', $_POST['token']));
         }
+
+        function load_likes() {
+            echo json_encode(common::load_model('profile_model', 'get_load_likes', $_POST['token']));
+        }
+
+        function update_user() {
+            // echo json_encode('Hola Controller fileupload');
+            echo json_encode(common::load_model('profile_model', 'get_update_user', [$_POST['token'], $_POST['username'], $_POST['email'], $_POST['phone']]));
+        }
     }
 
 ?>

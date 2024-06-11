@@ -87,7 +87,15 @@ function load_user(token) {
             // highlight usuario
             $('.navbarLogin_icon').hide();
             $('.navbarLogin_avatar').remove();
-            $('<img>').attr('class', 'navbarLogin_avatar').attr('src', data.avatar).appendTo('.navbarLogin_container');
+
+            // discernimos entre avatar creado automáticamente (https://...) o personalizado (imagen)
+            var splitAvatar = data.avatar.split("://");
+            if (splitAvatar[0] == 'https' || splitAvatar[0] == 'http') {
+                $('<img>').attr('class', 'navbarLogin_avatar').attr('src', data.avatar).appendTo('.navbarLogin_container');
+            } else {
+                $('<img>').attr('class', 'navbarLogin_avatar').attr('src', IMG_AVATAR_PATH + data.avatar).appendTo('.navbarLogin_container');
+            }
+            
             $('.navbarLogin_text')
                 .html(data.username);
             $('.navbarLogin_container')

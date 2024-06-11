@@ -4240,7 +4240,7 @@ Profile
 
 .profile_account {
   /* border-bottom: 1px solid #cacaca; */
-  padding-bottom: 10px;
+  /* padding-bottom: 10px; */
 }
 
 .profile_account h3 {
@@ -4256,8 +4256,9 @@ Profile
   font-weight: 500;
 }
 
-.profile_purchases {
-  padding-bottom: 20px;
+.profile_purchases,
+.profile_likes {
+  padding-bottom: 5px;
 }
 
 .profile_purchases h3 {
@@ -4285,7 +4286,8 @@ Profile
   font-size: 17px;
 }
 
-.profile_purchases .unbilled {
+.profile_purchases .unbilled,
+.profile_likes .without_likes {
   padding-top: 2px;
   margin-bottom: 0;
 }
@@ -4320,6 +4322,14 @@ Profile
   transition: 0.5s ease;
 }
 
+.profile_avatar {
+  margin-right: 4em;
+}
+
+.profile_avatar .avatar {
+  width: 95px;
+}
+
 .btn_profile_nav-item {
   display: flex;
   flex-direction: column; /* Apila la imagen y el texto verticalmente */
@@ -4340,3 +4350,182 @@ Profile
 /* .btn_profile_nav-item:hover .icon_profile_nav-item {
   filter: none;
 } */
+
+/* --------- List Likes --------- */
+.toDetails {
+	cursor: pointer;
+}
+
+.profile_likes h3 {
+  margin-bottom: 15px;
+}
+
+/* .list_realestates {
+  width: 60%;
+  padding: 0 20px 0 0;
+} */
+
+.profile_realestates {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+  padding: 0;
+  margin-bottom: 25px;
+	background: #f3f3f3;
+  border-radius: 12px;
+}
+
+#profile .containerList_img {
+	width: 25%;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  overflow: hidden;
+}
+
+/* CUIDADO */
+.list-img {
+  width: 100%;
+	height: auto;
+  max-height: 235px;
+}
+
+#profile .containerList_info {
+	width: 75%;
+	padding: 10px 17px 15px 17px;
+}
+
+.listInfo_header {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-bottom: 11px;
+}
+
+.listInfo_title {
+  font-size: 21px;
+	font-weight: 500;
+  color: #2eca6a;
+}
+
+.listHeader_icons_container {
+  display: flex;
+  margin-left: auto; /* Empujar a la derecha */
+  align-items: center;
+  justify-content: center;
+}
+
+.listCart_container {
+  padding-right: 10px;
+  cursor: pointer;
+}
+
+.listLike_container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.listCart_icon {
+  width: 26px;
+  transition: 0.5s ease;
+  filter: hue-rotate(0deg) saturate(0%) brightness(0%);
+}
+
+.listCart_icon:hover {
+  filter: none;
+}
+
+.listLike_icon {
+  width: 26px;
+}
+
+.list_countLikes {
+  position: absolute;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+/* .listInfo_province {
+  margin-left: 10px;
+} */
+
+.listInfo_trading {
+	width: 100%;
+  margin-bottom: 18px;
+}
+
+.listInfo_price {
+  font-size: 17px;
+	font-weight: 500;
+  color: #000;
+  padding: 0.1rem 0.6rem;
+  border: 2px solid #2eca6a;
+  border-radius: 50px;
+  text-transform: uppercase;
+}
+
+.listInfo_specs {
+  width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+  margin-bottom: 9px;
+}
+
+.listInfoSpecs_contents {
+	width: auto;
+  margin-right: 13px;
+}
+
+.listInfoSpecs-img {
+	width: 25px;
+}
+
+.listInfoSpecs-txt {
+  font-size: 14px;
+  font-weight: 500;
+  padding-left: 5px;
+}
+
+.listInfo_desc {
+  width: 100%;
+  height: 61px;
+  margin-bottom: 0;
+  text-align: justify;
+  font-size: 15px;
+  line-height: 20.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+}
+
+/* --------- List Likes --------- */
+.profile_updUser .col-sm-12 {
+  width: 50%;
+  min-width: 325px;
+}
+
+.profile_updUser h3 {
+  margin-bottom: 20px;
+}
+
+.profile_updUser label {
+  font-size: 17px;
+  color: #555555;
+  padding-left: 7px;
+  padding-bottom: 5px;
+}
+
+.profile_updUser .submit {
+  width: 325px;
+  margin-bottom: 13px;
+}
+
+#toUpdate_user {
+  width: 325px;
+  padding: 8px 0 15px 0;
+}

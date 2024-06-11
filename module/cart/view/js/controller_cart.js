@@ -120,7 +120,7 @@ function load_cart() {
                             <span id='${data[row].uid}' class='cartTotal_imp'>${new Intl.NumberFormat("es-ES").format(total)} €</span>
                         </div>
                         <div class='purchase_btn'>
-                            <button class="btn btn-c" onclick='billing()'>Realizar pedido</button>
+                            <button class="btn btn-c" onclick='billing()'>Realizar compra</button>
                         </div>`
                     );
                 
@@ -197,7 +197,7 @@ function update_cart(id_re, qty, operation) {
                             <span id='${data[0][row].uid}' class='cartTotal_imp'>${new Intl.NumberFormat("es-ES").format(total)} €</span>
                         </div>
                         <div class='purchase_btn'>
-                            <button class="btn btn-c" onclick='billing()'>Realizar pedido</button>
+                            <button class="btn btn-c" onclick='billing()'>Realizar compra</button>
                         </div>`
                     );
                 
@@ -233,7 +233,7 @@ function update_cart(id_re, qty, operation) {
                             <span id='${data[0][row].uid}' class='cartTotal_imp'>${new Intl.NumberFormat("es-ES").format(total)} €</span>
                         </div>
                         <div class='purchase_btn'>
-                            <button class="btn btn-c" onclick='billing()'>Realizar pedido</button>
+                            <button class="btn btn-c" onclick='billing()'>Realizar compra</button>
                         </div>`
                     );
                 

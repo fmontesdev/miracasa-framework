@@ -10,5 +10,6 @@ const IMG_SPECS_PATH = SITE_PATH + "/view/img/specs/";
 const IMG_TOURISTCAT_PATH = SITE_PATH + "/view/img/tourist_cat/";
 const IMG_TOURISTCAT_MAP_PATH = SITE_PATH + "/view/img/tourist_cat/maps/";
 const IMG_TYPES_PATH = SITE_PATH + "/view/img/types/";
+const IMG_AVATAR_PATH = SITE_PATH + "/uploads/avatar/";
 const BILL_PDF_PATH = SITE_PATH + "/bills/pdf/";
 const BILL_QR_PATH = SITE_PATH + "/bills/qr/";

@@ -19,7 +19,7 @@
 		public function get_insert_cart_BLL($args) {
 			$token_dec = middleware_auth::decode_token('access', $args[1]);
 			$checkCart = $this -> dao -> select_lineCart($this->db, $args[0], $token_dec['uid']);
-
+			
 			// Comprueba que la linea del carrito no existe, entonces inserta
 			if (!$checkCart) {
 				$data_re = $this -> dao -> select_realestate($this->db, $args[0]);

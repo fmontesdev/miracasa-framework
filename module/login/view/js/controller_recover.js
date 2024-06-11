@@ -135,6 +135,7 @@ function load_recover_password(uid){
     
     ajaxPromise(friendlyURL('?module=login'), 'POST', 'JSON', { 'op': 'verify_otp', 'uid': uid, 'otp': otpForm })
     .then(function(data) {
+        console.log(data);
 
         if (data.msg == "verify") {
             // console.log(data);
@@ -162,13 +163,16 @@ function load_recover_password(uid){
                 // position: "top-end",
                 icon: "error",
                 title: "Verificación fallida",
-                text: "El código de autenticación es incorrecto o ha expirado. Vuelva ha intentarlo",
+                text: "Exceso de intentos de autenticación o el tiempo máximo ha expirado. Vuelva ha intentarlo",
                 showConfirmButton: false,
                 // confirmButtonColor: "#2eca6a",
                 // timer: 3000
             });
 
             setTimeout(function(){window.location.href = friendlyURL('?module=login');}, 2500);
+        } else {
+            otp_attempts = 2 - data;
+            document.getElementById('error_otp_pass').innerHTML = `El código introducido no es válido.<br> Te quedan ${otp_attempts} intentos.`
         }
 
     }).catch(function(textStatus) {

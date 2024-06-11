@@ -37,4 +37,81 @@
 				return "no_bills";
 			}
 		}
+
+		public function get_load_likes_BLL($token) {
+			$token_dec = middleware_auth::decode_token('access', $token);
+
+			$likes = $this -> dao -> select_likes($this->db, $token_dec['uid']);
+			if ($likes) {
+				return $likes;
+			} else {
+				return "no_likes";
+			}
+		}
+
+		public function get_update_user_BLL($args) {
+			header('Content-Type: application/json'); // Asegúrate de que el contenido es JSON
+			// return $args;
+
+			// Comprobar que el usuario no existe
+			$checkUsername = $this -> dao -> select_user_toUpdate($this->db, $args[1]);
+			if ($checkUsername) {
+				$check = false;
+				return "error_user";
+			} else {
+				// Comprobar que el email no existe
+				$checkEmail = $this -> dao -> select_email_toUpdate($this->db, $args[2]);
+				
+				if ($checkEmail) {
+					$check = false;
+					return "error_email";
+				} else {
+					$check = true;
+				}
+			}
+
+			$token_dec = middleware_auth::decode_token('access', $args[0]);
+
+			if ($_FILES && $check) {
+				$file = $_FILES['file'];
+				$fileName = $file['name'];
+				$fileTmpName = $file['tmp_name'];
+				$fileSize = $file['size'];
+				$fileError = $file['error'];
+				$fileType = $file['type'];
+			
+				// Allow only certain file extensions
+				$allowed = array('jpg', 'jpeg', 'png', 'gif');
+				$fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+			
+				if (in_array($fileExt, $allowed)) {
+					if ($fileError === 0) {
+						if ($fileSize <= 1 * 1024 * 1024) { // 1MB
+							$fileNameNew = uniqid('', true) . "." . $fileExt;
+							$fileDestination = SITE_ROOT . 'uploads/avatar/' . $fileNameNew;
+			
+							if (move_uploaded_file($fileTmpName, $fileDestination)) {
+								// return (["status" => "success", "message" => "File uploaded successfully: $fileNameNew"]);
+								$rdo = $this -> dao -> update_user($this->db, $token_dec['uid'], $args[1], $args[2], $args[3], $fileNameNew);
+								if($rdo) {
+									return "done";
+								} else {
+									return "error_update";
+								}
+							} else {
+								return "error_upload";
+							}
+						} else {
+							return "error_size";
+						}
+					} else {
+						return "error_upload";
+					}
+				} else {
+					return "error_ext";
+				}
+			} else {
+				return "error_noFile";
+			}
+		}
 	}
