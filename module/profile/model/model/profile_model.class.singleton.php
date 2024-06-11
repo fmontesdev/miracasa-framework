@@ -26,6 +26,10 @@ class profile_model {
         return $this -> bll -> get_load_likes_BLL($token);
     }
 
+    public function get_delete_like($args) {
+        return $this -> bll -> get_delete_like_BLL($args);
+    }
+
     public function get_update_user($args) {
         return $this -> bll -> get_update_user_BLL($args);
     }

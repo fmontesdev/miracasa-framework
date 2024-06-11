@@ -49,6 +49,17 @@
 			}
 		}
 
+		public function get_delete_like_BLL($args) {
+			$token_dec = middleware_auth::decode_token('access', $args[0]);
+			
+			$delLike = $this -> dao -> delete_like($this->db, $token_dec['uid'], $args[1]);
+			if ($delLike) {
+				return $args[1];
+			} else {
+				return "error";
+			}
+		}
+
 		public function get_update_user_BLL($args) {
 			header('Content-Type: application/json'); // Asegúrate de que el contenido es JSON
 			// return $args;

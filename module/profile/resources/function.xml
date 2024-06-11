@@ -17,6 +17,10 @@
         <uri>load_likes</uri>
     </function>
     <function>
+        <name>delete_like</name>
+        <uri>delete_like</uri>
+    </function>
+    <function>
         <name>update_user</name>
         <uri>update_user</uri>
     </function>

@@ -4418,7 +4418,7 @@ Profile
   cursor: pointer;
 }
 
-.listLike_container {
+.profileLike_container {
   position: relative;
   display: flex;
   align-items: center;
@@ -4436,8 +4436,14 @@ Profile
   filter: none;
 }
 
-.listLike_icon {
-  width: 26px;
+.delLike_icon {
+  width: 25px;
+  transition: 0.5s ease;
+  filter: hue-rotate(0deg) saturate(0%)
+}
+
+.delLike_icon:hover {
+  filter: none;
 }
 
 .list_countLikes {

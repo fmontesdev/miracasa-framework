@@ -26,8 +26,11 @@
             echo json_encode(common::load_model('profile_model', 'get_load_likes', $_POST['token']));
         }
 
+        function delete_like() {
+            echo json_encode(common::load_model('profile_model', 'get_delete_like', [$_POST['token'], $_POST['id_realestate']]));
+        }
+
         function update_user() {
-            // echo json_encode('Hola Controller fileupload');
             echo json_encode(common::load_model('profile_model', 'get_update_user', [$_POST['token'], $_POST['username'], $_POST['email'], $_POST['phone']]));
         }
     }

@@ -51,6 +51,15 @@
             return $db -> listar_array_img_like($stmt, $uid);
         }
 
+        public function delete_like($db, $uid, $id_realestate){
+
+			$sql = "DELETE
+                        FROM `like` l
+                        WHERE l.uid = '$uid' AND l.id_realestate = '$id_realestate'";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
         public function select_user_toUpdate($db, $username){
 
 			$sql = "SELECT u.username

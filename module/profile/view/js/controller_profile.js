@@ -158,11 +158,8 @@ function load_likes() {
                                         <div id='${data[row].id_realestate}' class='listCart_container'>
                                             <img src='${IMG_ICONS_PATH}cart1.png' id='${data[row].id_realestate}' class='listCart_icon'>
                                         </div>
-                                        <div id='${data[row].id_realestate}' class='listLike_container' like='${data[row].like}'>
-                                            ${(data[row].like != 0 ?
-                                            (`<img src='${IMG_ICONS_PATH}like.png' id='${data[row].id_realestate}' class='listLike_icon'>
-                                            <span class='list_countLikes'>${(data[row].like > 1 ? (`${data[row].like}`) : "")}</span>`) :
-                                            (`<img src='${IMG_ICONS_PATH}dislike.png' id='${data[row].id_realestate}' class='listLike_icon'>`))}
+                                        <div id='${data[row].id_realestate}' class='profileLike_container' like='${data[row].like}'>
+                                            <img src='${IMG_ICONS_PATH}eliminar.png' id='${data[row].id_realestate}' class='delLike_icon'>
                                         </div>
                                     </div>
                                 </div>
@@ -250,6 +247,23 @@ function load_likes() {
                         </div>
                     </div>`
                 )
+        });
+}
+
+function delete_like(id_realestate) {
+    var accessToken = localStorage.getItem('access_token')
+
+    ajaxPromise(friendlyURL('?module=profile'), 'POST', 'JSON', { 'op': 'delete_like', 'token': accessToken, 'id_realestate': id_realestate })
+        .then(function(data) {
+            console.log(data);
+            // return;
+
+            $(`#profile #${data}.profile_realestates`).remove();
+
+        }).catch(function(textStatus) {
+            if (console && console.log) {
+                console.log("La solicitud ha fallado: " + textStatus);
+            }
         });
 }
 
@@ -459,6 +473,12 @@ function validate_form(file) {
         return 0;
     }
 }
+
+$(document).on("click", ".profileLike_container", function() {
+    var id_realestate = this.getAttribute('id');
+    console.log(id_realestate);
+    delete_like(id_realestate);
+});
 
 $(document).ready(function() {
     loadProfile_user();
