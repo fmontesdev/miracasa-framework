@@ -316,6 +316,21 @@ function clicks() {
         $('.profile_account').hide();
         $('.profile_updUser').show();
     });
+
+    // clic para dirigir a eliminar like
+    $(document).on("click", ".profileLike_container", function() {
+        var id_realestate = this.getAttribute('id');
+        delete_like(id_realestate);
+    });
+
+    // redirecciona a details
+    $(document).on("click", ".toDetails", function() {
+        localStorage.removeItem('redirect_details');
+        localStorage.setItem('redirect_details', this.getAttribute('id'));
+        setTimeout(function(){ 
+            window.location.href = friendlyURL('?module=shop');
+        }, 500);
+    });
 }
 
 function update_user() {
@@ -473,12 +488,6 @@ function validate_form(file) {
         return 0;
     }
 }
-
-$(document).on("click", ".profileLike_container", function() {
-    var id_realestate = this.getAttribute('id');
-    console.log(id_realestate);
-    delete_like(id_realestate);
-});
 
 $(document).ready(function() {
     loadProfile_user();
