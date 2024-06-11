@@ -64,21 +64,20 @@
 			header('Content-Type: application/json'); // Asegúrate de que el contenido es JSON
 			// return $args;
 
+			$check = true;
+
 			// Comprobar que el usuario no existe
 			$checkUsername = $this -> dao -> select_user_toUpdate($this->db, $args[1]);
 			if ($checkUsername) {
 				$check = false;
 				return "error_user";
-			} else {
-				// Comprobar que el email no existe
-				$checkEmail = $this -> dao -> select_email_toUpdate($this->db, $args[2]);
-				
-				if ($checkEmail) {
-					$check = false;
-					return "error_email";
-				} else {
-					$check = true;
-				}
+			}
+
+			// Comprobar que el email no existe
+			$checkEmail = $this -> dao -> select_email_toUpdate($this->db, $args[2]);
+			if ($checkEmail) {
+				$check = false;
+				return "error_email";
 			}
 
 			$token_dec = middleware_auth::decode_token('access', $args[0]);

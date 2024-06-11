@@ -400,6 +400,10 @@ function update_user() {
                         $('#error_file').html('<p>El archivo es demasiado grande. El tamaño máximo es de 1MB</p>');
                     } else if (response == "error_noFile") {
                         $('#error_file').html('<p>Por favor, seleccione un archivo para subir</p>');
+                    } else if (response == "error_user") {
+                        $('#error_username_prf').html('<p>El nombre de usuario ya existe. Introduce otro</p>');
+                    } else if (response == "error_email") {
+                        $('#error_email_prf').html('<p>El email ya existe. Introduce otro.</p>');
                     }
                 },
                 error: function(){
@@ -427,10 +431,7 @@ function validate_form(file) {
 
     var error = false;
 
-    if ($('#username_prf').val().length === 0) {
-        $('#error_username_prf').html('<p>Tienes que introducir el usuario</p>');
-        error = true;
-    } else {
+    if ($('#username_prf').val().length != 0) {
         if ($('#username_prf').val().length < 5) {
             $('#error_username_prf').html('<p>El usuario tiene que tener 5 caracteres como mínimo</p>');
             error = true;
