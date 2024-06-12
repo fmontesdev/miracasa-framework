@@ -104,14 +104,14 @@ El módulo de acceso a los datos de cada usuario. Accesible, al igual que el log
 | Mis likes | El usuario podrá ver listadas todas las viviendas a las que le ha dado Like. Podrá eliminarlas de la lista, incluirlas en el carrito de la compra, y acceder al Details de las mismas |
 
 # Tecnologías
-- Frontend: &nbsp;
- ![Jquery](https://img.shields.io/badge/jquery-007ACC?style=for-the-badge&logo=jquery&logoColor=white)
- ![JavaScript](https://img.shields.io/badge/javascript-FFEE58?style=for-the-badge&logo=javascript&logoColor=white)
 - Backend: &nbsp;
 ![PHP](https://img.shields.io/badge/php-787CB5?style=for-the-badge&logo=php&logoColor=white) 
 ![JWT](https://img.shields.io/badge/jwt-323330?style=for-the-badge&logo=json-web-tokens&logoColor=pink)
 - Bases de datos: &nbsp;
 ![MySQL](https://img.shields.io/badge/mysql-FF8C00?style=for-the-badge&logo=mysql&logoColor=white)
+- Frontend: &nbsp;
+ ![Jquery](https://img.shields.io/badge/jquery-007ACC?style=for-the-badge&logo=jquery&logoColor=white)
+ ![JavaScript](https://img.shields.io/badge/javascript-FFEE58?style=for-the-badge&logo=javascript&logoColor=white)
 - Diseño: &nbsp;
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
